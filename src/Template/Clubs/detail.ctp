@@ -248,13 +248,17 @@ else {echo '<button type="button" class="weeksOn"><strong>S</strong></button>';}
                     </textarea>
                 
             </td>
-            <?php if($is_admin == 1 ||$is_admin == 2 ){?>
+            <?php if($is_admin == 1 ||($is_admin == 2 &&$users['id'] != $id)){?>
             <td>
             
                     <?php echo $this->Form->input('id',array('class' => 'checkbox','type'=>'hidden', 'label' => false,'value'=> $users['id'])); ?>
                     <?php echo $this->Form->input('block',array('class' => 'checkbox','type'=>'checkbox', 'label' => false)); ?>
             </td>  
-            <?php } ?>
+            <?php }else{ ?>
+                <td></td>
+            <?php 
+                }
+            ?>
             
             <td>
                     
@@ -263,7 +267,7 @@ else {echo '<button type="button" class="weeksOn"><strong>S</strong></button>';}
                     <?php
                      }
                      ?>
-                     <?php if($is_admin == 1 ||$is_admin == 2){?>
+                     <?php if($is_admin == 1 ||($is_admin == 2&&$users['id'] != $id)){?>
                             <?= $this->Form->button(__('Block')) ?>
                     <?php
                      }

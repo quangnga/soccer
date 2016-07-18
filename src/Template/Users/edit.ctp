@@ -30,7 +30,11 @@
                     <?= $this->Form->create($user) ?>
                     <fieldset>
                         <legend><?= __('Edit User') ?></legend>
+                        <?php 
+                            if($is_admin == 1){
+                        ?>
                         <div class="form-group col-md-6">
+                        
                             <div class="form-group">
                                 <?php echo $this->Form->input('first_name', array('class' => 'form-control', 'placeholder' => 'Enter First name', 'maxlength' => '20', 'label' => ' First name *')); ?>
                             </div>
@@ -65,6 +69,34 @@
                                 <?php echo $this->Form->input('club_id', ['options' => $clubs, array('class' => 'form-control')]); ?>
                             </div>
                         </div>
+                        <?php } else{?>
+                            <div class="form-group col-md-6">
+                        
+                            <div class="form-group">
+                                <?php echo $this->Form->input('first_name', array('class' => 'form-control', 'placeholder' => 'Enter First name', 'maxlength' => '20', 'label' => ' First name *')); ?>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <div class="form-group">
+                                <?php echo $this->Form->input('last_name', array('class' => 'form-control', 'placeholder' => 'أدخل إسمك الأحير', 'maxlength' => '20', 'label' => ' Last name *')); ?>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <div class="form-group">
+                                <?php echo $this->Form->input('email', array('class' => 'form-control', 'placeholder' => 'Enter Email', 'maxlength' => '20', 'label' => ' Email *')); ?>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <div class="form-group">
+                                <?php echo $this->Form->input('phone_number', array('class' => 'form-control', 'placeholder' => 'Enter phone number', 'maxlength' => '20', 'label' => ' Phone number *')); ?>
+                            </div>
+                        </div>
+                        <?php
+                            }
+                        ?>
                 </div>
 
 

@@ -221,11 +221,12 @@ class ClubsController extends AppController
         ]);
         $time2 = new Time($training['training_time']);
         $id_coming = $this->Auth->user('id');
+        //var_dump($id_coming);
         
         
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $id_user = $this->request->data['id'];
-            $user = $this->Users->get($id_user, ['condition' => ['user_id' => $id_user]]);
+            //$id_user = $this->request->data['id'];
+            $user = $this->Users->get($id_coming, ['condition' => ['user_id' => $id_coming]]);
             $date_data = $user['coming_date'];
             if(empty($date_data)){
                 $get_comings = array('monday'=>0,'tuesday'=>0,'wendesday'=>0,'thursday'=>0,'friday'=>0,'saturday'=>0,'sunday'=>0);
@@ -233,17 +234,17 @@ class ClubsController extends AppController
                 $get_comings = json_decode($date_data);
                 
             }
+            //$data_show = array('monday','tuesday','wendesday','thursday','friday','saturday','sunday');
             
             $save_comings = array('monday'=>0,'tuesday'=>0,'wendesday'=>0,'thursday'=>0,'friday'=>0,'saturday'=>0,'sunday'=>0);
             foreach($get_comings as $key => $get_coming){
-                if($this->request->data['date'] == $key){
+                if($this->request->data[$key] == 1)
                     $save_comings[$key] = 1;
-                }
                 
-            };
+            }
             $save_coming_data = json_encode($save_comings);
             $dataComing = $this->Users->find('all', [
-                'conditions'=>['Users.id '=>$id_user]
+                'conditions'=>['Users.id '=>$id_coming]
             ]);
             
             
@@ -283,6 +284,7 @@ class ClubsController extends AppController
             //var_dump($num_all);exit;
             $block=$user['block'];
             $this->set('block',$block);
+            $this->set('id',$id);
 
             $this->set('users', $this->paginate($this->Users));
     }

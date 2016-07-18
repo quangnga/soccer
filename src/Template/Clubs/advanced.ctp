@@ -96,13 +96,13 @@
 
                 <th><?= __('training times') ?></th>
                 <th><?= __('who is coming') ?></th>
-                <th><?= __('Users comments') ?></th>
+                
                 <th><?= __('Day of week') ?></th>
                 <th><?= __('Action') ?></th>
                 
                 
         </tr>
-        
+                <?= $this->Form->create($users) ?>
                 <?php 
              
                  
@@ -111,28 +111,35 @@
                 $data_show = array('monday','tuesday','wendesday','thursday','friday','saturday','sunday');
                     $allow = 0;
                     $today = strtolower(date("l"));
-                    //$today='sunday';
-                    foreach($data_show as $key => $value):  
-                        if(strcmp($today,$data_show[$key])==0){
+                    //$today='tuesday';
+                    
+                    foreach($data_show as $key => $value){
+                        if(strcmp($today,$data_show[$key])== 0){
                             $allow = 1;
-                            $temp = $key;    
+                            $temp = $key;
+                        }
+                                
                     //var_dump($allow);exit;
-                        if($allow == 1){          
-                        for($i= $temp; $i<7; $i++){   
-                        foreach ($club->users as $users ):
-                            if($users['id'] == $id){?>
+                        if($allow == 1){        
+                        //for($i= $temp; $i<7; $i++){   
+                        //foreach ($club->users as $users ):
+                        $users = $club->users;
+                        //var_dump($users[0]['id']);exit;
+                            
+                            
+                                ?>
                             <tbody>
                                 <tr>
-                                    <td> <?= h($users->first_name)  ?> <?= h($users->last_name)  ?></td>
+                                    <td> <?= h($first_name)  ?> <?= h($last_name)  ?></td>
                             
                             
-                                    <?= $this->Form->create($users) ?>
+                                    
                                     <td>
                             
                                     
                                     <?php if($club[$today] == 0){
                                                 echo 'no training today';}
-                                    else {echo '<button type="button" class="weeksOn"><strong>'.$today.'</strong></button>';}
+                                                else {echo '<button type="button" class="weeksOn"><strong>'.$today.'</strong></button>';}
             
                                     ?>
                             
@@ -145,46 +152,32 @@
                                     </td>
                                     
                                     <td> 
-                                        <?php echo $this->Form->input('date',array('class' => 'checkbox','type'=>'hidden', 'label' => false,'value'=> $data_show[$i])); ?>
-                                        <?php echo $this->Form->input('id',array('class' => 'checkbox','type'=>'hidden', 'label' => false,'value'=> $users['id'])); ?>
-                                        <?php echo $this->Form->input('coming',array('class' => 'checkbox','type'=>'checkbox', 'label' => false)); ?>
+                                        <?php //echo $this->Form->input($data_show[$i],array('class' => 'checkbox','type'=>'hidden', 'label' => false,'value'=> $data_show[$i])); ?>
+                                        <?php //echo $this->Form->input('id',array('class' => 'checkbox','type'=>'hidden', 'label' => false,'value'=> $users['id'])); ?>
+                                        <?php echo $this->Form->input($value,array('class' => 'checkbox','type'=>'checkbox', 'label' => false)); ?>
                                         
                                     </td>
-                        
-                                     
                                 <td>
-                                    <textarea name="comment"  cols="5" rows="2">
-                            
-                                    </textarea>
-                            
+                                    <?= h(ucwords($value)) ?> 
                                 </td>
-                                <td>
-                                    <?= h(ucwords($data_show[$i])) ?> 
-                                </td>
-                                <td>
                                 
-                                     <?php if( $users['id'] == $id){?>
+                      
+                        </tr>
+                    
+                     <?php    }}?>
+         
+            </tbody>
+            
+            <td>
+                                
+                                     
                                         <?= $this->Form->button(__('Submit')) ?>
-                                     <?php
-                                             }
-                                     ?>
+                                     
                                  
-                                </td>
+           </td>
                         
                       
                                 <?= $this->Form->end() ?>
-                      
-                        </tr>
-                      
-                      
-                           
-                      
-                     <?php }  endforeach; } }}endforeach; ?>
-                    
-                
-                       
-                     
-            </tbody>
 </table>
     <div>
          <?php if($is_admin == 1 || $is_admin == 2){?>

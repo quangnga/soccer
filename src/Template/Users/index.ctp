@@ -24,8 +24,6 @@
                             <th><?= $this->Paginator->sort('first_name') ?></th>
                             <th><?= $this->Paginator->sort('last_name') ?></th>
                             <th><?= $this->Paginator->sort('club') ?></th>
-
-
                             <th><?= $this->Paginator->sort('coming') ?></th>
                             <?php
                             if ($is_admin >= 0) {
@@ -59,7 +57,7 @@
         }
         ?>
                                         <?php
-                                        if ($is_admin >= 1) {
+                                        if ($is_admin == 1||$user->id == $id) {
                                             ?>
                                             <a href="<?php echo $this->Url->build(["controller" => "Users", "action" => "Edit", $user->id]) ?>">
                                                 <button type="button" class="btn btn-orange">edit <i class="fa fa-pencil"></i></button>

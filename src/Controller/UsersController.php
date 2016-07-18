@@ -32,7 +32,7 @@ class UsersController extends AppController
                 
             }
             else{
-                $this->Auth->allow(['index','logout','view','resetPassword','forgotpassword','resetPasswordSent','changePassword']);
+                $this->Auth->allow(['index','logout','edit','view','resetPassword','forgotpassword','resetPasswordSent','changePassword']);
             }
         }
     
