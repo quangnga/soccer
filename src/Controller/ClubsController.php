@@ -223,10 +223,7 @@ class ClubsController extends AppController
         $id_coming = $this->Auth->user('id');
         //var_dump($id_coming);
         
-        
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            //$id_user = $this->request->data['id'];
-            $user = $this->Users->get($id_coming, ['condition' => ['user_id' => $id_coming]]);
+        $user = $this->Users->get($id_coming, ['condition' => ['user_id' => $id_coming]]);
             $date_data = $user['coming_date'];
             if(empty($date_data)){
                 $get_comings = array('monday'=>0,'tuesday'=>0,'wendesday'=>0,'thursday'=>0,'friday'=>0,'saturday'=>0,'sunday'=>0);
@@ -234,12 +231,15 @@ class ClubsController extends AppController
                 $get_comings = json_decode($date_data);
                 
             }
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            //$id_user = $this->request->data['id'];
+            
             //$data_show = array('monday','tuesday','wendesday','thursday','friday','saturday','sunday');
             
             $save_comings = array('monday'=>0,'tuesday'=>0,'wendesday'=>0,'thursday'=>0,'friday'=>0,'saturday'=>0,'sunday'=>0);
             foreach($get_comings as $key => $get_coming){
-                if($this->request->data[$key] == 1)
-                    $save_comings[$key] = 1;
+                if($this->request->data[$key] == 1){
+                    $save_comings[$key] = 1;}
                 
             }
             $save_coming_data = json_encode($save_comings);
@@ -270,7 +270,7 @@ class ClubsController extends AppController
             }
             $this->set('club', $club);
             $this->set('time2', $time2);
-           
+            $this->set('get_comings', $get_comings);
             
             $user=$this->Auth->user();
             $club_id = $user['club_id'];
