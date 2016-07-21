@@ -109,18 +109,25 @@
                 
                            
                 $data_show = array('monday','tuesday','wendesday','thursday','friday','saturday','sunday');
-                    $allow = 0;
+                    //$allow = 0;
                     $today = strtolower(date("l"));
                     //$today='tuesday';
+                    $data_show = array();
                     
+                    foreach($get_comings as $key => $get_coming){
+                        
+                        $data_show[$key] = $get_coming;
+                        
+                    }
+                    //var_dump($get_coming);exit;
                     foreach($data_show as $key => $value){
-                        if(strcmp($today,$data_show[$key])== 0){
-                            $allow = 1;
-                            $temp = $key;
-                        }
+                        //if(strcmp($today,$data_show[$key])== 0){
+                          //  $allow = 1;
+                            //$temp = $key;
+                        //}
                                 
                     //var_dump($allow);exit;
-                        if($allow == 1){        
+                        //if($club->$data_show[$key]  == 1){        
                         //for($i= $temp; $i<7; $i++){   
                         //foreach ($club->users as $users ):
                         $users = $club->users;
@@ -154,17 +161,33 @@
                                     <td> 
                                         <?php //echo $this->Form->input($data_show[$i],array('class' => 'checkbox','type'=>'hidden', 'label' => false,'value'=> $data_show[$i])); ?>
                                         <?php //echo $this->Form->input('id',array('class' => 'checkbox','type'=>'hidden', 'label' => false,'value'=> $users['id'])); ?>
-                                        <?php echo $this->Form->input($value,array('class' => 'checkbox','type'=>'checkbox', 'label' => false)); ?>
+                                        <?php
+                                        
+                                            //var_dump($value);exit;
+                                            if($club[$key]  == 1){
+                                                if($data_show[$key] == 1){
+                                                    echo $this->Form->input($key,array('class' => 'checkbox','type'=>'checkbox','checked'=>'checked', 'label' => false));
+                                                }else{
+                                                    echo $this->Form->input($key,array('class' => 'checkbox','type'=>'checkbox', 'label' => false));
+                                                }
+                                            }else{
+                                        ?>
+                                            <?php //echo $this->Form->input($value,array('class' => 'checkbox','type'=>'checkbox', 'label' => false)); ?>
+                                           <?php echo $this->Form->input($key,array('class' => 'checkbox','type'=>'hidden', 'label' => false)); ?>
+                                            
+                                        <?php
+                                        } 
+                                        ?>
                                         
                                     </td>
                                 <td>
-                                    <?= h(ucwords($value)) ?> 
+                                    <?= h(ucwords($key)) ?> 
                                 </td>
                                 
                       
                         </tr>
                     
-                     <?php    }}?>
+                     <?php    }?>
          
             </tbody>
             
