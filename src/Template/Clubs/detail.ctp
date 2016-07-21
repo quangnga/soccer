@@ -21,100 +21,100 @@
 
 <div class="clearfix"></div>
 
-</div>
-        <thead>
-            <tr> Club: <?= h($club->club_name) ?> training hour <?= h($time2->format('H:i:s')) ?> </tr>
-            <br />
-            <tr>Today attendance list <?= h($time)?> </tr>
-            <tr></tr>
-        </thead>
-</div>
+    </div>
+            <thead>
+                <tr> Club: <?= h($club->club_name) ?> training hour <?= h($time2->format('H:i:s')) ?> </tr>
+                <br />
+                <tr>Today attendance list <?= h($time)?> </tr>
+                <tr></tr>
+            </thead>
+    </div>
 
 <h3>Training days</h3>
 
-<td>
+    <td>
 
-<?php if($club->monday==0){
+        <?php if($club->monday==0){
+        
+                echo '<button type="button" class="weeksOff"></i> M</button>';}
+                
+                else {echo '<button type="button" class="weeksOn"><strong>M</strong></button>';}
+        
+        
+        
+        ?>
 
-echo '<button type="button" class="weeksOff"></i> M</button>';}
+        <?php if($club->tuesday==0){
+        
+                echo '<button type="button" class="weeksOff"></i> T</button>';}
+                
+                
+                
+                else {echo '<button type="button" class="weeksOn"><strong>T</strong></button>';}
+        
+        
+        
+        ?>
 
-else {echo '<button type="button" class="weeksOn"><strong>M</strong></button>';}
+        <?php if($club->wednesday==0){
+        
+                echo '<button type="button" class="weeksOff"></i> W</button>';}
+                
+                
+                
+                else {echo '<button type="button" class="weeksOn"><strong>W</strong></button>';}
+        
+        
+        
+        ?>
 
+        <?php if($club->thursday==0){
+        
+                echo '<button type="button" class="weeksOff"></i> T</button>';}
+                
+                
+                
+                else {echo '<button type="button" class="weeksOn"><strong>T</strong></button>';}
+                
+        
+        
+        ?>
 
+        <?php if($club->friday==0){
+        
+                echo '<button type="button" class="weeksOff"></i> F</button>';}
+                
+                
+                
+                else {echo '<button type="button" class="weeksOn"><strong>F</strong></button>';}
+        
+        
+        
+        ?>
 
-?>
+        <?php if($club->saturday==0){
+        
+                echo '<button type="button" class="weeksOff"></i> S</button>';}
+                
+                
+                
+                else {echo '<button type="button" class="weeksOn"><strong>S</strong></button>';}
+                
+        
+        
+        ?>
 
-<?php if($club->tuesday==0){
-
-echo '<button type="button" class="weeksOff"></i> T</button>';}
-
-
-
-else {echo '<button type="button" class="weeksOn"><strong>T</strong></button>';}
-
-
-
-?>
-
-<?php if($club->wednesday==0){
-
-echo '<button type="button" class="weeksOff"></i> W</button>';}
-
-
-
-else {echo '<button type="button" class="weeksOn"><strong>W</strong></button>';}
-
-
-
-?>
-
-<?php if($club->thursday==0){
-
-echo '<button type="button" class="weeksOff"></i> T</button>';}
-
-
-
-else {echo '<button type="button" class="weeksOn"><strong>T</strong></button>';}
-
-
-
-?>
-
-<?php if($club->friday==0){
-
-echo '<button type="button" class="weeksOff"></i> F</button>';}
-
-
-
-else {echo '<button type="button" class="weeksOn"><strong>F</strong></button>';}
-
-
-
-?>
-
-<?php if($club->saturday==0){
-
-echo '<button type="button" class="weeksOff"></i> S</button>';}
-
-
-
-else {echo '<button type="button" class="weeksOn"><strong>S</strong></button>';}
-
-
-
-?>
-
-<?php if($club->sunday==0){
-
-echo '<button type="button" color="fff" class="weeksOff"></i> S</button>';}
-
-
-
-else {echo '<button type="button" class="weeksOn"><strong>S</strong></button>';}
-
-
-
-?>
+        <?php if($club->sunday==0){
+        
+                echo '<button type="button" color="fff" class="weeksOff"></i> S</button>';}
+                
+                
+                
+                else {echo '<button type="button" class="weeksOn"><strong>S</strong></button>';}
+        
+        
+        
+        ?>
 
 </td>
 
@@ -160,122 +160,142 @@ else {echo '<button type="button" class="weeksOn"><strong>S</strong></button>';}
                 foreach ($club->users as $users ): 
                 if($is_admin == 0 && $users['id'] == $id){?>
  <tbody>
-<tr>
-<td> <?= h($users->first_name)  ?> <?= h($users->last_name)  ?></td>
-                
-                
-                <?= $this->Form->create($users) ?>
-                <td>
-                
-                <?php 
-                $today = strtolower(date("l")); //var_dump($club[$today]);exit; 
-                ?>
-                <?php if($club[$today] == 0){
-                            echo 'no training today';}
-                        else {echo '<button type="button" class="weeksOn"><strong>'.$today.'</strong></button>';}
-
-                ?>
-                
-            </td>
-            <td>
-               <?= h($club->club_name) ?> 
-            </td>
-            <td>
-                <?= h ($time2->format('H:i:s')) ?>
-            </td>
-            <?php
-                if($block==0){
-            ?>
-            <td>
-            
-                    <?php echo $this->Form->input('id',array('class' => 'checkbox','type'=>'hidden', 'label' => false,'value'=> $users['id'])); ?>
-                    <?php echo $this->Form->input('coming',array('class' => 'checkbox','type'=>'checkbox', 'label' => false)); ?>
-            </td>
-            
-             <?php
-                } else{                   
-             ?>  
-            
-                <td>user blocked</td>
-            <?php
-                    }
-            ?>
-            <td>
-                    <textarea name="comment"  cols="5" rows="2">
-                
-                    </textarea>
-                
-            </td>
-            <td>
-                    
-                    <?php if($is_admin == 0 || ($is_admin == 2 && $users['id'] == $id)){?>
-                            <?= $this->Form->button(__('Submit')) ?>
-                    <?php
-                     }
-                     ?>
-                     
-            </td>
-            
-          
-            <?= $this->Form->end() ?>
-          
-    </tr>
-          
-          <?php }elseif($is_admin == 1 || (($users['coming'] == 1) && ($is_admin == 2 ))|| $users['id'] == $id){?>
-                    
-                <tr>
+        <tr>
                 <td> <?= h($users->first_name)  ?> <?= h($users->last_name)  ?></td>
                 
                 
                 <?= $this->Form->create($users) ?>
                 <td>
                 
+                        <?php 
+                        $today = strtolower(date("l")); //var_dump($club[$today]);exit; 
+                        ?>
+                        <?php if($club[$today] == 0){
+                                    echo 'no training today';}
+                                else {echo '<button type="button" class="weeksOn"><strong>'.$today.'</strong></button>';}
+        
+                        ?>
                 
-                            <td>
-               <?= h($club->club_name) ?> 
-            </td>
-            <td>
-                <?= h ($time2->format('H:i:s')) ?>
-            </td>
-            <td>
-            
-                    <?php echo $this->Form->input('id',array('class' => 'checkbox','type'=>'hidden', 'label' => false,'value'=> $users['id'])); ?>
-                    <?php echo $this->Form->input('coming',array('class' => 'checkbox','type'=>'checkbox', 'label' => false)); ?>
-            </td>
-            <td>
-                    <textarea name="comment"  cols="5" rows="2">
+                </td>
+                <td>
+                   <?= h($club->club_name) ?> 
+                </td>
+                <td>
+                    <?= h ($time2->format('H:i:s')) ?>
+                </td>
+                <?php
+                    if($block==0){
+                ?>
+                <td>
                 
-                    </textarea>
+                        <?php echo $this->Form->input('id',array('class' => 'checkbox','type'=>'hidden', 'label' => false,'value'=> $users['id'])); ?>
+                        <?php echo $this->Form->input('coming',array('class' => 'checkbox','type'=>'checkbox', 'label' => false)); ?>
+                </td>
                 
-            </td>
-            <?php if($is_admin == 1 ||($is_admin == 2 &&$users['id'] != $id)){?>
-            <td>
-            
-                    <?php echo $this->Form->input('id',array('class' => 'checkbox','type'=>'hidden', 'label' => false,'value'=> $users['id'])); ?>
-                    <?php echo $this->Form->input('block',array('class' => 'checkbox','type'=>'checkbox', 'label' => false)); ?>
-            </td>  
-            <?php }else{ ?>
-                <td></td>
-            <?php 
-                }
-            ?>
-            
-            <td>
+                 <?php
+                    } else{                   
+                 ?>  
+                
+                <td>user blocked</td>
+                <?php
+                        }
+                ?>
+                <td>
+                        <textarea name="comment"  cols="5" rows="2">
                     
-                    <?php if($is_admin == 0 || ($is_admin == 2 && $users['id'] == $id)){?>
-                            <?= $this->Form->button(__('Submit')) ?>
-                    <?php
-                     }
-                     ?>
-                     <?php if($is_admin == 1 ||($is_admin == 2&&$users['id'] != $id)){?>
-                            <?= $this->Form->button(__('Block')) ?>
-                    <?php
-                     }
-                     ?>
-            </td>
+                        </textarea>
+                    
+                </td>
+                <td>
+                        
+                        <?php if($is_admin == 0 || ($is_admin == 2 && $users['id'] == $id)){?>
+                                <?= $this->Form->button(__('Submit')) ?>
+                        <?php
+                         }
+                         ?>
+                         
+                </td>
             
           
-            <?= $this->Form->end() ?>
+                 <?= $this->Form->end() ?>
+          
+    </tr>
+          
+          <?php }elseif($is_admin == 1 || (($users['coming'] == 1) && ($is_admin == 2 ))|| $users['id'] == $id){?>
+                    
+          <tr>
+                <td> <?= h($users->first_name)  ?> <?= h($users->last_name)  ?></td>
+                
+                <td>
+                
+                        <?php 
+                        $today = strtolower(date("l")); //var_dump($club[$today]);exit; 
+                        ?>
+                        <?php if($club[$today] == 0){
+                                    echo 'no training today';}
+                                else {echo '<button type="button" class="weeksOn"><strong>'.$today.'</strong></button>';}
+        
+                        ?>
+                
+                </td>
+                    <?= $this->Form->create($users) ?>
+                
+                
+                
+                <td>
+                    <?= h($club->club_name) ?> 
+                </td>
+                <td>
+                    <?= h ($time2->format('H:i:s')) ?>
+                </td>
+                <td>
+                
+                        <?php echo $this->Form->input('id',array('class' => 'checkbox','type'=>'hidden', 'label' => false,'value'=> $users['id'])); ?>
+                        <?php echo $this->Form->input('coming',array('class' => 'checkbox','type'=>'checkbox', 'label' => false)); ?>
+                </td>
+                <td>
+                        <textarea name="comment"  cols="5" rows="2">
+                    
+                        </textarea>
+                    
+                </td>
+                <?php if(($is_admin == 1 && $users['id'] == $id) || ($is_admin == 2 && $users['id'] == $id)){?>
+                            <td></td>
+                            <td><?= $this->Form->button(__('Submit')) ?></td>
+                            <td></td>
+                            
+                <?php
+                 }
+                 ?>
+                    <?= $this->Form->end() ?>
+                    <?= $this->Form->create($users) ?>
+                    
+                
+                <?php if(($is_admin == 1 &&$users['id'] != $id) ||($is_admin == 2 &&$users['id'] != $id)){?>
+                    <td>
+                    
+                            <?php echo $this->Form->input('id',array('class' => 'checkbox','type'=>'hidden', 'label' => false,'value'=> $users['id'])); ?>
+                            <?php echo $this->Form->input('block',array('class' => 'checkbox','type'=>'checkbox', 'label' => false)); ?>
+                    </td>  
+                <?php }else{ ?>
+                    <td></td>
+                <?php 
+                    }
+                ?>
+            
+                <td>
+                        
+                        
+                         <?php if(($is_admin == 1&&$users['id'] != $id) ||($is_admin == 2&&$users['id'] != $id)){?>
+                                <?= $this->Form->button(__('Block')) ?>
+                        <?php
+                         }
+                         ?>
+                </td>
+            
+          
+                <?= $this->Form->end() ?>
+            
           
         </tr>
           <?php

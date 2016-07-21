@@ -113,11 +113,13 @@
                     $today = strtolower(date("l"));
                     //$today='tuesday';
                     $data_show = array();
+                    
                     foreach($get_comings as $key => $get_coming){
                         
                         $data_show[$key] = $get_coming;
                         
                     }
+                    //var_dump($get_coming);exit;
                     foreach($data_show as $key => $value){
                         //if(strcmp($today,$data_show[$key])== 0){
                           //  $allow = 1;
@@ -161,21 +163,22 @@
                                         <?php //echo $this->Form->input('id',array('class' => 'checkbox','type'=>'hidden', 'label' => false,'value'=> $users['id'])); ?>
                                         <?php
                                         
-                                            //var_dump($data_show[$key]);exit;
+                                            //var_dump($value);exit;
                                             if($club[$key]  == 1){
                                                 if($data_show[$key] == 1){
-                                                    echo $this->Form->input($value,array('class' => 'checkbox','type'=>'checkbox','checked'=>'checked', 'label' => false));
+                                                    echo $this->Form->input($key,array('class' => 'checkbox','type'=>'checkbox','checked'=>'checked', 'label' => false));
                                                 }else{
-                                                    echo $this->Form->input($value,array('class' => 'checkbox','type'=>'checkbox', 'label' => false));
+                                                    echo $this->Form->input($key,array('class' => 'checkbox','type'=>'checkbox', 'label' => false));
                                                 }
                                             }else{
                                         ?>
                                             <?php //echo $this->Form->input($value,array('class' => 'checkbox','type'=>'checkbox', 'label' => false)); ?>
-                                           <?php echo $this->Form->input($value,array('class' => 'checkbox','type'=>'hidden', 'label' => false)); ?>
+                                           <?php echo $this->Form->input($key,array('class' => 'checkbox','type'=>'hidden', 'label' => false)); ?>
                                             
                                         <?php
-                                        }
+                                        } 
                                         ?>
+                                        
                                     </td>
                                 <td>
                                     <?= h(ucwords($key)) ?> 
