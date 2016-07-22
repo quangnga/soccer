@@ -56,7 +56,7 @@ class UsersController extends AppController
         }elseif($this->isAuthorizedAdmin()==2){
             $this->paginate = [
                 'contain' => ['Clubs'],
-                'conditions' => ['club_id' => $club_id,'coming'=>1],
+                'conditions' => ['club_id' => $club_id],
                 ];
         }elseif($this->isAuthorizedAdmin()==0){
             $this->paginate = [
@@ -68,6 +68,7 @@ class UsersController extends AppController
         //$user = $this->Auth->user('id');
         $this->set('users', $this->paginate($this->Users));
         $this->set('_serialize', ['users']);
+        //var_dump($user);exit;
         
     }
 

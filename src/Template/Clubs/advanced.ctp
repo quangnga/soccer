@@ -191,12 +191,9 @@
          
             </tbody>
             
-            <td>
-                                
-                                     
+            <td>                                   
                                         <?= $this->Form->button(__('Submit')) ?>
-                                     
-                                 
+                     
            </td>
                         
                       

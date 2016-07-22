@@ -166,7 +166,7 @@ class AppController extends Controller
         //$date1 = date("Y-m-d H:i:s");
         //$date_data = date("Y-m-d");
         $today = strtolower(date("l"));
-        //var_dump($h);exit;
+        //var_dump($today);exit;
         $day = array('monday','tuesday','wendesday','thursday','friday','saturday','sunday');
         if(($today=='sunday')&&($h=='00:00:00')){
             
