@@ -1,11 +1,14 @@
 
-
+<?php 
+    
+    if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 && $club_id == $club->id)){
+?>
 <div class="page-title">
 
 <ol class="breadcrumb">
 <li class="active"> <a href="<?php echo $this->Url->build(["controller" => "dashboard", "action" => "index"])?>"><i class="fa fa-dashboard"></i> Dashboard</a></li>
 <li class="active"> <a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "index"])?>"><i class="fa fa-building-o"></i> My Club</a></li>
-<?php //var_dump($club->Clubs);exit;?>
+<?php //var_dump($club_id);exit;?>
 <li class="active animated slideInRight"><i class="fa fa-list-alt animated slideInRight"></i>  <?= h($club->club_name) ?>  attendance sheet</a></li>
 </ol>
 </div>
@@ -329,3 +332,12 @@
 </div>
 </div>
 </div>
+<?php
+    }else{
+?>
+    <h3>
+        Data not found!
+    </h3>
+<?php
+    }
+?>

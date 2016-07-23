@@ -81,10 +81,12 @@ class UsersController extends AppController
      */
     public function view($id = null)
     {
+        
         $user = $this->Users->get($id, [
-                                  'contain' => ['Clubs']
+                                  'contain' => ['Clubs'],
                                   ]);
         $user = $this->Users->get($id, ['contain'=>['acls'],'condition'=> ['user_id'=>$id]]);
+        
         $this->set('user', $user);
         $this->set('_serialize', ['user']);
     }
