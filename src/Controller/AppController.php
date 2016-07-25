@@ -166,9 +166,10 @@ class AppController extends Controller
         //$date1 = date("Y-m-d H:i:s");
         //$date_data = date("Y-m-d");
         $today = strtolower(date("l"));
-        //var_dump($today);exit;
+        
+        var_dump($h);exit;
         $day = array('monday','tuesday','wendesday','thursday','friday','saturday','sunday');
-        if(($today=='sunday')&&($h=='00:00:00')){
+        if(($today=='sunday')&&($h=='23:59:59')){
             
             $datas = $this->Clubs->find('all');
             foreach($datas as $data){
