@@ -102,7 +102,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                                 </li>
                                 <li class="divider"></li>
                                 <li>
-                                    <a href="<?php echo $this->Url->build(['controller' => 'Users', 'action' => 'reset_redirect']) ?>">
+                                    <a href="<?php echo $this->Url->build(['controller' => 'Users', 'action' => 'changepassword']) ?>">
                                         <i class="fa fa-gear"></i> Reset Password
                                     </a>
                                 </li>

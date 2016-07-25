@@ -38,7 +38,7 @@ class ClubsController extends AppController
             'contain' => ['Trainings']
         ];
         $clubs = $this->paginate($this->Clubs);
-        
+        //var_dump($clubs);exit;
 
         $this->set(compact('clubs'));
         $this->set('_serialize', ['clubs']);
@@ -296,7 +296,6 @@ class ClubsController extends AppController
             }
             //var_dump($data);exit;
         }
-        $get_comings = json_encode($date_data);
         //end section get value.
         if ($this->request->is(['patch', 'post', 'put'])) {
             $id_user = $this->request->data['id'];

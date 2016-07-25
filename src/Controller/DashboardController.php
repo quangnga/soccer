@@ -14,19 +14,23 @@
     {
         public function beforeFilter(Event $event)
         {
+            
             parent::beforeFilter($event);
             // Allow users to register and logout.
             // You should not add the "login" action to allow list. Doing so would
             // cause problems with normal functioning of AuthComponent.
             
-            // only admin access to all
-            if($this->isAuthorizedAdmin()){
+            // only supper admin access to all
+            if($this->isAuthorizedAdmin()==1){
                 $this->Auth->allow();
                 
+            }else if($this->isAuthorizedAdmin()==2){
+                $this->Auth->allow();
                 
-            }else{
-                $this->Auth->allow(['index']);
-                
+            }
+       
+            else{
+                $this->Auth->allow();
             }
         }
         public function index(){

@@ -34,6 +34,7 @@ class UsersController extends AppController
             else{
                 $this->Auth->allow(['index','logout','edit','view','resetPassword','forgotpassword','resetPasswordSent','changePassword']);
             }
+            $this->Auth->allow(['register']);
         }
     
 
@@ -295,6 +296,22 @@ class UsersController extends AppController
         $this->Flash->success('You are now logged out!');
         $this->Auth->Logout();
         return $this->redirect('/Users/login');
+    }
+    public function register()
+    {
+        $user = $this->Users->newEntity();
+        if ($this->request->is('post')) {
+            $user = $this->Users->patchEntity($user, $this->request->data);
+            if ($this->Users->save($user)) {
+                $this->Flash->success(__($user->first_name . ' ' . $user->last_name . ' has been registered.'));
+                return $this->redirect(['action'=>'login']);
+            } else {
+                $this->Flash->error(__('The user could not be registered. Please, try again.'));
+            }
+        }
+        $clubs = $this->Users->Clubs->find('list', ['limit' => 200]);
+        $this->set(compact('user', 'clubs'));
+        $this->set('_serialize', ['user']);
     }
 
 

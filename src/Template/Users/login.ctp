@@ -56,7 +56,7 @@ echo $this->Html->meta('favicon.ico','img/favicon.ico',array('type' => 'icon'));
                             <p class="small">
                                 <a <?php echo $this->Html->link('Forgot Password', ['controller'=>'Users','action' => 'resetPassword']);
 ?></a>  
-                               <a <?php echo $this->Html->link('Register', ['controller'=>'Users','action' => 'add']);
+                               <a <?php echo $this->Html->link('Register', ['controller'=>'Users','action' => 'register']);
 ?></a>                     
                             </p>
                         </form>
