@@ -1,3 +1,6 @@
+<?php
+    if( $is_admin == 1|| ($is_admin == 2 && $club_id == $club->id )){
+?>
 <style>
     #page-wrapper {
 
@@ -156,3 +159,14 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
+<?php
+    }else{
+        
+?>
+
+   <h3>
+        Data not found!
+   </h3> 
+<?php
+    }
+?>

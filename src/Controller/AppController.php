@@ -159,20 +159,23 @@ class AppController extends Controller
     public function resetTraining(){
         $this->loadModel('Clubs');
         $hour = "7";
-        $strotime = strtotime(date("Y-m-d $hour:00:00"));
+        $strotime = strtotime(date("$hour:00:00"));
         $h= date("H:i:s");
         
-        //$date = date("Y-m-d H:i:s",$strotime);
+        //$date = date("m/d/Y H:i:s",strtotime("last monday"));
         //$date1 = date("Y-m-d H:i:s");
         //$date_data = date("Y-m-d");
         $today = strtolower(date("l"));
         
-        var_dump($h);exit;
+
+      // var_dump($h);exit;
         $day = array('monday','tuesday','wendesday','thursday','friday','saturday','sunday');
-        if(($today=='sunday')&&($h=='23:59:59')){
+        
             
             $datas = $this->Clubs->find('all');
+            
             foreach($datas as $data){
+                if(($today=='monday')&&($h > '00:00:00')&&($data->reset_training == 0)){
                 $articlesTable = TableRegistry::get('Clubs');
                 $data = $articlesTable->get($data['id']); // Return data with id 
                 $data->reset_training = 1;
@@ -181,12 +184,20 @@ class AppController extends Controller
                         //var_dump($value);exit;
                        $data->$value = 0; 
                     }
-                    $data->reset_training = 0;
+                    $data->reset_training = 1;
+                    
                     
                 }
+                
                 //$data->date_reset = $date;
                 $articlesTable->save($data);
+            }elseif($today!='monday'&&($data->reset_training = 1)){
+                $articlesTable = TableRegistry::get('Clubs');
+                $data = $articlesTable->get($data['id']); // Return data with id 
+                $data->reset_training = 0;
+                $articlesTable->save($data);
             }
+            
         }
         
         

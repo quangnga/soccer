@@ -158,57 +158,9 @@ class ClubsController extends AppController
         return $this->redirect('/Users/login');
     }
     
-    public function detail($id= null){
-        $this->loadModel('Trainings');
-        $this->loadModel('Users');
-        $club = $this->Clubs->get($id, [
-            'contain' => ['Trainings', 'Users']
-        ]);
-        
-        $training = $this->Trainings->get($club["training_id"], [
-            'contain' => []
-        ]);
-        $time2 = new Time($training['training_time']);
-        $id_coming = $this->Auth->user('id');
-        
-        
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $id_user = $this->request->data['id'];
-            $user = $this->Users->get($id_user, ['condition' => ['user_id' => $id_user]]);
-            $user = $this->Users->patchEntity($user, $this->request->data);
+    
             
-            if ($this->Users->save($user)) {
-                $this->Flash->success(__($user->first_name . ' ' . $user->last_name . ' has been added.'));
-                //$coming==0;
-                
-            } else {
-                $this->Flash->error(__('The user could not be added. Please, try again.'));
-            }
-                    
-            }
-            $this->set('club', $club);
-            $this->set('time2', $time2);
-           
             
-            $user=$this->Auth->user();
-            $club_id = $user['club_id'];
-            $query= $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id,'Users.coming'=>1,'Users.block'=>0]]);        
-            $number = $query->count();
-            //var_dump($number);exit;
-            $this->set('number',$number);
-            $query2 = $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id]]);
-            $num_all=   $query2->count();
-            $this->set('num_all',$num_all);
-            //var_dump($num_all);exit;
-            $block=$user['block'];
-            $this->set('block',$block);
-         
-         
-        
-       
-            $this->set('users', $this->paginate($this->Users));
-       
-            }
     public function advanced($id=null){
         
         $this->loadModel('Trainings');
@@ -225,13 +177,14 @@ class ClubsController extends AppController
         
         $user = $this->Users->get($id_coming, ['condition' => ['user_id' => $id_coming]]);
             $date_data = $user['coming_date'];
+           
             if(empty($date_data)){
                 $get_comings = array('monday'=>0,'tuesday'=>0,'wendesday'=>0,'thursday'=>0,'friday'=>0,'saturday'=>0,'sunday'=>0);
             }else{
                 $get_comings = json_decode($date_data);
                 
             }
-            
+             //var_dump($get_comings);exit;
         if ($this->request->is(['patch', 'post', 'put'])) {
             //$id_user = $this->request->data['id'];
             
@@ -243,8 +196,10 @@ class ClubsController extends AppController
                 
                  if($this->request->data[$key] == 1){
                         $save_comings[$key] = 1;
+                        
                     }
             }
+            
             //var_dump($this->request->data[$key]);exit;
             $save_coming_data = json_encode($save_comings);
             $dataComing = $this->Users->find('all', [
@@ -299,6 +254,84 @@ class ClubsController extends AppController
             $this->set('id',$id);
 
             $this->set('users', $this->paginate($this->Users));
+    }
+    public function detail($id= null){
+        $this->loadModel('Trainings');
+        $this->loadModel('Users');
+        $club = $this->Clubs->get($id, [
+            'contain' => ['Trainings', 'Users']
+        ]);
+        
+        $training = $this->Trainings->get($club["training_id"], [
+            'contain' => []
+        ]);
+        $time2 = new Time($training['training_time']);
+        $id_coming = $this->Auth->user('id'); 
+        $user = $this->Users->get($id_coming, ['condition' => ['user_id' => $id_coming]]);
+        $date_data = $user['coming_date'];
+        $data_coming= $user['coming'];
+        $get_comings = json_decode($date_data);
+        $today = strtolower(date("l"));
+        
+        //get value coming from coming_date
+        foreach($get_comings as $key => $get_coming){
+            if($key==$today && $get_coming == 1){
+               $data_coming = 1; 
+                
+            }else{
+                $data_coming = 0;
+            }
+            
+            $dataComing = $this->Users->find('all', [
+                'conditions'=>['Users.id '=>$id_coming]
+            ]);
+            
+            
+            foreach($dataComing as $data){
+                $articlesTable = TableRegistry::get('Users');
+                
+                $data = $articlesTable->get($data['id']); 
+                $data->coming = $data_coming;
+                $articlesTable->save($data);
+            }
+            //var_dump($data);exit;
+        }
+        $get_comings = json_encode($date_data);
+        //end section get value.
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $id_user = $this->request->data['id'];
+            $user = $this->Users->get($id_user, ['condition' => ['user_id' => $id_user]]);
+            $user = $this->Users->patchEntity($user, $this->request->data);
+            
+            if ($this->Users->save($user)) {
+                $this->Flash->success(__($user->first_name . ' ' . $user->last_name . ' has been added.'));
+                //$coming==0;
+                
+            } else {
+                $this->Flash->error(__('The user could not be added. Please, try again.'));
+            }
+            
+                    
+        }
+            $this->set('club', $club);
+            $this->set('time2', $time2);
+           
+            //count users coming
+            $user=$this->Auth->user();
+            $club_id = $user['club_id'];
+            $query= $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id,'Users.coming'=>1,'Users.block'=>0]]);        
+            $number = $query->count();
+            //var_dump($number);exit;
+            $this->set('number',$number);
+            $query2 = $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id]]);
+            $num_all=   $query2->count();
+            $this->set('num_all',$num_all);
+            //var_dump($num_all);exit;
+            $block=$user['block'];
+            $this->set('block',$block);
+       
+            $this->set('users', $this->paginate($this->Users));
+       
     }
     
 }
