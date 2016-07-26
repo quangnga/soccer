@@ -47,7 +47,7 @@
                                 ?>
                                 <tr>
                                     <td><?= $this->Number->format($club->id) ?></td>
-                                    <td><?= h($club->club_name) ?></td>
+                                    <td><?= h($club -> club_name) ?></td>
                                     <td><?= h($club->city) ?></td>
 
 

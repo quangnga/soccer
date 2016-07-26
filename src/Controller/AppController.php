@@ -102,6 +102,7 @@ class AppController extends Controller
        //var_dump($count);exit;
        $this->updateComing();
        $this->resetTraining();
+       $this->getCity();
        
         
         
@@ -202,7 +203,33 @@ class AppController extends Controller
         
         
         
-        //var_dump($test);exit;
+       
+    }
+    public function getCity(){
+        
+        $this->loadModel('Clubs');
+        $this->loadModel('Cities');
+        $datas = $this->Cities->find('all');
+        $datas2 = $this->Clubs->find('all');
+        //$data = $datas->city_name;
+        foreach($datas as $data){
+           $id_city=$data->club_id;
+           $name_city=$data->city_name;
+           foreach($datas2 as $value){
+              $id_club=$value->id;
+              
+              if($id_club==$id_city){
+                $articlesTable = TableRegistry::get('Clubs');
+                $value = $articlesTable->get($value['id']); // Return data with id 
+                $value->city = $name_city;
+                $articlesTable->save($value);
+              }  
+           }
+        }
+        //var_dump($d);exit;
+        
+        
+        
     }
     
     
