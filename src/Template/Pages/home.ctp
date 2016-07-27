@@ -110,7 +110,7 @@ $this->layout = false;
 	<!-- Portfolio section start -->
 	<section id="portfolio"  class="darker">
             <div class="tt">
-		<div class="transbox">
+		<div class="transbox col-md-4 col-sm-6">
 			<header>
                          
 <h3>ألية العمل ببساطة</h3>
@@ -197,21 +197,27 @@ $this->layout = false;
 
 			<div class="row">
 				<div class="col-md-8">
-					<form class="row">
+					<form class="row" method="post">
 						<div class="form-group col-md-6">
-							<input name="name" type="text" placeholder="Your Name" class="form-control" />
+<input id="fname" name="name" type="text" placeholder="First Name" class="form-control">
 						</div>
+<div class="form-group col-md-6">
+<input id="lname" name="name" type="text" placeholder="Last Name" class="form-control">
+</div>
 						<div class="form-group col-md-6">
-							<input name="mail" type="email" placeholder="Your Email" class="form-control" />
+<input id="email" name="email" type="text" placeholder="Email Address" class="form-control">
+						</div>
+<div class="form-group col-md-6">
+<input id="phone" name="phone" type="text" placeholder="Phone" class="form-control">
+</div>
+						<div class="form-group col-md-12">
+<input id="subject" name="subject" type="text" placeholder="Subject" class="form-control">
 						</div>
 						<div class="form-group col-md-12">
-							<input name="subject" type="options" placeholder="Your subject..." class="form-control" />
+<textarea class="form-control" id="message" name="message" placeholder="Enter your message here" rows="7"></textarea>
 						</div>
 						<div class="form-group col-md-12">
-							<textarea name="message" class="form-control" rows="10" placeholder="Message"></textarea>
-						</div>
-						<div class="form-group col-md-12">
-							<button class="btn btn-lg btn-primary">Send</button>
+<button type="submit" class="btn btn-primary btn-lg">Submit</button>
 						</div>
 					</form>
 				</div>
