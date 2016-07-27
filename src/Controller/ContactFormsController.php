@@ -20,7 +20,8 @@ class ContactFormsController extends AppController
         // Allow users to register and logout.
         // You should not add the "login" action to allow list. Doing so would
         // cause problems with normal functioning of AuthComponent.
-        $this->Auth->allow(['add','view','index','delete']);
+        if($this->isAuthorizedAdmin()==1){
+            $this->Auth->allow();}
     }
 
     /**

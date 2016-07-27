@@ -46,6 +46,8 @@
             $countusers=$user->find('all')->count();
             $this->set('countclubs',$countclubs);
             $this->set('countusers',$countusers);
+          //  $this->set('countmessages_unread',$countmessages_unread);
+
             $trainings=TableRegistry::get('Trainings');
             
             $club = $this->Auth->user('club_id');
