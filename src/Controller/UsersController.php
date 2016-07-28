@@ -5,9 +5,8 @@ use App\Controller\AppController;
 use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 use Cake\Network\Exception\NotFoundException;
-
 use Cake\Routing\Router;
-use Cake\Mailer\Email;
+use Cake\Network\Email\Email;
 
 /**
  * Users Controller
@@ -36,7 +35,7 @@ class UsersController extends AppController
                 $this->Auth->allow(['index','logout','edit','view','resetPassword','forgotpassword','resetPasswordSent','changePassword','sendCodeActive']);
             }
             $this->Auth->allow(['register']);
-        }
+    }
     
 
     /**
@@ -305,13 +304,7 @@ class UsersController extends AppController
     {
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
-                    Email::configTransport('gmail', [
-                    'host' => 'ssl://smtp.gmail.com',
-                    'port' => '465',
-                    'username' => 'dgfsolomid@gmail.com',
-                    'password' => null,
-                    'className' => 'Smtp'
-                    ]);
+                    
                 $user = $this->Users->patchEntity($user, $this->request->data);
             //$regex = '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/';
             //var_dump($user->email);exit;
@@ -325,7 +318,7 @@ class UsersController extends AppController
                 $email = new email();
                 $email->transport('gmail');
                 $email->to($user->email);
-                $email->from('dgfsolomid@gmail.com');
+                $email->from('soccer@gmail.com');
                 $email->subject('Verify account');
                 
                 $link = Router::Url([
@@ -446,11 +439,17 @@ class UsersController extends AppController
                 $this->Users->save($user);
                 //send email with the new password
                 $firstName = $user->first_name;
-                
+                Email::configTransport('gmail', [
+                'host' => 'in-v3.mailjet.com',
+                'port' => 465,
+                'username' => 'soccer@gmail.com',
+                'password' => '123456',
+                'className' => 'Smtp' // <------ there it is
+                ]);
                 $email = new email();
                 $email->transport('gmail');
                 $email->to($this->request->data['email']);
-                $email->from('majed054000@gmail.com');
+                $email->from('soccer@gmail.com');
                 $email->subject('Majed change your password');
                 
                 $link = Router::Url([
