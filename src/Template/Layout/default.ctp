@@ -46,8 +46,13 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         echo $this->Html->css('custom.css');
         echo $this->Html->css('style.css');
         echo $this->Html->css('/font-awesome/css/font-awesome.min.css');
+        
         echo $this->Html->script('http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js');
+        echo $this->Html->script("http://code.jquery.com/jquery-1.10.2.js");
+        echo $this->Html->script("http://code.jquery.com/ui/1.11.1/jquery-ui.js");
         ?>
+        
+        
 
     </head>
 
