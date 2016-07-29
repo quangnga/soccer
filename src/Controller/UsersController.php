@@ -7,6 +7,7 @@ use Cake\ORM\TableRegistry;
 use Cake\Network\Exception\NotFoundException;
 use Cake\Routing\Router;
 use Cake\Network\Email\Email;
+use Cake\Auth\DefaultPasswordHasher;
 
 /**
  * Users Controller
@@ -278,7 +279,10 @@ class UsersController extends AppController
             //check if te new password is equal to the confirm_password
             $user = $this->Users->patchEntity($user,$this->request->data);
                 //var_dump($user['password']);exit;
-            if($user['password'] == $this->request->data['old_password']){
+            $verify = (new DefaultPasswordHasher)
+            ->check($this->request->data['current_password'], $user['password']);
+            //var_dump($verify);exit;
+            if($verify){
                     $user['password']=$this->request->data['New_password'];
                 if($this->Users->save($user)){
                     $this->Flash->success(__('Your password has been changed'));
@@ -338,7 +342,9 @@ class UsersController extends AppController
                 'conditions'=>['Users.email '=>$user->email]])->count();
                 if($res == 0 && !empty($user->username) ){
                 $code = $user->activation = md5($user->email.time());
+                
                 $this->Users->save($user);
+                
                 
                 $email = new email();
                 $email->transport('gmail');

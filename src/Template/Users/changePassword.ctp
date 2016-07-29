@@ -71,7 +71,7 @@ $id = $this->request->session()->read('Auth.User.id');?>
 
            
             <div class="form-group">
-            <?= $this->Form->input('old_password', ['placeholder' => 'Please enter your old password','class'=>'form-control','type'=>'password',array('maxLength'=>'6')]);?>
+            <?= $this->Form->input('current_password', ['placeholder' => 'Please enter your old password','class'=>'form-control','type'=>'password',array('maxLength'=>'6')]);?>
             <!--'type'=>'password' so this filed will be hashed-->
             </div>
             <div class="form-group">

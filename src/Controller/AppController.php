@@ -219,14 +219,14 @@ class AppController extends Controller
         //$data = $datas->city_name;
         foreach($datas as $data){
            $id_city=$data->club_id;
-           $name_city=$data->city_name;
+           $id=$data->id;
            foreach($datas2 as $value){
               $id_club=$value->id;
               
               if($id_club==$id_city){
                 $articlesTable = TableRegistry::get('Clubs');
                 $value = $articlesTable->get($value['id']); // Return data with id 
-                $value->city = $name_city;
+                $value->city_id = $id;
                 $articlesTable->save($value);
               }  
            }

@@ -54,9 +54,7 @@ class CitiesController extends AppController
         $this->set('datas2',$datas2);
         if ($this->request->is('post')){
             
-            $m = $this->request->data('cityId');
             
-            $this->set('m',$m);
             //var_dump($m);exit;  
             //var_dump($_POST["cityId"]);exit;
         }

@@ -97,7 +97,9 @@
                         <div class="form-group">
                             
                             <select name="city" onchange="getclubs($(this))" class="showcity">
+                                <option>---select city---</option>
                                 <?php foreach($cities as $city){ ?>
+                                    
                                     <option  value="<?php echo $city['id'] ?>"><?php echo $city['city_name'] ?></option>
                                 <?php } ?>
                             </select>
