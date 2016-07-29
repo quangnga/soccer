@@ -17,13 +17,14 @@ class UsersController extends AppController
 {
     public function beforeFilter(Event $event)
     {
-        
+            
             parent::beforeFilter($event);
             // Allow users to register and logout.
             // You should not add the "login" action to allow list. Doing so would
             // cause problems with normal functioning of AuthComponent.
             
             // only supper admin access to all
+            $uses = array('Clubs');
             if($this->isAuthorizedAdmin()==1){
                 $this->Auth->allow();
                 
@@ -32,7 +33,7 @@ class UsersController extends AppController
                 
             }
             else{
-                $this->Auth->allow(['index','logout','edit','view','resetPassword','forgotpassword','resetPasswordSent','changePassword','sendCodeActive']);
+                $this->Auth->allow(['index','getclubs','logout','edit','view','resetPassword','forgotpassword','resetPasswordSent','changePassword','sendCodeActive']);
             }
             $this->Auth->allow(['register']);
     }
@@ -300,6 +301,26 @@ class UsersController extends AppController
         $this->Auth->Logout();
         return $this->redirect('/Users/login');
     }
+    public function getclubs(){
+        
+        if ($this->request->is('post')) {
+            
+            $city_id = $this->request->data['city_id'];
+            $clubs = $this->Clubs->find('all',['conditions'=>['city_id'=>$city_id]]);
+            $results = array();
+            $html = '<select name="club" class="showclub">';
+            $i = 1;
+                foreach($clubs as $club){
+                    $html .= '<option value="'.$club['id'].'">'.$club['club_name'].'</option>';
+                    $i = $i+1;
+                }
+            if($i == 1){
+                $html .= '<option>Not have club in city</option>';
+            }
+            $html .= '</select>';
+            echo json_encode($html);exit;
+        }
+    }
     public function register()
     {
         $user = $this->Users->newEntity();
@@ -334,7 +355,9 @@ class UsersController extends AppController
     
         }
         $clubs = $this->Users->Clubs->find('list', ['limit' => 200]);
-        $this->set(compact('user', 'clubs'));
+        $cities = $this->Cities->find('all');
+        
+        $this->set(compact('user', 'clubs','cities'));
         $this->set('_serialize', ['user']);
     }
     
