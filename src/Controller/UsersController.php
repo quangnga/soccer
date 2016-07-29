@@ -333,7 +333,8 @@ class UsersController extends AppController
     {
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
-                    
+                //var_dump($this->request->data);exit;
+                $this->request->data['club_id'] = $this->request->data['club'];
                 $user = $this->Users->patchEntity($user, $this->request->data);
             //$regex = '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/';
             //var_dump($user->email);exit;
@@ -341,11 +342,8 @@ class UsersController extends AppController
                 $res = $this->Users->find('all',  [
                 'conditions'=>['Users.email '=>$user->email]])->count();
                 if($res == 0 && !empty($user->username) ){
-                $code = $user->activation = md5($user->email.time());
-                
-                $this->Users->save($user);
-                
-                
+                $code = $user->activation = md5($user->email.time());              
+                $this->Users->save($user); 
                 $email = new email();
                 $email->transport('gmail');
                 $email->to($user->email);

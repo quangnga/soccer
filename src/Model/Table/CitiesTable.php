@@ -29,10 +29,7 @@ class CitiesTable extends Table
         $this->displayField('id');
         $this->primaryKey('id');
 
-        $this->belongsTo('Clubs', [
-            'foreignKey' => 'club_id',
-            'joinType' => 'INNER'
-        ]);
+        
     }
 
     /**
