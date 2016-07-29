@@ -98,6 +98,7 @@
                         <div class="form-group">
                             <?php echo $this->Form->input('club_id', ['select' => $clubs, array('class' => 'form-control', 'placeholder' => 'Choose clubs', 'maxlength' => '45', 'label' => 'Clubs')]); ?>
                         </div>
+                        
                     </div>
                 </fieldset>
                 <div class="row" align="center">

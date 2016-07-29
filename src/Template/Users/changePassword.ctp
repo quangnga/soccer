@@ -70,7 +70,10 @@ $id = $this->request->session()->read('Auth.User.id');?>
     <fieldset>
 
            
-            
+            <div class="form-group">
+            <?= $this->Form->input('old_password', ['placeholder' => 'Please enter your old password','class'=>'form-control','type'=>'password',array('maxLength'=>'6')]);?>
+            <!--'type'=>'password' so this filed will be hashed-->
+            </div>
             <div class="form-group">
             <?= $this->Form->input('New_password', ['placeholder' => 'Please enter your new password (8-16 digits)','class'=>'form-control','type'=>'password',array('maxLength'=>'6')]);?>
             <!--'type'=>'password' so this filed will be hashed-->
@@ -80,7 +83,7 @@ $id = $this->request->session()->read('Auth.User.id');?>
             </div>
             
             <div class="clearfix"></div>
-                                </fieldset>
+     </fieldset>
     
      <?=  $this->Html->link( 'Go back', '/pages/Myaccount',['class' => 'btn btn-default']); ?>
     <?= $this->Form->button('Make Change',['class'=>'btn btn-default']) ?>

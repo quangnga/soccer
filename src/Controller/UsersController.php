@@ -276,16 +276,20 @@ class UsersController extends AppController
             
             //check if te new password is equal to the confirm_password
             $user = $this->Users->patchEntity($user,$this->request->data);
-            
-            
-            $user['password']=$this->request->data['New_password'];
-            if($this->Users->save($user)){
-                $this->Flash->success(__('Your password has been changed'));
-                return $this->redirect(['action' => 'logout']);
-            } else {
-                //$this->Flash->error(__('Something wrong with your new password, Please try again'));
-                
+                //var_dump($user['password']);exit;
+            if($user['password'] == $this->request->data['old_password']){
+                    $user['password']=$this->request->data['New_password'];
+                if($this->Users->save($user)){
+                    $this->Flash->success(__('Your password has been changed'));
+                    return $this->redirect(['action' => 'logout']);
+                } else {
+                    //$this->Flash->error(__('Something wrong with your new password, Please try again'));
+                    
+                }
+            }else{
+                $this->Flash->error(__('Old password is not correct! Please try again'));
             }
+            
             
             
         }
