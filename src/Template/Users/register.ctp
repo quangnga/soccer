@@ -35,9 +35,31 @@
         </div>
         <div id="basicFormExample" class="panel-collapse collapse in">
             <div class="portlet-body">
-
-                <?= $this->Form->create($user) ?>
-                <fieldset style="border:0px;">
+            <?= $this->Form->create($user) ?>
+                <fieldset style="border:0px; ">
+                        
+                         <div  class="form-group col-md-6" align="center" >
+                                
+                                <div class="form-group">
+                                    <label>City</label>
+                                    <select name="city" onchange="getregion($(this))" class="showcity">
+                                        <option value="0">---select city---</option>
+                                        <?php foreach($cities as $city){ ?>
+                                            
+                                            <option  value="<?php echo $city['id'] ?>"><?php echo $city['city_name'] ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group showresultclubs test">
+                                    
+                                </div>
+                                
+                            </div>
+                    
+                    
+                <div class="showhide">  
+                
                     <div class="form-group">
                         <div class="indicatorDefault">
                             * Indicates required field
@@ -48,6 +70,11 @@
                             <div class="form-group">
                                 <?php echo $this->Form->input('first_name', array('class' => 'form-control', 'placeholder' => 'Enter first name', 'maxlength' => '20', 'label' => ' First name', 'autocapitalize' => 'words')); ?>
                             </div>
+                            
+                            
+                        </div>
+                        <div class="form-group showclubname" id="club">
+                            
                         </div>
 
                     </div>
@@ -87,56 +114,73 @@
                     <div class="form-group">
                         <?php echo $this->Form->password('confirm_password', array('class' => 'form-control', 'placeholder' => 'Confirm Password', 'maxlength' => '20', 'label' => 'Confirm Password')); ?>
                     </div>
-
-                    <div  class="form-group col-md-6">
-
-                        <div class="form-group">
-                            <?php echo $this->Form->input('coming', array('class' => 'form-control', 'type' => 'checkbox', 'placeholder' => 'are you coming? enter 1 for coming.', 'maxlength' => '20', 'label' => 'coming')); ?>
-                        </div>
-
-                        <div class="form-group">
+                    <div class="row" align="center">
+        
+                            <a href="<?php echo $this->Url->build(["controller" => "Users", "action" => "index", ""]) ?>"><button type="button" class="btn btn-default">Cancel</button></a>
+        
+        
+                            <?= $this->Form->button(__('Submit'), array('class' => 'btn btn-default', 'formnovalidate' => true)) ?>
                             
-                            <select name="city" onchange="getclubs($(this))" class="showcity">
-                                <option>---select city---</option>
-                                <?php foreach($cities as $city){ ?>
-                                    
-                                    <option  value="<?php echo $city['id'] ?>"><?php echo $city['city_name'] ?></option>
-                                <?php } ?>
-                            </select>
-                        </div>
-                        <div class="form-group showresultclubs">
-                            
-                        </div>
-                        
+
                     </div>
+                   
                 </fieldset>
-                <div class="row" align="center">
-
-                    <a href="<?php echo $this->Url->build(["controller" => "Users", "action" => "index", ""]) ?>"><button type="button" class="btn btn-default">Cancel</button></a>
-
-
-                    <?= $this->Form->button(__('Submit'), array('class' => 'btn btn-default', 'formnovalidate' => true)) ?>
-                    <?= $this->Form->end() ?>
-
-                </div>
+                 
+                <?= $this->Form->end() ?>
 
             </div>
+            
         </div>
     </div>
 </div>
 </div>
-
-<script type="text/javascript">
-function getclubs(o){
-    var city = o.val();
-        $.ajax({
-        url:'<?php echo $this->Url->build(["controller" => "Users", "action" => "getclubs", ""]);?>',
-        data: { city_id: city},
-        type:'POST',
-        dataType:'json',
-        success: function(data){
-            $(".showresultclubs").html(data);
-        }
-    });
+<style>
+.showhide{
+    display: none;
 }
+</style>
+<script type="text/javascript">
+function getregion(o){
+    var city = o.val();
+    if(city == 0){
+        $(".showhide ").css('display','none');
+        
+        $(".showresultclubs").html('');
+    }else{
+        $.ajax({
+            url:'<?php echo $this->Url->build(["controller" => "Users", "action" => "getregions", ""]);?>',
+            data: {city_id: city},
+            type:'POST',
+            dataType:'json',
+            success: function(data){
+                $(".showresultclubs").html(data);
+                
+                
+            }
+        });
+        $(".showhide").css('display','block');
+       
+    }
+}
+function getclub(o){
+    var region = o.val();
+   if(region == 0){
+        
+        $(".showclubname").html('');
+    }else{
+        
+        $.ajax({
+            url:'<?php echo $this->Url->build(["controller" => "Users", "action" => "getclubs", ""]);?>',
+            data: { region_id: region},
+            type:'POST',
+            dataType:'json',
+            success: function(data){
+                $(".showclubname").html(data);
+                
+            }
+        });
+        
+   }    
+}
+    
 </script>

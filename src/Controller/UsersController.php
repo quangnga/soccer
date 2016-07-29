@@ -34,7 +34,7 @@ class UsersController extends AppController
                 
             }
             else{
-                $this->Auth->allow(['index','getclubs','logout','edit','view','resetPassword','forgotpassword','resetPasswordSent','changePassword','sendCodeActive']);
+                $this->Auth->allow(['index','getclubs','getregions','logout','edit','view','resetPassword','forgotpassword','resetPasswordSent','changePassword','sendCodeActive']);
             }
             $this->Auth->allow(['register']);
     }
@@ -309,23 +309,69 @@ class UsersController extends AppController
         $this->Auth->Logout();
         return $this->redirect('/Users/login');
     }
-    public function getclubs(){
+    public function getregions(){
         
         if ($this->request->is('post')) {
-            
+            $this->loadModel('Regions');
             $city_id = $this->request->data['city_id'];
-            $clubs = $this->Clubs->find('all',['conditions'=>['city_id'=>$city_id]]);
+            $this->set('city_id',$city_id);
+            
+            //var_dump($regions);exit;
+            $regions = $this->Regions->find('all',['conditions'=>['city_id'=>$city_id]]);
             $results = array();
-            $html = '<select name="club" class="showclub">';
+            
+            
+            
+            $html = '<select name="region" onchange="getclub($(this))" class="showregion">';
             $i = 1;
-                foreach($clubs as $club){
-                    $html .= '<option value="'.$club['id'].'">'.$club['club_name'].'</option>';
+                    
+                    $html .= '<option value="0">'.'---Select Region---'.'</option>';
+                foreach($regions as $region){
+                    $html .= '<option value="'.$region['id'].'">'.$region['region_name'].'</option>';
+                    
                     $i = $i+1;
                 }
             if($i == 1){
                 $html .= '<option>Not have club in city</option>';
             }
             $html .= '</select>';
+            
+            echo json_encode($html);exit;
+        }
+    }
+    
+    public function getclubs(){
+        
+        if ($this->request->is('post')) {
+            $this->loadModel('Regions');
+            $region_id = $this->request->data['region_id'];
+            $temp = $this->Regions->find('all',  [
+                'conditions'=>['Regions.id '=>$region_id]]);
+            
+            foreach($temp as $value){
+                
+                $city_id = $value->city_id;
+            }
+            //var_dump($city_id);exit;
+            
+            
+            $clubs = $this->Clubs->find('all',['conditions'=>['city_id'=>$city_id]]);
+            $results = array();
+            
+            $html = '<select name="nameclub" class="showclubname">';
+            $i = 1;
+                
+                $html .= '<option value="0">'.'---Select Club---'.'</option>';
+                foreach($clubs as $club){
+                    $html .= '<option value="'.$club['id'].'">'.$club['club_name'].'</option>';
+                    
+                    $i = $i+1;
+                }
+            if($i == 1){
+                $html .= '<option>Not have club in region</option>';
+            }
+            $html .= '</select>';
+            
             echo json_encode($html);exit;
         }
     }
@@ -334,7 +380,8 @@ class UsersController extends AppController
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
                 //var_dump($this->request->data);exit;
-                $this->request->data['club_id'] = $this->request->data['club'];
+                $this->request->data['club_id'] = $this->request->data['nameclub'];
+                if(!empty($this->request->data['club'])){}
                 $user = $this->Users->patchEntity($user, $this->request->data);
             //$regex = '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/';
             //var_dump($user->email);exit;
@@ -364,6 +411,8 @@ class UsersController extends AppController
         }
         $clubs = $this->Users->Clubs->find('list', ['limit' => 200]);
         $cities = $this->Cities->find('all');
+        //$regions = $this->Regions->find('all');
+        
         
         $this->set(compact('user', 'clubs','cities'));
         $this->set('_serialize', ['user']);
