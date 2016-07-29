@@ -22,7 +22,7 @@
         <button type="button" class="btn btn-default animated fadeInDown"><i class="fa fa-users"></i> List Users</button>
     </a>
 </div>
-<br>
+<br />
 
 
 <div class="col-md-12 col-lg-6 col-lg-offset-3">
@@ -94,9 +94,16 @@
                             <?php echo $this->Form->input('coming', array('class' => 'form-control', 'type' => 'checkbox', 'placeholder' => 'are you coming? enter 1 for coming.', 'maxlength' => '20', 'label' => 'coming')); ?>
                         </div>
 
-
                         <div class="form-group">
-                            <?php echo $this->Form->input('club_id', ['select' => $clubs, array('class' => 'form-control', 'placeholder' => 'Choose clubs', 'maxlength' => '45', 'label' => 'Clubs')]); ?>
+                            
+                            <select name="city" onchange="getclubs($(this))" class="showcity">
+                                <?php foreach($cities as $city){ ?>
+                                    <option  value="<?php echo $city['id'] ?>"><?php echo $city['city_name'] ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="form-group showresultclubs">
+                            
                         </div>
                         
                     </div>
@@ -116,3 +123,18 @@
     </div>
 </div>
 </div>
+
+<script type="text/javascript">
+function getclubs(o){
+    var city = o.val();
+        $.ajax({
+        url:'<?php echo $this->Url->build(["controller" => "Users", "action" => "getclubs", ""]);?>',
+        data: { city_id: city},
+        type:'POST',
+        dataType:'json',
+        success: function(data){
+            $(".showresultclubs").html(data);
+        }
+    });
+}
+</script>
