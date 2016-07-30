@@ -395,7 +395,7 @@ class UsersController extends AppController
                 $email = new email();
                 $email->transport('gmail');
                 $email->to($user->email);
-                $email->from('soccer@gmail.com');
+                $email->from('football1ksa@gmail.com');
                 $email->subject('Verify account');
                 
                 $link = Router::Url([
@@ -523,15 +523,15 @@ class UsersController extends AppController
                 Email::configTransport('gmail', [
                 'host' => 'in-v3.mailjet.com',
                 'port' => 465,
-                'username' => 'soccer@gmail.com',
-                'password' => '123456',
+                'username' => 'football1ksa@gmail.com',
+                'password' => 'soccer1122',
                 'className' => 'Smtp' // <------ there it is
                 ]);
                 $email = new email();
                 $email->transport('gmail');
                 $email->to($this->request->data['email']);
-                $email->from('soccer@gmail.com');
-                $email->subject('Majed change your password');
+                $email->from('football1ksa@gmail.com');
+                $email->subject('Change your password');
                 
                 $link = Router::Url([
                                     "controller" => "Users",
