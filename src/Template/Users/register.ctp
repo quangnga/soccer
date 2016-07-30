@@ -38,7 +38,7 @@
             <?= $this->Form->create($user) ?>
                 <fieldset style="border:0px; ">
                         
-                         <div  class="form-group col-md-6" align="center" >
+                         <div  class="form-group row" align="center" >
                                 
                                 <div class="form-group">
                                     <label>City</label>
@@ -51,21 +51,25 @@
                                     </select>
                                 </div>
                                 
-                                <div class="form-group showresultclubs test">
-                                    
-                                </div>
                                 
                             </div>
                     
                     
                 <div class="showhide">  
-                
+                    
                     <div class="form-group">
                         <div class="indicatorDefault">
                             * Indicates required field
                         </div>
                     </div>
+                    
                     <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="test" >Region</label> 
+                            <div class="form-group showresultclubs ">
+                                
+                            </div>
+                        </div>
                         <div class="form-group col-md-6">
                             <div class="form-group">
                                 <?php echo $this->Form->input('first_name', array('class' => 'form-control', 'placeholder' => 'Enter first name', 'maxlength' => '20', 'label' => ' First name', 'autocapitalize' => 'words')); ?>
@@ -73,10 +77,14 @@
                             
                             
                         </div>
-                        <div class="form-group showclubname" id="club">
+                        
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6"></div>
+                        <div class="form-group showclubname col-md-6"  id="club">
                             
                         </div>
-
                     </div>
 
                     <div class="row">
@@ -142,7 +150,10 @@
 <script type="text/javascript">
 function getregion(o){
     var city = o.val();
+    $(".test ").css('display','none');
+        
     if(city == 0){
+        
         $(".showhide ").css('display','none');
         
         $(".showresultclubs").html('');
@@ -159,6 +170,7 @@ function getregion(o){
             }
         });
         $(".showhide").css('display','block');
+        $(".test ").css('display','block');
        
     }
 }

@@ -322,7 +322,7 @@ class UsersController extends AppController
             
             
             
-            $html = '<select name="region" onchange="getclub($(this))" class="showregion">';
+            $html = '<select name="region" onchange="getclub($(this))" class="showregion form-group">';
             $i = 1;
                     
                     $html .= '<option value="0">'.'---Select Region---'.'</option>';
@@ -358,7 +358,8 @@ class UsersController extends AppController
             $clubs = $this->Clubs->find('all',['conditions'=>['city_id'=>$city_id]]);
             $results = array();
             
-            $html = '<select name="nameclub" class="showclubname">';
+            
+            $html = '<label>Club </label> <select name="nameclub" class="showclubname form-group">';
             $i = 1;
                 
                 $html .= '<option value="0">'.'---Select Club---'.'</option>';
