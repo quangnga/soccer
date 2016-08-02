@@ -6,8 +6,8 @@ use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 use Cake\Network\Exception\NotFoundException;
 use Cake\Routing\Router;
-use Cake\Network\Email\Email;
 use Cake\Auth\DefaultPasswordHasher;
+use Cake\Mailer\Email;
 
 /**
  * Users Controller
@@ -383,26 +383,33 @@ class UsersController extends AppController
                 //var_dump($this->request->data);exit;
                 $this->request->data['club_id'] = $this->request->data['nameclub'];
                 if(!empty($this->request->data['club'])){}
-                $user = $this->Users->patchEntity($user, $this->request->data);
-            //$regex = '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/';
-            //var_dump($user->email);exit;
-                
+                $user = $this->Users->patchEntity($user, $this->request->data);      
                 $res = $this->Users->find('all',  [
                 'conditions'=>['Users.email '=>$user->email]])->count();
                 if($res == 0 && !empty($user->username) ){
                 $code = $user->activation = md5($user->email.time());              
-                $this->Users->save($user); 
+                $this->Users->save($user);
+                
+                 Email::configTransport('gmail', [
+                'host' => 'smtp.gmail.com',
+                'port' => 587,
+                'username' => 'football1ksa@gmail.com',
+                'password' => 'soccer1122',
+                'className' => 'Smtp',
+                'tls' => true, // <------ there it is
+                ]);
                 $email = new email();
                 $email->transport('gmail');
                 $email->to($user->email);
                 $email->from('football1ksa@gmail.com');
-                $email->subject('Verify account');
-                
+                $email->subject('Verify account'); 
                 $link = Router::Url([
                                     "controller" => "Users",
                                     "action" => "sendCodeActive",
                                     ], true);
+                                    
                 $email->send('Hello ' . $user->username . "\n\nClick this link to complete register " . $link . "/$code");
+                
                 return $this->redirect("/Users/sendCodeActive");
                 
                 }else {
@@ -521,11 +528,12 @@ class UsersController extends AppController
                 //send email with the new password
                 $firstName = $user->first_name;
                 Email::configTransport('gmail', [
-                'host' => 'in-v3.mailjet.com',
-                'port' => 465,
+                'host' => 'smtp.gmail.com',
+                'port' => 587,
                 'username' => 'football1ksa@gmail.com',
                 'password' => 'soccer1122',
-                'className' => 'Smtp' // <------ there it is
+                'className' => 'Smtp'
+                 // <------ there it is
                 ]);
                 $email = new email();
                 $email->transport('gmail');

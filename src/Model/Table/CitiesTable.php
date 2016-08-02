@@ -64,7 +64,7 @@ class CitiesTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['club_id'], 'Clubs'));
+        $rules->add($rules->existsIn(['id'], 'Clubs'));
         return $rules;
     }
 }

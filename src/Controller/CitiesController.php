@@ -46,18 +46,13 @@ class CitiesController extends AppController
         $this->set(compact('cities'));
         $this->set('_serialize', ['cities']);
         
-        $this->loadModel('Clubs');
+        
         $this->loadModel('Cities');
         $datas = $this->Cities->find('all');
         $this->set('datas',$datas);
         $datas2 = $this->Clubs->find('all');
         $this->set('datas2',$datas2);
-        if ($this->request->is('post')){
-            
-            
-            //var_dump($m);exit;  
-            //var_dump($_POST["cityId"]);exit;
-        }
+        
           
         //var_dump($clubs->club_id);exit;
             
@@ -150,9 +145,5 @@ class CitiesController extends AppController
 
 
 
-        public function loadAjax(){
-            
-            
-            
-        }
+        
 }

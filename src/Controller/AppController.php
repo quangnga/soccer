@@ -174,14 +174,14 @@ class AppController extends Controller
         $today = strtolower(date("l"));
         
 
-      // var_dump($h);exit;
+      //var_dump($today);exit;
         $day = array('monday','tuesday','wendesday','thursday','friday','saturday','sunday');
         
             
             $datas = $this->Clubs->find('all');
             
             foreach($datas as $data){
-                if(($today=='monday')&&($h > '00:00:00')&&($data->reset_training == 0)){
+                if(($today==='monday')&&($h > '00:00:00')&&($data->reset_training == 0)){
                 $articlesTable = TableRegistry::get('Clubs');
                 $data = $articlesTable->get($data['id']); // Return data with id 
                 $data->reset_training = 1;
@@ -197,7 +197,8 @@ class AppController extends Controller
                 
                 //$data->date_reset = $date;
                 $articlesTable->save($data);
-            }elseif($today!='monday'&&($data->reset_training = 1)){
+            }
+            if($today!='monday'&&($data->reset_training = 1)){
                 $articlesTable = TableRegistry::get('Clubs');
                 $data = $articlesTable->get($data['id']); // Return data with id 
                 $data->reset_training = 0;
