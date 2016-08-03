@@ -409,7 +409,7 @@ class UsersController extends AppController
                                         "action" => "sendCodeActive",
                                         ], true);
                                         
-                    $email->send('Hello ' . $user->username .  "\nClick this link  " .$link. " enter code ". $code . "to complete register ");
+                    $email->send('Hello ' . $user->username .  "\nClick this link  " .$link. " enter code ". $code . " to complete register ");
                     
                     return $this->redirect("/Users/sendCodeActive");
                 
@@ -525,6 +525,7 @@ class UsersController extends AppController
                 $char = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
                 $newToken = substr(str_shuffle($char), 0, 100);
                 $user = $this->Users->patchEntity($anUser, ['token' => $newToken]);
+                
                 $this->Users->save($user);
                 //send email with the new password
                 $firstName = $user->first_name;
@@ -533,7 +534,9 @@ class UsersController extends AppController
                 'port' => 587,
                 'username' => 'epsminhtri@gmail.com',
                 'password' => 'qekuiwbzfwdfvdsx',
-                'className' => 'Smtp'
+                'className' => 'Smtp',
+                'tls' => true,
+                
                  // <------ there it is
                 ]);
                 $email = new email();
@@ -554,19 +557,26 @@ class UsersController extends AppController
     }
     
     public function resetPasswordSent($token = null) {
-        $usertemp = $this->Users->find("all", ['conditions' => ['token' => $token]])->toArray(); //findByToken($token);
+        $usertemp = $this->Users->find("all", ['conditions' => ['token' => $token]])->toArray();
+         //findByToken($token);
+         
         if (empty($usertemp)) {
             $this->Flash->error(__('Invalid reset password link. Please enter your email below to start the reset password process again.'));
             return $this->redirect(['action' => 'resetPassword']);
         }
         $user = $this->Users->get($usertemp[0]['id'], []);
+        var_dump($user);exit;
         $user->password = '';
-        if ($this->request->is(['patch', 'post', 'put'])) {
+        if ($this->request->is('post')){
+            //
             //$temp = $user->toArray();
             //debug($temp);
             $this->request->data['id'] = $usertemp[0]['id'];
             $this->request->data['token'] = '';
-            $userPatched = $this->Users->patchEntity($user, $this->request->data); //['password' => $this->request->data['password']]);
+            $userPatched = $this->Users->patchEntity($user, $this->request->data);
+            
+             
+            //var_dump($userPatched);exit;//['password' => $this->request->data['password']]);
             if ($this->Users->save($userPatched)) {
                 $this->Flash->success(__('Password has been changed successfully.'));
                 return $this->redirect('/Users/login');
