@@ -379,7 +379,7 @@ class UsersController extends AppController
     public function register()
     {
         $user = $this->Users->newEntity();
-        //if ($this->request->is('post')) {
+        if ($this->request->is('post')) {
                 //var_dump($this->request->data);exit;
                 $this->request->data['club_id'] = $this->request->data['nameclub'];
                 if(!empty($this->request->data['club'])){}
@@ -388,7 +388,7 @@ class UsersController extends AppController
                 'conditions'=>['Users.email '=>$user->email]])->count();
                 if($res == 0 && !empty($user->username) ){
                     $code = $user->activation = md5($user->email.time());
-                    var_dump($code);exit;              
+                    //var_dump($code);exit;              
                     $this->Users->save($user);
                     
                      Email::configTransport('gmail', [
@@ -409,7 +409,7 @@ class UsersController extends AppController
                                         "action" => "sendCodeActive",
                                         ], true);
                                         
-                    $email->send('Hello ' . $user->username . "\n\nClick this link to complete register " . $link . "/$code");
+                    $email->send('Hello ' . $user->username .  "\nClick this link  ".$link. "and enter code ". $code . "to complete register ");
                     
                     return $this->redirect("/Users/sendCodeActive");
                 
@@ -417,7 +417,7 @@ class UsersController extends AppController
                     $this->Flash->error(__('The user could not be registered. Email or username invalid. Please, try again.'));
                 }
     
-        //}
+        }
         $clubs = $this->Users->Clubs->find('list', ['limit' => 200]);
         $cities = $this->Cities->find('all');
         //$regions = $this->Regions->find('all');
