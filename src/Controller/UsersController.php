@@ -379,7 +379,7 @@ class UsersController extends AppController
     public function register()
     {
         $user = $this->Users->newEntity();
-        if ($this->request->is('post')) {
+        //if ($this->request->is('post')) {
                 //var_dump($this->request->data);exit;
                 $this->request->data['club_id'] = $this->request->data['nameclub'];
                 if(!empty($this->request->data['club'])){}
@@ -387,36 +387,37 @@ class UsersController extends AppController
                 $res = $this->Users->find('all',  [
                 'conditions'=>['Users.email '=>$user->email]])->count();
                 if($res == 0 && !empty($user->username) ){
-                $code = $user->activation = md5($user->email.time());              
-                $this->Users->save($user);
-                
-                 Email::configTransport('gmail', [
-                'host' => 'smtp.gmail.com',
-                'port' => 587,
-                'username' => 'football1ksa@gmail.com',
-                'password' => 'soccer1122',
-                'className' => 'Smtp',
-                'tls' => true, // <------ there it is
-                ]);
-                $email = new email();
-                $email->transport('gmail');
-                $email->to($user->email);
-                $email->from('football1ksa@gmail.com');
-                $email->subject('Verify account'); 
-                $link = Router::Url([
-                                    "controller" => "Users",
-                                    "action" => "sendCodeActive",
-                                    ], true);
-                                    
-                $email->send('Hello ' . $user->username . "\n\nClick this link to complete register " . $link . "/$code");
-                
-                return $this->redirect("/Users/sendCodeActive");
+                    $code = $user->activation = md5($user->email.time());
+                    var_dump($code);exit;              
+                    $this->Users->save($user);
+                    
+                     Email::configTransport('gmail', [
+                    'host' => 'smtp.gmail.com',
+                    'port' => 587,
+                    'username' => 'epsminhtri@gmail.com',
+                    'password' => 'qekuiwbzfwdfvdsx',
+                    'className' => 'Smtp',
+                    'tls' => true, // <------ there it is
+                    ]);
+                    $email = new email();
+                    $email->transport('gmail');
+                    $email->to($user->email);
+                    $email->from('epsminhtri@gmail.com');
+                    $email->subject('Verify account'); 
+                    $link = Router::Url([
+                                        "controller" => "Users",
+                                        "action" => "sendCodeActive",
+                                        ], true);
+                                        
+                    $email->send('Hello ' . $user->username . "\n\nClick this link to complete register " . $link . "/$code");
+                    
+                    return $this->redirect("/Users/sendCodeActive");
                 
                 }else {
                     $this->Flash->error(__('The user could not be registered. Email or username invalid. Please, try again.'));
                 }
     
-        }
+        //}
         $clubs = $this->Users->Clubs->find('list', ['limit' => 200]);
         $cities = $this->Cities->find('all');
         //$regions = $this->Regions->find('all');
@@ -530,15 +531,15 @@ class UsersController extends AppController
                 Email::configTransport('gmail', [
                 'host' => 'smtp.gmail.com',
                 'port' => 587,
-                'username' => 'football1ksa@gmail.com',
-                'password' => 'soccer1122',
+                'username' => 'epsminhtri@gmail.com',
+                'password' => 'qekuiwbzfwdfvdsx',
                 'className' => 'Smtp'
                  // <------ there it is
                 ]);
                 $email = new email();
                 $email->transport('gmail');
                 $email->to($this->request->data['email']);
-                $email->from('football1ksa@gmail.com');
+                $email->from('epsminhtri@gmail.com');
                 $email->subject('Change your password');
                 
                 $link = Router::Url([
