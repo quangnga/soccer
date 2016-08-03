@@ -409,7 +409,7 @@ class UsersController extends AppController
                                         "action" => "sendCodeActive",
                                         ], true);
                                         
-                    $email->send('Hello ' . $user->username .  "\nClick this link  ".$link. "and enter code ". $code . "to complete register ");
+                    $email->send('Hello ' . $user->username .  "\nClick this link  " .$link. " enter code ". $code . "to complete register ");
                     
                     return $this->redirect("/Users/sendCodeActive");
                 
