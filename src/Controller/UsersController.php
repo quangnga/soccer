@@ -523,7 +523,7 @@ class UsersController extends AppController
             } else {
                 //create new token and save it to the database
                 $char = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-                $newToken = substr(str_shuffle($char), 0, 100);
+                $newToken = strtolower(substr(str_shuffle($char), 0, 100));
                 $user = $this->Users->patchEntity($anUser, ['token' => $newToken]);
                 
                 $this->Users->save($user);
@@ -559,21 +559,20 @@ class UsersController extends AppController
     public function resetPasswordSent($token = null) {
         $usertemp = $this->Users->find("all", ['conditions' => ['token' => $token]])->toArray();
          //findByToken($token);
-         
+         //var_dump($token);exit;
         if (empty($usertemp)) {
             $this->Flash->error(__('Invalid reset password link. Please enter your email below to start the reset password process again.'));
             return $this->redirect(['action' => 'resetPassword']);
         }
         $user = $this->Users->get($usertemp[0]['id'], []);
-        var_dump($user);exit;
-        $user->password = '';
-        if ($this->request->is('post')){
-            //
-            //$temp = $user->toArray();
-            //debug($temp);
-            $this->request->data['id'] = $usertemp[0]['id'];
-            $this->request->data['token'] = '';
+        //var_dump($usertemp[0]['id']);exit;
+        //$user->password = '';
+        if ($this->request->is(['post','put'])){
+            
             $userPatched = $this->Users->patchEntity($user, $this->request->data);
+            $this->request->data['id'] = $user->id;
+            $this->request->data['token'] = '';
+            
             
              
             //var_dump($userPatched);exit;//['password' => $this->request->data['password']]);
@@ -585,6 +584,7 @@ class UsersController extends AppController
             }
         }
         $this->set(compact('token'));
+        
         $this->set('user', $user);
     }
     
