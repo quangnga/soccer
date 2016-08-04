@@ -42,9 +42,9 @@
 
 <?php if($club->monday==0){
     
-    echo '<button type="button" class="weeksOff"></i> الأثنين</button>';}
+    echo '<button type="button" class="weeksOff"></i> Monday</button>';}
     
-    else {echo '<button type="button" class="weeksOn"><strong>الأثنين</strong></button>';}
+    else {echo '<button type="button" class="weeksOn"><strong>Monday</strong></button>';}
     
     
     
@@ -52,11 +52,11 @@
 
 <?php if($club->tuesday==0){
     
-    echo '<button type="button" class="weeksOff"></i>الثلاثاء</button>';}
+    echo '<button type="button" class="weeksOff"></i>Tuesday</button>';}
     
     
     
-    else {echo '<button type="button" class="weeksOn"><strong>الثلاثاء</strong></button>';}
+    else {echo '<button type="button" class="weeksOn"><strong>Tuesday</strong></button>';}
     
     
     
@@ -381,4 +381,5 @@ bottom: -20px;
 height: 1px;
 background: rgba(22, 160, 133, 0.31);
 }
+
 </style>

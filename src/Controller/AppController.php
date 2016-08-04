@@ -142,7 +142,7 @@ class AppController extends Controller
     // reset coming by time if call function updataComing in beforeFillter
     public function updateComing(){
         $this->loadModel('Users');
-        $hour = "7";
+        $hour = "15";
         $strotime = strtotime(date("Y-m-d $hour:00:00"));
         
         $date = date("Y-m-d H:i:s",$strotime);
@@ -164,7 +164,7 @@ class AppController extends Controller
     }
     public function resetTraining(){
         $this->loadModel('Clubs');
-        $hour = "7";
+        $hour = "15";
         $strotime = strtotime(date("$hour:00:00"));
         $h= date("H:i:s");
         
