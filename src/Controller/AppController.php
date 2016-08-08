@@ -143,13 +143,13 @@ class AppController extends Controller
     public function updateComing(){
         $this->loadModel('Users');
         $hour = "15";
+        $h= date("H:i:s");
         $strotime = strtotime(date("Y-m-d $hour:00:00"));
-        
         $date = date("Y-m-d H:i:s",$strotime);
         $date1 = date("Y-m-d H:i:s");
         $date_data = date("Y-m-d");
-        
-        if($date1 > $date){
+        //var_dump($date1);exit;
+        if($date1 > $date1){
             $datas = $this->Users->find('all', [
                 'conditions'=>['Users.date_reset <'=>$date_data]
             ]);
@@ -164,46 +164,61 @@ class AppController extends Controller
     }
     public function resetTraining(){
         $this->loadModel('Clubs');
-        $hour = "15";
-        $strotime = strtotime(date("$hour:00:00"));
-        $h= date("H:i:s");
         
+        $w= date("W");
         //$date = date("m/d/Y H:i:s",strtotime("last monday"));
         //$date1 = date("Y-m-d H:i:s");
         //$date_data = date("Y-m-d");
         $today = strtolower(date("l"));
         
+        //$test= floor((strtotime ("now")- strtotime("last monday"))/86400);
+        
 
-      //var_dump($today);exit;
+
+       // var_dump ($w);exit;
         $day = array('monday','tuesday','wendesday','thursday','friday','saturday','sunday');
         
             
             $datas = $this->Clubs->find('all');
             
             foreach($datas as $data){
-                if(($today==='monday')&&($h > '00:00:00')&&($data->reset_training == 0)){
-                $articlesTable = TableRegistry::get('Clubs');
-                $data = $articlesTable->get($data['id']); // Return data with id 
-                $data->reset_training = 1;
-                if($data->reset_training == 1){
-                    foreach($day as $value){
-                        //var_dump($value);exit;
-                       $data->$value = 0; 
-                    }
+                //var_dump($data->week );exit;
+                if(($w > $data->week || $w == 1) &&($data->reset_training == 1)){
+                    $articlesTable = TableRegistry::get('Clubs');
+                    $data = $articlesTable->get($data['id']); // Return data with id 
+                    $data->reset_training = 0;
+                    $data->week = $w;
+                    $articlesTable->save($data);
+                }
+                if(($today==='monday'||$today==='tuesday'||$today==='wendesday'
+                ||$today==='thursday'||$today==='friday'||$today==='saturday'||$today===
+                'sunday')&&($data->reset_training == 0) && $w == $data->week ){
+                    $articlesTable = TableRegistry::get('Clubs');
+                    $data = $articlesTable->get($data['id']); // Return data with id 
                     $data->reset_training = 1;
                     
                     
-                }
-                
-                //$data->date_reset = $date;
-                $articlesTable->save($data);
+                    
+                    if($data->reset_training == 1){
+                        foreach($day as $value){
+                            //var_dump($value);exit;
+                           $data->$value = 0; 
+                        }
+                        $data->reset_training = 1;
+                        
+                        
+                    }
+                    
+                    //$data->date_reset = $date;
+                    $articlesTable->save($data);
             }
-            if($today!='monday'&&($data->reset_training = 1)){
-                $articlesTable = TableRegistry::get('Clubs');
-                $data = $articlesTable->get($data['id']); // Return data with id 
-                $data->reset_training = 0;
-                $articlesTable->save($data);
+            if($data->week == 52 && $w==1){
+                    $articlesTable = TableRegistry::get('Clubs');
+                    $data = $articlesTable->get($data['id']); // Return data with id 
+                    $data->week = 1;
+                    $articlesTable->save($data);
             }
+            
             
         }
         

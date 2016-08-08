@@ -54,7 +54,8 @@ class UsersController extends AppController
         //var_dump($user_id);exit;
         if($this->isAuthorizedAdmin()==1){
             $this->paginate = [
-                'contain' => ['Clubs']
+                'contain' => ['Clubs'],
+                'order' => ['Users.coming'=>'desc']
                 ];
         }elseif($this->isAuthorizedAdmin()==2){
             $this->paginate = [
