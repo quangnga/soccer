@@ -27,7 +27,7 @@
 
                             <th><?= $this->Paginator->sort('id') ?></th>
                             <th><?= $this->Paginator->sort('club_name') ?></th>
-                            <th><?= $this->Paginator->sort('city') ?></th>
+                            
 
                             <?php
                             if ($is_admin >= 0) {
@@ -48,7 +48,7 @@
                                 <tr>
                                     <td><?= $this->Number->format($club->id) ?></td>
                                     <td><?= h($club -> club_name) ?></td>
-                                    <td><?= h($club->city) ?></td>
+                                    
 
 
                                     <td class="actions">

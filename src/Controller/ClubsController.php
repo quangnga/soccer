@@ -26,16 +26,24 @@ class ClubsController extends AppController
     {   
         $this->loadModel('Cities');
         //$id1=$this->loadModel('Cities');
-        //var_dump($id1);exit;
+        //$city= $this->Cities
+        
 		$id = $this->Auth->user('id');
         $username = $this->Auth->user('username');        
         $club = $this->Auth->user('club_id'); 
+        
         $this->paginate = [
             'contain' => ['Trainings']
         ];
-        $clubs = $this->paginate($this->Clubs);       
+        $clubs = $this->paginate($this->Clubs); 
+        
+           
         $this->set(compact('clubs'));
         $this->set('_serialize', ['clubs']);
+        $test= $this->Cities->find('all');
+        //var_dump($test);exit;
+        
+        
         
         
         

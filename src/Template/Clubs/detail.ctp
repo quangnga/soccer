@@ -84,7 +84,7 @@
     
     
     
-    ?>
+?>
 
 <?php if($club->friday==0){
     

@@ -377,8 +377,9 @@ class UsersController extends AppController
         }
     }
     public function register()
-    {
-        $user = $this->Users->newEntity();
+    {   
+        if(empty($user=$this->Auth->user())){
+            $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
                 //var_dump($this->request->data);exit;
                 $this->request->data['club_id'] = $this->request->data['nameclub'];
@@ -425,6 +426,10 @@ class UsersController extends AppController
         
         $this->set(compact('user', 'clubs','cities'));
         $this->set('_serialize', ['user']);
+        }else{
+            return $this->redirect(['controller' => 'Users', 'action' => 'logout', '']);
+        }
+        
     }
     
     public function sendCodeActive(){
