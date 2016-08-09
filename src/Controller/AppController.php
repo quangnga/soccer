@@ -92,27 +92,14 @@ class AppController extends Controller
         $this->set('is_admin',$is_admin);
         $this->set('club_id',$club_id);
         $this->set('username',$username);
-        //$this->Auth->allow();
-        //var_dump($club_id);exit;
         $time = Time::now();
-        //
         $this->set('time',$time->i18nFormat(\IntlDateFormatter::FULL));
         //var_dump($now);exit;
        $coming=$user['coming'];
        $this->set('coming',$coming);
-       
-       //$count = $this->Users->find('count',array('conditions'=>array('coming' => 1)));
-       //$this->set('count',$count);
-       //$id_clubs=$this->Clubs->
-       //var_dump($count);exit;
        $this->updateComing();
        $this->resetTraining();
        $this->getCity();
-       
-        
-        
-       //var_dump($haveTraing);exit;
-        
        $clubByuser = $this->Auth->user('club_id');
        $this->set('clubByuser',$clubByuser);
        
@@ -142,14 +129,14 @@ class AppController extends Controller
     // reset coming by time if call function updataComing in beforeFillter
     public function updateComing(){
         $this->loadModel('Users');
-        $hour = "15";
+        $hour = "7";// time reset not timezone;
         $h= date("H:i:s");
         $strotime = strtotime(date("Y-m-d $hour:00:00"));
         $date = date("Y-m-d H:i:s",$strotime);
         $date1 = date("Y-m-d H:i:s");
         $date_data = date("Y-m-d");
         //var_dump($date1);exit;
-        if($date1 > $date1){
+        if($date1 > $date){
             $datas = $this->Users->find('all', [
                 'conditions'=>['Users.date_reset <'=>$date_data]
             ]);
@@ -163,67 +150,47 @@ class AppController extends Controller
         }
     }
     public function resetTraining(){
-        $this->loadModel('Clubs');
-        
+        $this->loadModel('Clubs'); 
         $w= date("W");
-        //$date = date("m/d/Y H:i:s",strtotime("last monday"));
-        //$date1 = date("Y-m-d H:i:s");
-        //$date_data = date("Y-m-d");
         $today = strtolower(date("l"));
-        
-        //$test= floor((strtotime ("now")- strtotime("last monday"))/86400);
-        
-
-
-       // var_dump ($w);exit;
         $day = array('monday','tuesday','wendesday','thursday','friday','saturday','sunday');
-        
+        $datas = $this->Clubs->find('all');
             
-            $datas = $this->Clubs->find('all');
-            
-            foreach($datas as $data){
-                //var_dump($data->week );exit;
-                if(($w > $data->week || $w == 1) &&($data->reset_training == 1)){
-                    $articlesTable = TableRegistry::get('Clubs');
-                    $data = $articlesTable->get($data['id']); // Return data with id 
-                    $data->reset_training = 0;
-                    $data->week = $w;
-                    $articlesTable->save($data);
-                }
-                if(($today==='monday'||$today==='tuesday'||$today==='wendesday'
-                ||$today==='thursday'||$today==='friday'||$today==='saturday'||$today===
-                'sunday')&&($data->reset_training == 0) && $w == $data->week ){
-                    $articlesTable = TableRegistry::get('Clubs');
-                    $data = $articlesTable->get($data['id']); // Return data with id 
-                    $data->reset_training = 1;
-                    
-                    
-                    
-                    if($data->reset_training == 1){
-                        foreach($day as $value){
-                            //var_dump($value);exit;
-                           $data->$value = 0; 
-                        }
-                        $data->reset_training = 1;
-                        
-                        
-                    }
-                    
-                    //$data->date_reset = $date;
-                    $articlesTable->save($data);
-            }
+        foreach($datas as $data){
+            //var_dump($data->week );exit;
             if($data->week == 52 && $w==1){
-                    $articlesTable = TableRegistry::get('Clubs');
-                    $data = $articlesTable->get($data['id']); // Return data with id 
-                    $data->week = 1;
-                    $articlesTable->save($data);
+                $articlesTable = TableRegistry::get('Clubs');
+                $data = $articlesTable->get($data['id']); // Return data with id 
+                $data->week = 1;
+                $data->reset_training = 0;
+                $articlesTable->save($data);
             }
-            
-            
+            if(($w > $data->week ) &&($data->reset_training == 1)){
+                $articlesTable = TableRegistry::get('Clubs');
+                $data = $articlesTable->get($data['id']); // Return data with id 
+                $data->reset_training = 0;
+                $data->week = $w;
+                $articlesTable->save($data);
+            }
+            if(($data->reset_training == 0) && $w == $data->week ){
+                $articlesTable = TableRegistry::get('Clubs');
+                $data = $articlesTable->get($data['id']); // Return data with id 
+                $data->reset_training = 1;
+
+                if($data->reset_training == 1){
+                    foreach($day as $value){
+                        //var_dump($value);exit;
+                       $data->$value = 0; 
+                    }
+                    $data->reset_training = 1;      
+                }
+                //$data->date_reset = $date;
+                $articlesTable->save($data);
         }
         
         
         
+    }      
        
     }
     public function getCity(){
@@ -247,19 +214,10 @@ class AppController extends Controller
               }  
            }
         }
-        //var_dump($d);exit;
-        
-        
+        //var_dump($d);exit;    
         
     }
     
-    
-     /* get value role */
-   // public function getRole(){
-      //  $user=$this->Auth->user();
-        //$is_admin = $user['role'];
-        //var_dump($is_admin);exit;
-        //$this->set("role",$is_admin);
         
         
     
