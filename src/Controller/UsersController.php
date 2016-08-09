@@ -8,6 +8,7 @@ use Cake\Network\Exception\NotFoundException;
 use Cake\Routing\Router;
 use Cake\Auth\DefaultPasswordHasher;
 use Cake\Mailer\Email;
+use Cake\I18n\Time;
 
 /**
  * Users Controller
@@ -244,7 +245,18 @@ class UsersController extends AppController
            }
 
      public function login()
-    {
+    {   
+        $h1="14";
+        $strotime1 = strtotime(date("Y-m-d $h1:00:00"));
+        $time1 = date("H:i:s",$strotime1);      
+        $h2="18";
+        $strotime2 = strtotime(date("Y-m-d $h2:00:00"));        
+        $time2 = date("H:i:s",$strotime2);
+        $time_now = date("H:i:s");
+        $this->set('time_now',$time_now);
+        $this->set('time1',$time1);
+        $this->set('time2',$time2);
+        
         if ($this->request->is('post')) {
             $user = $this->Auth->identify();
             //var_dump();exit;
@@ -258,6 +270,7 @@ class UsersController extends AppController
                     $this->Flash->error('Your username or password is incorrect.');
                 }
         }
+        
     }
     
        public function users()

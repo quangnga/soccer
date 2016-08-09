@@ -59,9 +59,17 @@ echo $this->Html->meta('favicon.ico','img/favicon.ico',array('type' => 'icon'));
                                                   
                             </p>
                             <p class="small">
-                                  
-                               <a <?php echo $this->Html->link('Register', ['controller'=>'Users','action' => 'register']);
-?></a>                     
+                                <?php
+                                 if($time_now >= $time1 && $time_now <= $time2){?>  
+                                    <a onclick = "alert('Register end');return false;" <?php echo $this->Html->link('Register', ['controller'=>'Users','action' => 'register']);
+?></a>                          <?php
+                                    }else{
+                                ?>
+                                    <a <?php echo $this->Html->link('Register', ['controller'=>'Users','action' => 'register']);
+?></a>
+                                <?php
+                                    }
+                                ?>
                             </p>
                         </form>
                     </div>
