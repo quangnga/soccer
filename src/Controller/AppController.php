@@ -129,13 +129,14 @@ class AppController extends Controller
     // reset coming by time if call function updataComing in beforeFillter
     public function updateComing(){
         $this->loadModel('Users');
-        $hour = "7";// time reset not timezone;
+        $hour = "23";// time reset not timezone;
         $h= date("H:i:s");
-        $strotime = strtotime(date("Y-m-d $hour:00:00"));
+        $strotime = strtotime(date("Y-m-d $hour:59:59"));
         $date = date("Y-m-d H:i:s",$strotime);
+        
         $date1 = date("Y-m-d H:i:s");
         $date_data = date("Y-m-d");
-        //var_dump($date1);exit;
+        //var_dump($date);exit;
         if($date1 > $date){
             $datas = $this->Users->find('all', [
                 'conditions'=>['Users.date_reset <'=>$date_data]

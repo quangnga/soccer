@@ -149,6 +149,7 @@
  //   }
 
 ?>
+        
         <tr '.$color.'>
                 <th><?= __('Full name') ?></th>
                 <th><?= __('Coming?') ?></th>
@@ -168,15 +169,25 @@
                 
                 
                 <th><?= __('Action') ?></th>
+                <th><?= __('Order') ?></th>
+                <th><?= __('Status') ?></th>
                 
         </tr>
         
+        <!-- section for playing players-->
+        
+        
                 <?php 
-
+                    $count=0;
                 foreach ($club->users as $users ): 
+                if($users['coming'] == 1){$count++;}
+                //var_dump($count);exit;
+                if($count <= $max_playing){    
+                //
+                //var_dump($training['num_of_playing']);exit;
                 if($is_admin == 0 && $users['id'] == $id){?>
  <tbody>
-
+        
         <tr '.$color.'>
 
                 <td> <?= h($users->first_name)  ?> <?= h($users->last_name)  ?></td>
@@ -218,15 +229,24 @@
                          ?>
                          
                 </td>
-            
+                <td></td>
+                <td>
+                    <?php
+                        if($users['coming'] == 1){
+                    ?>
+                        <?= __('Playing')  ?> 
+                    <?php
+                        }
+                    ?>
+                </td>
           
                  <?= $this->Form->end() ?>
           
     </tr>
           
-          <?php }elseif($is_admin == 1 || (($users['coming'] == 1) && ($is_admin == 2 ))|| $users['id'] == $id){?>
-                    
-          <tr>
+          <?php }elseif($is_admin == 1 || (($users['coming'] == 1) && ($is_admin == 2 ))){?>
+                
+          <tr '.$color.'>
                 <td> <?= h($users->first_name)  ?> <?= h($users->last_name)  ?></td>
                 
 
@@ -280,6 +300,25 @@
                          }
                          ?>
                 </td>
+                
+                <td>
+                    <?php
+                        if($users['coming'] == 1){
+                    ?>
+                        <?= h($count)  ?> 
+                    <?php
+                        }
+                    ?>
+                </td>
+                <td>
+                    <?php
+                        if($users['coming'] == 1){
+                    ?>
+                        <?= __('Playing')  ?> 
+                    <?php
+                        }
+                    ?>
+                </td>
             
           
                 <?= $this->Form->end() ?>
@@ -292,7 +331,153 @@
           ?>
 
           
-        <?php endforeach; ?>
+        <?php }else{
+            
+
+            //var_dump(1);exit;
+            if($is_admin == 0 && $users['id'] == $id){    
+        ?>
+            <!-- section for bench-->
+
+        <tr '.$color.'>
+                
+                <td> <?= h($users->first_name)  ?> <?= h($users->last_name)  ?></td>
+                
+                
+                <?= $this->Form->create($users) ?>
+
+
+
+                <?php
+                    if($block==0){
+                ?>
+                <td>
+                
+                        <?php echo $this->Form->input('id',array('class' => 'checkbox','type'=>'hidden', 'label' => false,'value'=> $users['id'])); ?>
+                        <?php echo $this->Form->input('coming',array('class' => 'checkbox','type'=>'checkbox', 'label' => false)); ?>
+                </td>
+                
+                 <?php
+                    } else{                   
+                 ?>  
+                
+                <td>user blocked</td>
+                <?php
+                        }
+                ?>
+                <td>
+                        <textarea name="comment"  cols="5" rows="2">
+                    
+                        </textarea>
+                    
+                </td>
+                <td>
+                        
+                        <?php if($is_admin == 0 || ($is_admin == 2 && $users['id'] == $id)){?>
+                                <?= $this->Form->button(__('Submit')) ?>
+                        <?php
+                         }
+                         ?>
+                         
+                </td>
+                <td></td>
+                <td>
+                    <?php
+                        if($users['coming'] == 1){
+                    ?>
+                        <?= __('waiting')  ?> 
+                    <?php
+                        }
+                    ?>
+                </td>
+          
+                 <?= $this->Form->end() ?>
+          
+    </tr>
+          
+          <?php }elseif($is_admin == 1 || (($users['coming'] == 1) && ($is_admin == 2 ))){?>
+               
+          <tr'.$color.'>
+                
+                <td> <?= h($users->first_name)  ?> <?= h($users->last_name)  ?></td>
+                
+
+                    <?= $this->Form->create($users) ?>
+                
+                
+                
+
+
+                <td>
+                
+                        <?php echo $this->Form->input('id',array('class' => 'checkbox','type'=>'hidden', 'label' => false,'value'=> $users['id'])); ?>
+                        <?php echo $this->Form->input('coming',array('class' => 'checkbox','type'=>'checkbox', 'label' => false)); ?>
+                </td>
+                <td>
+                        <textarea name="comment"  cols="7" rows="2">
+                    
+                        </textarea>
+                    
+                </td>
+                <?php if(($is_admin == 1 && $users['id'] == $id) || ($is_admin == 2 && $users['id'] == $id)){?>
+                            
+                            
+                <?php
+                 }
+                 ?>
+                    <?= $this->Form->end() ?>
+                    <?= $this->Form->create($users) ?>
+                    
+                
+                <?php if(($is_admin == 1 &&$users['id'] != $id) ||($is_admin == 2 &&$users['id'] != $id)){?>
+                    <td>
+                    
+                            <?php echo $this->Form->input('id',array('class' => 'checkbox','type'=>'hidden', 'label' => false,'value'=> $users['id'])); ?>
+                            <?php echo $this->Form->input('block',array('class' => 'checkbox','type'=>'checkbox', 'label' => false)); ?>
+                    </td>  
+                <?php }else{ ?>
+
+                <?php 
+                    }
+                ?>
+
+                <td>
+                        
+                        
+                         <?php if(($is_admin == 1&&$users['id'] != $id) ||($is_admin == 2&&$users['id'] != $id)){?>
+                                <?= $this->Form->button(__('Block')) ?>
+                        <?php
+                         }
+                         ?>
+                </td>
+                <td>
+                     <?php
+                        if($users['coming'] == 1){
+                    ?>
+                        <?= h($count)  ?> 
+                    <?php
+                        }
+                    ?>
+                </td>
+                <td>
+                    <?php
+                        if($users['coming'] == 1){
+                    ?>
+                        <?= __('waiting')  ?> 
+                    <?php
+                        }
+                    ?>
+                </td>
+                <?= $this->Form->end() ?>
+            
+          
+        </tr>
+          <?php
+                }
+            
+          ?>
+            
+        <?php }endforeach; //var_dump($count);exit; ?>
         
 
            
@@ -301,32 +486,29 @@
 </thead>
 </table>
     <div>
-         <?php if($is_admin == 1 || $is_admin == 2){?>
-<?php if($number >= 2){?>
-<div class="row">
-<div class="counter"><?= h($number)?>/<?= h($num_all)?> لاعبين سيحضرون</div>
-</div>
-         <?php
-             }
-             
-         
- elseif($number <= 1){?>
-<div class="row">
-<div class="counter2"><?= h($number)?>/<?= h($num_all)?> لاعبين سيحضرون</div>
-</div>
-<?php
-    }
-    }
-    ?>
-
-         <?php if($is_admin == 0){?>
-
-<div class="row">
-<div class="counter"><?= h($number)?> لاعبين سيحضرون</div>
-</div>
-         <?php
-             }
-         ?>
+                <?php if($is_admin == 1 || $is_admin == 2){?>
+                <?php if($number >= 2){?>
+                            <div class="row">
+                            <div class="counter"><?= h($number)?>/<?= h($num_all)?> لاعبين سيحضرون</div>
+                            </div>
+                     <?php
+                         }elseif($number <= 1){?>
+                            <div class="row">
+                            <div class="counter2"><?= h($number)?>/<?= h($num_all)?> لاعبين سيحضرون</div>
+                            </div>
+                <?php
+                    }
+                }
+                ?>
+                
+                     <?php if($is_admin == 0){?>
+                
+                        <div class="row">
+                        <div class="counter"><?= h($number)?> لاعبين سيحضرون</div>
+                        </div>
+                     <?php
+                         }
+                     ?>
          
     </div>
 </div>

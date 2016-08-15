@@ -265,12 +265,17 @@ class ClubsController extends AppController
             'contain' => ['Trainings', 'Users']
         ]);
         
+        
         $training = $this->Trainings->get($club["training_id"], [
             'contain' => []
         ]);
+        $max_playing = $training['number_of_playing'];
+        $this->set('max_playing',$max_playing);
+        //var_dump();exit;
+        
         $time2 = new Time($training['training_time']);
         $id_coming = $this->Auth->user('id'); 
-        $user = $this->Users->get($id_coming, ['condition' => ['user_id' => $id_coming]]);
+        $user = $this->Users->get($id_coming, ['condition' => ['user_id' => $id_coming], 'order' => ['Users.coming'=>'desc']]);
         $date_data = $user['coming_date'];
         $data_coming= $user['coming'];
         $get_comings = json_decode($date_data);
@@ -287,6 +292,7 @@ class ClubsController extends AppController
             
             $dataComing = $this->Users->find('all', [
                 'conditions'=>['Users.id '=>$id_coming]
+                , 'order' => ['Users.coming'=>'desc']
             ]);
             
             
@@ -327,6 +333,7 @@ class ClubsController extends AppController
             $this->set('number',$number);
             $query2 = $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id]]);
             $num_all=   $query2->count();
+            
             $this->set('num_all',$num_all);
             //var_dump($num_all);exit;
             $block=$user['block'];
