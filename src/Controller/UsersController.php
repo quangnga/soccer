@@ -297,7 +297,7 @@ class UsersController extends AppController
             ->check($this->request->data['current_password'], $user['password']);
             //var_dump($verify);exit;
             if($verify){
-                    $user['password']=$this->request->data['New_password'];
+            $user['password']=$this->request->data['New_password'];
                 if($this->Users->save($user)){
                     $this->Flash->success(__('Your password has been changed'));
                     return $this->redirect(['action' => 'logout']);

@@ -98,7 +98,7 @@ class AppController extends Controller
        $coming=$user['coming'];
        $this->set('coming',$coming);
        $this->updateComing();
-       $this->resetTraining();
+       $this->resetComing();
        $this->getCity();
        $clubByuser = $this->Auth->user('club_id');
        $this->set('clubByuser',$clubByuser);
@@ -149,11 +149,11 @@ class AppController extends Controller
             }
         }
     }
-    public function resetTraining(){
+    /*public function resetTraining(){
         $this->loadModel('Clubs'); 
         $w= date("W");
         $today = strtolower(date("l"));
-        $day = array('monday','tuesday','wendesday','thursday','friday','saturday','sunday');
+        //$day = array('monday','tuesday','wendesday','thursday','friday','saturday','sunday');
         $datas = $this->Clubs->find('all');
             
         foreach($datas as $data){
@@ -192,7 +192,49 @@ class AppController extends Controller
         
     }      
        
+    }*/
+    public function resetComing(){
+        $this->loadModel('Users');
+        $w= date("W");
+        $datas = $this->Users->find('all');
+        //var_dump($datas);exit;
+        foreach($datas as $data){
+            //var_dump($data->week );exit;
+            //set week value for new year
+            if($data->week == 52 && $w==1){
+                $articlesTable = TableRegistry::get('Users');
+                $data = $articlesTable->get($data['id']); // Return data with id 
+                $data->week = 1;
+                $data->reset_coming = 0;
+                $articlesTable->save($data);
+            }
+            
+            if(($w > $data->week ) &&($data->reset_coming == 1)){
+                $articlesTable = TableRegistry::get('Users');
+                $data = $articlesTable->get($data['id']); // Return data with id 
+                $data->reset_coming = 0;
+                $data->week = $w;
+                $articlesTable->save($data);
+            }
+            //var_dump($data->reset_coming);exit;
+            if((($data->reset_coming == 0) && ($w == $data->week))||($data->reset_coming == 0) ){
+                
+                $articlesTable = TableRegistry::get('Users');
+                $data = $articlesTable->get($data['id']); // Return data with id 
+                $data->reset_coming = 1;
+
+                if($data->reset_coming == 1){
+                    
+                    $temp = array('monday'=>0,'tuesday'=>0,'wendesday'=>0,'thursday'=>0,'friday'=>0,'saturday'=>0,'sunday'=>0);
+                    $data->coming_date = json_encode($temp) ;
+                    $data->reset_coming = 1;
+                    //var_dump($data->coming_date);exit;      
+                }
+                //$data->date_reset = $date;
+                $articlesTable->save($data);
+        }
     }
+}
     public function getCity(){
         
         $this->loadModel('Clubs');
