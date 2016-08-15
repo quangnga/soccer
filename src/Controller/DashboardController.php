@@ -40,6 +40,7 @@
             $clubs=TableRegistry::get('clubs');
             
             $user=TableRegistry::get('Users');
+            
             //var_dump($user);exit;
             $messages=TableRegistry::get('ContactForms');
             $countclubs=$clubs->find('all')->count();
@@ -62,8 +63,34 @@
             }else{
                 $is_traning = false;
             }
-            //var_dump($is_traning);exit;
+            
+            $user=$this->Auth->user();
+            $club_id = $user['club_id'];
+            $query= $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id,'Users.coming'=>1,'Users.block'=>0]]);        
+            $number = $query->count();
+            //
+            
+            $this->loadModel('Trainings');
+            $this->loadModel('Users');
+            $club = $this->Clubs->get($club_id, [
+                'contain' => ['Trainings', 'Users']
+            ]);
+        
+        
+            $training = $this->Trainings->get($club["training_id"], [
+                'contain' => []
+            ]);
+            $max_playing = $training['number_of_playing'];
+            if($number > $max_playing){
+                $is_full = true;
+            }else{
+                $is_full = false;
+            }
+            //var_dump($max_playing);exit;
+            
+            $this->set('max_playing',$max_playing);
             $this->set('is_traning', $is_traning);
+            $this->set('is_full', $is_full);
             
         }
     }
