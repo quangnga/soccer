@@ -25,12 +25,12 @@
 </div>
 <h4><?= h($club->club_name) ?> <?= h($time)?> daily training</h4>
 
-<h4> <?php
+<h4><?php
     $today = strtolower(date("l")); //var_dump($club[$today]);exit;
     ?>
-<?php if($club[$today] == 0){
-    echo 'no training today';}
-    else {echo 'There will be a training today';}
+    <?php if($club[$today] == 0){
+        echo 'no training today';}
+        else {echo 'There will be a training today';}
     
     ?>  - Training Time: <?= h($time2->format('H:i:s')) ?>
 </h4>
@@ -151,7 +151,9 @@
 ?>
         
         <tr '.$color.'>
+                <th><?= __('Order') ?></th> 
                 <th><?= __('Full name') ?></th>
+                 <th><?= __('Status') ?></th>
                 <th><?= __('Coming?') ?></th>
                 <th><?= __('comments') ?></th>
 
@@ -169,8 +171,7 @@
                 
                 
                 <th><?= __('Action') ?></th>
-                <th><?= __('Order') ?></th>
-                <th><?= __('Status') ?></th>
+                
                 
         </tr>
         
@@ -178,21 +179,28 @@
         
         
                 <?php 
+                    
                     $count=0;
-                foreach ($club->users as $users ): 
-                if($users['coming'] == 1){$count++;}
-                //var_dump($count);exit;
-                if($count <= $max_playing){    
-                //
-                //var_dump($training['num_of_playing']);exit;
-                if($is_admin == 0 && $users['id'] == $id){?>
+                    foreach ($club->users as $users ): 
+                        if($users['coming'] == 1){$count++;}
+                        if($count <= $max_playing){    
+                            if($is_admin == 0 && $users['id'] == $id){
+                ?>
  <tbody>
         
         <tr '.$color.'>
 
                 <td> <?= h($users->first_name)  ?> <?= h($users->last_name)  ?></td>
                 
-                
+                 <td>
+                    <?php
+                        if($users['coming'] == 1){
+                    ?>
+                        <?= __('Playing')  ?> 
+                    <?php
+                        }
+                    ?>
+                </td>
                 <?= $this->Form->create($users) ?>
 
 
@@ -230,15 +238,7 @@
                          
                 </td>
                 <td></td>
-                <td>
-                    <?php
-                        if($users['coming'] == 1){
-                    ?>
-                        <?= __('Playing')  ?> 
-                    <?php
-                        }
-                    ?>
-                </td>
+               
           
                  <?= $this->Form->end() ?>
           
@@ -247,14 +247,27 @@
           <?php }elseif($is_admin == 1 || (($users['coming'] == 1) && ($is_admin == 2 ))){?>
                 
           <tr '.$color.'>
+                <td>
+                    <?php
+                        if($users['coming'] == 1){
+                    ?>
+                        <?= h($count)  ?> 
+                    <?php
+                        }
+                    ?>
+                </td>
                 <td> <?= h($users->first_name)  ?> <?= h($users->last_name)  ?></td>
-                
+                 <td>
+                    <?php
+                        if($users['coming'] == 1){
+                    ?>
+                        <?= __('Playing')  ?> 
+                    <?php
+                        }
+                    ?>
+                </td>
 
                     <?= $this->Form->create($users) ?>
-                
-                
-                
-
 
                 <td>
                 
@@ -301,24 +314,8 @@
                          ?>
                 </td>
                 
-                <td>
-                    <?php
-                        if($users['coming'] == 1){
-                    ?>
-                        <?= h($count)  ?> 
-                    <?php
-                        }
-                    ?>
-                </td>
-                <td>
-                    <?php
-                        if($users['coming'] == 1){
-                    ?>
-                        <?= __('Playing')  ?> 
-                    <?php
-                        }
-                    ?>
-                </td>
+                
+                
             
           
                 <?= $this->Form->end() ?>
@@ -342,7 +339,15 @@
         <tr '.$color.'>
                 
                 <td> <?= h($users->first_name)  ?> <?= h($users->last_name)  ?></td>
-                
+                <td>
+                    <?php
+                        if($users['coming'] == 1){
+                    ?>
+                        <?= __('waiting')  ?> 
+                    <?php
+                        }
+                    ?>
+                </td>
                 
                 <?= $this->Form->create($users) ?>
 
@@ -381,6 +386,25 @@
                          
                 </td>
                 <td></td>
+                
+          
+                 <?= $this->Form->end() ?>
+          
+    </tr>
+          
+          <?php }elseif($is_admin == 1 || (($users['coming'] == 1) && ($is_admin == 2 ))){?>
+               
+          <tr'.$color.'>
+                <td>
+                     <?php
+                        if($users['coming'] == 1){
+                    ?>
+                        <?= h($count)  ?> 
+                    <?php
+                        }
+                    ?>
+                </td>
+                <td> <?= h($users->first_name)  ?> <?= h($users->last_name)  ?></td>
                 <td>
                     <?php
                         if($users['coming'] == 1){
@@ -390,17 +414,6 @@
                         }
                     ?>
                 </td>
-          
-                 <?= $this->Form->end() ?>
-          
-    </tr>
-          
-          <?php }elseif($is_admin == 1 || (($users['coming'] == 1) && ($is_admin == 2 ))){?>
-               
-          <tr'.$color.'>
-                
-                <td> <?= h($users->first_name)  ?> <?= h($users->last_name)  ?></td>
-                
 
                     <?= $this->Form->create($users) ?>
                 
@@ -450,24 +463,9 @@
                          }
                          ?>
                 </td>
-                <td>
-                     <?php
-                        if($users['coming'] == 1){
-                    ?>
-                        <?= h($count)  ?> 
-                    <?php
-                        }
-                    ?>
-                </td>
-                <td>
-                    <?php
-                        if($users['coming'] == 1){
-                    ?>
-                        <?= __('waiting')  ?> 
-                    <?php
-                        }
-                    ?>
-                </td>
+                
+                
+                
                 <?= $this->Form->end() ?>
             
           

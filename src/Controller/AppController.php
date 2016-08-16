@@ -100,6 +100,7 @@ class AppController extends Controller
        $this->updateComing();
        $this->resetComing();
        $this->getCity();
+       $this->getComing();
        $clubByuser = $this->Auth->user('club_id');
        $this->set('clubByuser',$clubByuser);
        
@@ -136,7 +137,7 @@ class AppController extends Controller
         
         $date1 = date("Y-m-d H:i:s");
         $date_data = date("Y-m-d");
-        //var_dump($date);exit;
+        //var_dump($date1);exit;
         if($date1 > $date){
             $datas = $this->Users->find('all', [
                 'conditions'=>['Users.date_reset <'=>$date_data]
@@ -258,6 +259,34 @@ class AppController extends Controller
            }
         }
         //var_dump($d);exit;    
+        
+    }
+    public function getComing(){
+        $this->loadModel('Users');
+        $user = $this->Users->find('all');
+        $today = strtolower(date("l"));
+        foreach($user as $value){
+            
+            $get_comings = json_decode($value->coming_date);
+            $coming = $value->coming;
+            foreach($get_comings as $key => $get_coming){
+            //var_dump($get_coming);exit;
+                if($key==$today && $get_coming == 1){
+                   $data_coming = 1; 
+                   $articlesTable = TableRegistry::get('Users');        
+                    $value = $articlesTable->get($value['id']); 
+                    $value->coming = $data_coming;
+                    $articlesTable->save($value);
+                    
+                }else{
+                    $data_coming = 0;
+                }
+            
+           
+            //var_dump($data);exit;
+            }
+        }
+        
         
     }
     
