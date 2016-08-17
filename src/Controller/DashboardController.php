@@ -80,7 +80,7 @@
             $training = $this->Trainings->get($club["training_id"], [
                 'contain' => []
             ]);
-            $max_playing = $training['number_of_playing'];
+            $max_playing = $training['number_of_users'];
             if($number > $max_playing){
                 $is_full = true;
             }else{

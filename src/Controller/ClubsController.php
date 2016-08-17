@@ -175,41 +175,26 @@ class ClubsController extends AppController
             'contain' => []
         ]);
         $time2 = new Time($training['training_time']);
-        $id_coming = $this->Auth->user('id');
-        //var_dump($id_coming);
-        
+        $id_coming = $this->Auth->user('id');    
         $user = $this->Users->get($id_coming, ['condition' => ['Users.id' => $id_coming]]);
-            $date_data = $user['coming_date'];
-           
+            $date_data = $user['coming_date'];          
             if(empty($date_data)){
                 $get_comings = array('monday'=>0,'tuesday'=>0,'wednesday'=>0,'thursday'=>0,'friday'=>0,'saturday'=>0,'sunday'=>0);
             }else{
-                $get_comings = json_decode($date_data);
-                
+                $get_comings = json_decode($date_data);                
             }
-             //var_dump($get_comings);exit;
         if ($this->request->is(['patch', 'post', 'put'])) {
-            //$id_user = $this->request->data['id'];
-            
-            //$data_show = array('monday','tuesday','wendesday','thursday','friday','saturday','sunday');
-            
             $save_comings = array('monday'=>0,'tuesday'=>0,'wednesday'=>0,'thursday'=>0,'friday'=>0,'saturday'=>0,'sunday'=>0);
             //var_dump($save_comings[0]);exit;
-            foreach($get_comings as $key => $get_coming){
-                
+            foreach($get_comings as $key => $get_coming){                
                  if($this->request->data[$key] == 1){
-                        $save_comings[$key] = 1;
-                        
+                        $save_comings[$key] = 1;                        
                     }
             }
-            
-            //var_dump($this->request->data[$key]);exit;
             $save_coming_data = json_encode($save_comings);
             $dataComing = $this->Users->find('all', [
                 'conditions'=>['Users.id '=>$id_coming]
-            ]);
-            
-            
+            ]);            
             foreach($dataComing as $data){
                 $articlesTable = TableRegistry::get('Users');
                 
@@ -217,18 +202,13 @@ class ClubsController extends AppController
                 $data->coming_date = $save_coming_data;
                 $articlesTable->save($data);
             }
-            
-                    
-            $user = $this->Users->patchEntity($user, $this->request->data);
+         $user = $this->Users->patchEntity($user, $this->request->data);
             //var_dump($user);exit;
             if ($this->Users->save($user)) {
-                $this->Flash->success(__($user->first_name . ' ' . $user->last_name . ' has been added.'));
-                //$coming==0;
-                
+                $this->Flash->success(__($user->first_name . ' ' . $user->last_name . ' has been added.'));              
             } else {
                 $this->Flash->error(__('The user could not be added. Please, try again.'));
-            }
-                    
+            }                  
         }
         $user = $this->Users->get($id_coming, ['condition' => ['user_id' => $id_coming]]);
         $date_data = $user['coming_date'];
@@ -255,34 +235,33 @@ class ClubsController extends AppController
         $block=$user['block'];
         $this->set('block',$block);
         $this->set('id',$id);
-
         $this->set('users', $this->paginate($this->Users));
+        $max_playing = $training['number_of_users'];
+            if($number > $max_playing){
+                $is_full = true;
+            }else{
+                $is_full = false;
+            }
+            //var_dump($max_playing);exit;
+            
+            $this->set('max_playing',$max_playing);
+            $this->set('is_full', $is_full);
     }
     public function detail($id= null){
         $this->loadModel('Trainings');
         $this->loadModel('Users');
         $club = $this->Clubs->get($id, [
             'contain' => ['Trainings', 'Users']
-        ]);
-        
-        
+        ]);       
         $training = $this->Trainings->get($club["training_id"], [
             'contain' => []
-        ]);
-        $max_playing = $training['number_of_users'];
-        $this->set('max_playing',$max_playing);
-        
-        
+        ]); 
         $time2 = new Time($training['training_time']);
-        $id_coming = $this->Auth->user('id'); 
-        
+        $id_coming = $this->Auth->user('id');     
         $user = $this->Users->get($id_coming, ['condition' => ['Users.id' => $id_coming],
                 'order' => ['Users.coming'=>'desc']]);
-        //var_dump($user);exit;
         $date_data = $user['coming_date'];
         $data_coming= $user['coming'];
-        
-        //var_dump($user->id);exit;
         if ($this->request->is(['patch', 'post', 'put'])) {
             $id_user = $this->request->data['id'];
             $user = $this->Users->get($id_user, ['condition' => ['Users.id' => $id_user]]);
@@ -300,8 +279,6 @@ class ClubsController extends AppController
         }
         $this->set('club', $club);
         $this->set('time2', $time2);
-       
-        //count users coming
         $user=$this->Auth->user();
         $club_id = $user['club_id'];
         $query= $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id,'Users.coming'=>1,'Users.block'=>0]]);        
@@ -309,13 +286,10 @@ class ClubsController extends AppController
         //var_dump($number);exit;
         $this->set('number',$number);
         $query2 = $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id]]);
-        $num_all=   $query2->count();
-        
+        $num_all=   $query2->count();        
         $this->set('num_all',$num_all);
-        //var_dump($num_all);exit;
         $block=$user['block'];
-        $this->set('block',$block);
-   
+        $this->set('block',$block); 
         $this->set('users', $this->paginate($this->Users));
    
     }

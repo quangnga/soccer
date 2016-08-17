@@ -191,9 +191,12 @@
          
             </tbody>
             
-            <td>                                   
-                                        <?= $this->Form->button(__('Submit')) ?>
-                     
+            <td>                                  
+               <?php if($is_full){?>
+                    <a onclick="alert('Training full, Try today after 7 pm to attend for tomorrow');return false;"><?= $this->Form->button(__('Submit')) ?></a>
+               <?php }else{?>
+                    <?= $this->Form->button(__('Submit')) ?>
+               <?php }?>     
            </td>
                         
                       
