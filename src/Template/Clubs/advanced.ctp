@@ -108,7 +108,7 @@
                  
                 
                            
-                $data_show = array('monday','tuesday','wendesday','thursday','friday','saturday','sunday');
+                $data_show = array('monday','tuesday','wednesday','thursday','friday','saturday','sunday');
                     //$allow = 0;
                     $today = strtolower(date("l"));
                     //$today='tuesday';

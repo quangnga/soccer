@@ -182,7 +182,7 @@ class ClubsController extends AppController
             $date_data = $user['coming_date'];
            
             if(empty($date_data)){
-                $get_comings = array('monday'=>0,'tuesday'=>0,'wendesday'=>0,'thursday'=>0,'friday'=>0,'saturday'=>0,'sunday'=>0);
+                $get_comings = array('monday'=>0,'tuesday'=>0,'wednesday'=>0,'thursday'=>0,'friday'=>0,'saturday'=>0,'sunday'=>0);
             }else{
                 $get_comings = json_decode($date_data);
                 
@@ -193,7 +193,7 @@ class ClubsController extends AppController
             
             //$data_show = array('monday','tuesday','wendesday','thursday','friday','saturday','sunday');
             
-            $save_comings = array('monday'=>0,'tuesday'=>0,'wendesday'=>0,'thursday'=>0,'friday'=>0,'saturday'=>0,'sunday'=>0);
+            $save_comings = array('monday'=>0,'tuesday'=>0,'wednesday'=>0,'thursday'=>0,'friday'=>0,'saturday'=>0,'sunday'=>0);
             //var_dump($save_comings[0]);exit;
             foreach($get_comings as $key => $get_coming){
                 
@@ -233,7 +233,7 @@ class ClubsController extends AppController
         $user = $this->Users->get($id_coming, ['condition' => ['user_id' => $id_coming]]);
         $date_data = $user['coming_date'];
             if(empty($date_data)){
-                $get_comings = array('monday'=>0,'tuesday'=>0,'wendesday'=>0,'thursday'=>0,'friday'=>0,'saturday'=>0,'sunday'=>0);
+                $get_comings = array('monday'=>0,'tuesday'=>0,'wednesday'=>0,'thursday'=>0,'friday'=>0,'saturday'=>0,'sunday'=>0);
             }else{
                 $get_comings = json_decode($date_data);
                 
@@ -269,7 +269,7 @@ class ClubsController extends AppController
         $training = $this->Trainings->get($club["training_id"], [
             'contain' => []
         ]);
-        $max_playing = $training['number_of_playing'];
+        $max_playing = $training['number_of_users'];
         $this->set('max_playing',$max_playing);
         
         

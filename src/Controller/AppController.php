@@ -227,7 +227,7 @@ class AppController extends Controller
 
                 if($data->reset_coming == 1){
                     
-                    $temp = array('monday'=>0,'tuesday'=>0,'wendesday'=>0,'thursday'=>0,'friday'=>0,'saturday'=>0,'sunday'=>0);
+                    $temp = array('monday'=>0,'tuesday'=>0,'wednesday'=>0,'thursday'=>0,'friday'=>0,'saturday'=>0,'sunday'=>0);
                     $data->coming_date = json_encode($temp) ;
                     $data->reset_coming = 1;
                     //var_dump($data->coming_date);exit;      
@@ -265,25 +265,33 @@ class AppController extends Controller
         $this->loadModel('Users');
         $user = $this->Users->find('all');
         $today = strtolower(date("l"));
+        $date_data = date("Y-m-d");
         foreach($user as $value){
-            
+            $articlesTable = TableRegistry::get('Users');        
+            $value = $articlesTable->get($value['id']);
             $get_comings = json_decode($value->coming_date);
-            $coming = $value->coming;
-            foreach($get_comings as $key => $get_coming){
-            //var_dump($get_coming);exit;
-                if($key==$today && $get_coming == 1){
-                   $data_coming = 1; 
-                   $articlesTable = TableRegistry::get('Users');        
-                    $value = $articlesTable->get($value['id']); 
-                    $value->coming = $data_coming;
-                    $articlesTable->save($value);
+            if(!empty($get_comings)){ 
+                
+                $coming = $value->coming;
+                foreach($get_comings as $key => $get_coming){
                     
-                }else{
-                    $data_coming = 0;
+                //var_dump($get_coming);exit;
+                    if($key==$today && $get_coming == 1){
+                        $data_coming = 1; 
+                        $value->coming = $data_coming;
+                        $value->date_reset = $date_data;
+                        $articlesTable->save($value);
+                        
+                    }
+                    
+               
+                //var_dump($data);exit;
                 }
             
-           
-            //var_dump($data);exit;
+            }else{
+                $temp = array('monday'=>0,'tuesday'=>0,'wednesday'=>0,'thursday'=>0,'friday'=>0,'saturday'=>0,'sunday'=>0);
+                $value->coming_date = json_encode($temp);
+                $articlesTable->save($value);
             }
         }
         
