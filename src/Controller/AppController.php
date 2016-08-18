@@ -102,14 +102,7 @@ class AppController extends Controller
        $this->getCity();
        $this->getComing();
        $clubByuser = $this->Auth->user('club_id');
-       $this->set('clubByuser',$clubByuser);
-       
-       
-       
-       
-       //var_dump($club);exit;
-       
-       
+       $this->set('clubByuser',$clubByuser);  
     }
     
     public function isAuthorizedAdmin()
@@ -197,13 +190,10 @@ class AppController extends Controller
     }*/
     public function resetComing(){
         $this->loadModel('Users');
-        $w= date("W");
+        $current_week= date("W");
         $datas = $this->Users->find('all');
-        //var_dump($datas);exit;
         foreach($datas as $data){
-            //var_dump($data->week );exit;
-            //set week value for new year
-            if($data->week == 52 && $w==1){
+            if($data->week == 52 && $current_week==1){
                 $articlesTable = TableRegistry::get('Users');
                 $data = $articlesTable->get($data['id']); // Return data with id 
                 $data->week = 1;
@@ -211,18 +201,17 @@ class AppController extends Controller
                 $articlesTable->save($data);
             }
             
-            if(($w > $data->week ) &&($data->reset_coming == 1)){
+            if(($current_week > $data->week ) &&($data->reset_coming == 1)){
                 $articlesTable = TableRegistry::get('Users');
-                $data = $articlesTable->get($data['id']); // Return data with id 
+                $data = $articlesTable->get($data['id']);
                 $data->reset_coming = 0;
-                $data->week = $w;
+                $data->week = $current_week;
                 $articlesTable->save($data);
             }
-            //var_dump($data->reset_coming);exit;
-            if((($data->reset_coming == 0) && ($w == $data->week))||($data->reset_coming == 0) ){
+            if((($data->reset_coming == 0) && ($current_week == $data->week))||($data->reset_coming == 0) ){
                 
                 $articlesTable = TableRegistry::get('Users');
-                $data = $articlesTable->get($data['id']); // Return data with id 
+                $data = $articlesTable->get($data['id']);
                 $data->reset_coming = 1;
 
                 if($data->reset_coming == 1){
@@ -258,7 +247,7 @@ class AppController extends Controller
               }  
            }
         }
-        //var_dump($d);exit;    
+   
         
     }
     public function getComing(){
@@ -266,7 +255,6 @@ class AppController extends Controller
         $date_data = date("Y-m-d");
         $user = $this->Users->find('all');
         $today = strtolower(date("l"));
-        //var_dump($today);exit;
         foreach($user as $value){
             $articlesTable = TableRegistry::get('Users');        
             $value = $articlesTable->get($value['id']);
@@ -281,10 +269,7 @@ class AppController extends Controller
                         $value->coming = $data_coming;
                         $value->date_reset = $date_data;
                         $articlesTable->save($value);                        
-                    }
-                    
-               
-                //var_dump($data);exit;
+                    }                   
                 }
             
             }else{

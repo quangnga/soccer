@@ -151,9 +151,31 @@
 ?>
         
         <tr '.$color.'>
-                <th><?= __('Order') ?></th> 
+                <?php
+                    if($is_admin==1||$is_admin == 2){
+                        
+                ?>
+                        <th><?= __('Order') ?></th> 
+                    
+                
+                <?php
+                    }
+                        
+                ?> 
+                
                 <th><?= __('Full name') ?></th>
-                 <th><?= __('Status') ?></th>
+                <?php
+                    if($is_admin==1||$is_admin == 2){
+                        
+                ?>
+                        <th><?= __('Status') ?></th>
+                    
+                
+                <?php
+                    }
+                        
+                ?> 
+                 
                 <th><?= __('Coming?') ?></th>
                 <th><?= __('comments') ?></th>
 
@@ -192,15 +214,7 @@
 
                 <td> <?= h($users->first_name)  ?> <?= h($users->last_name)  ?></td>
                 
-                 <td>
-                    <?php
-                        if($users['coming'] == 1){
-                    ?>
-                        <?= __('Playing')  ?> 
-                    <?php
-                        }
-                    ?>
-                </td>
+                 
                 <?= $this->Form->create($users) ?>
 
 
@@ -237,7 +251,7 @@
                          ?>
                          
                 </td>
-                <td></td>
+                
                
           
                  <?= $this->Form->end() ?>
@@ -339,15 +353,7 @@
         <tr '.$color.'>
                 
                 <td> <?= h($users->first_name)  ?> <?= h($users->last_name)  ?></td>
-                <td>
-                    <?php
-                        if($users['coming'] == 1){
-                    ?>
-                        <?= __('waiting')  ?> 
-                    <?php
-                        }
-                    ?>
-                </td>
+                
                 
                 <?= $this->Form->create($users) ?>
 
@@ -385,7 +391,7 @@
                          ?>
                          
                 </td>
-                <td></td>
+                
                 
           
                  <?= $this->Form->end() ?>
