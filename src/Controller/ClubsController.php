@@ -242,8 +242,6 @@ class ClubsController extends AppController
             }else{
                 $is_full = false;
             }
-            //var_dump($max_playing);exit;
-            
             $this->set('max_playing',$max_playing);
             $this->set('is_full', $is_full);
     }
