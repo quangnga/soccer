@@ -277,6 +277,8 @@ class ClubsController extends AppController
             
                     
         }
+        $max_playing = $training['number_of_users'];
+        $this->set('max_playing', $max_playing);
         $this->set('club', $club);
         $this->set('time2', $time2);
         $user=$this->Auth->user();
