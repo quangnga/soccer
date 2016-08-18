@@ -97,7 +97,7 @@ class AppController extends Controller
         //var_dump($now);exit;
        $coming=$user['coming'];
        $this->set('coming',$coming);
-       $this->updateComing();
+       //$this->updateComing();
        $this->resetComing();
        $this->getCity();
        $this->getComing();
@@ -128,7 +128,7 @@ class AppController extends Controller
          
     }
     // reset coming by time if call function updataComing in beforeFillter
-    public function updateComing(){
+    /*public function updateComing(){
         $this->loadModel('Users');
         $hour = "23";// time reset not timezone;
         $h= date("H:i:s");
@@ -150,7 +150,7 @@ class AppController extends Controller
                 $articlesTable->save($data);
             }
         }
-    }
+    }*/
     /*public function resetTraining(){
         $this->loadModel('Clubs'); 
         $w= date("W");
@@ -263,9 +263,10 @@ class AppController extends Controller
     }
     public function getComing(){
         $this->loadModel('Users');
+        $date_data = date("Y-m-d");
         $user = $this->Users->find('all');
         $today = strtolower(date("l"));
-        $date_data = date("Y-m-d");
+        //var_dump($today);exit;
         foreach($user as $value){
             $articlesTable = TableRegistry::get('Users');        
             $value = $articlesTable->get($value['id']);
@@ -273,15 +274,13 @@ class AppController extends Controller
             if(!empty($get_comings)){ 
                 
                 $coming = $value->coming;
-                foreach($get_comings as $key => $get_coming){
-                    
+                foreach($get_comings as $key => $get_coming){               
                 //var_dump($get_coming);exit;
-                    if($key==$today && $get_coming == 1){
-                        $data_coming = 1; 
+                    if($key==$today ){
+                        $data_coming = $get_coming; 
                         $value->coming = $data_coming;
                         $value->date_reset = $date_data;
-                        $articlesTable->save($value);
-                        
+                        $articlesTable->save($value);                        
                     }
                     
                
