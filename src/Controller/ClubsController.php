@@ -174,6 +174,7 @@ class ClubsController extends AppController
         $training = $this->Trainings->get($club["training_id"], [
             'contain' => []
         ]);
+        $register_time = date("Y-m-d H:i:s");
         $time2 = new Time($training['training_time']);
         $id_coming = $this->Auth->user('id');    
         $user = $this->Users->get($id_coming, ['condition' => ['Users.id' => $id_coming]]);
@@ -200,6 +201,7 @@ class ClubsController extends AppController
                 
                 $data = $articlesTable->get($data['id']); 
                 $data->coming_date = $save_coming_data;
+                $data->register_time = $register_time;
                 $articlesTable->save($data);
             }
          $user = $this->Users->patchEntity($user, $this->request->data);
@@ -245,19 +247,21 @@ class ClubsController extends AppController
             $this->set('max_playing',$max_playing);
             $this->set('is_full', $is_full);
     }
+    
+    
+    
     public function detail($id= null){
         $this->loadModel('Trainings');
         $this->loadModel('Users');
         $club = $this->Clubs->get($id, [
             'contain' => ['Trainings', 'Users']
-        ]);       
+        ]);     
         $training = $this->Trainings->get($club["training_id"], [
             'contain' => []
         ]); 
         $time2 = new Time($training['training_time']);
         $id_coming = $this->Auth->user('id');     
-        $user = $this->Users->get($id_coming, ['condition' => ['Users.id' => $id_coming],
-                'order' => ['Users.coming'=>'desc']]);
+        $user = $this->Users->get($id_coming, ['condition' => ['Users.id' => $id_coming],]);
         $date_data = $user['coming_date'];
         $data_coming= $user['coming'];
         if ($this->request->is(['patch', 'post', 'put'])) {
@@ -291,7 +295,39 @@ class ClubsController extends AppController
         $block=$user['block'];
         $this->set('block',$block); 
         $this->set('users', $this->paginate($this->Users));
-   
+        
+        //test
+        
+        $show_member = array();
+        $datas = array(); 
+        $i=0;
+        
+        
+        
+        foreach($club->users as $value){
+            $temp = json_decode($value);
+            //          
+            $array = get_object_vars($temp);
+            //var_dump($array['coming']);
+            if($array['coming']==1){
+              $datas[$i] = $array;
+              $i++;  
+            }  
+            
+        }
+        $show_member = $datas;
+        
+        //$sortedByName = sorted($show_member, itemGetter('name'));
+        
+        
+        usort($show_member, array($this, "__cmp"));
+        //var_dump($show_member);exit;
+        
+        $this->set('show_member',$show_member);           
     }
+    private function __cmp($a, $b)
+        {
+            return 1 * strcmp($a['register_time'], $b['register_time']);
+        }
     
 }
