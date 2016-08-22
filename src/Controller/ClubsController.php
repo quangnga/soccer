@@ -260,14 +260,33 @@ class ClubsController extends AppController
             'contain' => []
         ]); 
         $time2 = new Time($training['training_time']);
-        $id_coming = $this->Auth->user('id');     
-        $user = $this->Users->get($id_coming, ['condition' => ['Users.id' => $id_coming],]);
-        $date_data = $user['coming_date'];
-        $data_coming= $user['coming'];
+        $id_coming = $this->Auth->user('id');
+        $dataComing = $this->Users->find('all', [
+                'conditions'=>['Users.id '=>$id_coming]
+            ]);                    
+        $user = $this->Users->get($id_coming, ['condition' => ['Users.id' => $id_coming],]);             
+        
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $id_user = $this->request->data['id'];
-            $user = $this->Users->get($id_user, ['condition' => ['Users.id' => $id_user]]);
-            $user = $this->Users->patchEntity($user, $this->request->data);
+            //$value = $this->request->data['coming'];
+            
+            foreach($dataComing as $data){
+                $articlesTable = TableRegistry::get('Users');
+                $data = $articlesTable->get($data['id']); 
+                $temp =  json_decode($data['coming_date']);
+                $array = get_object_vars($temp);
+                foreach($array as $key=>$value){
+                    if($key == strtolower(date("l"))){
+                         
+                        $array[$key] = (int)$this->request->data['coming'];
+                        
+                        
+                    }
+                } 
+            $temp2=json_encode($array);
+            $data->coming_date = $temp2;
+            //$data->coming_date = $temp2;
+            $articlesTable->save($data);
+            }   
             
             if ($this->Users->save($user)) {
                 $this->Flash->success(__($user->first_name . ' ' . $user->last_name . ' has been added.'));
@@ -275,10 +294,9 @@ class ClubsController extends AppController
                 
             } else {
                 $this->Flash->error(__('The user could not be added. Please, try again.'));
-            }
-            
-                    
+            }                
         }
+        //var_dump($temp2);exit;
         $max_playing = $training['number_of_users'];
         $this->set('max_playing', $max_playing);
         $this->set('club', $club);
