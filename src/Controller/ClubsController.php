@@ -283,7 +283,9 @@ class ClubsController extends AppController
                     }
                 } 
             $temp2=json_encode($array);
+            
             $data->coming_date = $temp2;
+            $data->register_time = date("Y-m-d H:i:s");
             //$data->coming_date = $temp2;
             $articlesTable->save($data);
             }   
@@ -301,8 +303,9 @@ class ClubsController extends AppController
         $this->set('max_playing', $max_playing);
         $this->set('club', $club);
         $this->set('time2', $time2);
+       
         $user=$this->Auth->user();
-        $club_id = $user['club_id'];
+        $club_id = $club->id;
         $query= $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id,'Users.coming'=>1,'Users.block'=>0]]);        
         $number = $query->count();
         //var_dump($number);exit;
@@ -314,14 +317,12 @@ class ClubsController extends AppController
         $this->set('block',$block); 
         $this->set('users', $this->paginate($this->Users));
         
-        //test
+        
+        //count order
         
         $show_member = array();
         $datas = array(); 
         $i=0;
-        
-        
-        
         foreach($club->users as $value){
             $temp = json_decode($value);
             //          
@@ -333,11 +334,7 @@ class ClubsController extends AppController
             }  
             
         }
-        $show_member = $datas;
-        
-        //$sortedByName = sorted($show_member, itemGetter('name'));
-        
-        
+        $show_member = $datas;   
         usort($show_member, array($this, "__cmp"));
         //var_dump($show_member);exit;
         
