@@ -225,7 +225,7 @@
                 <td> <?= h($key+1)?> </td>
                 <td> <?= h($users['first_name'])  ?> <?= h($users['last_name'])  ?></td>
                 <?php
-                    if($key+1 <= $max_playing){
+                    if($key+1 <= $number_playing){
                  ?>
                     <td> <?= __('Playing')?> </td>
                     
@@ -319,7 +319,18 @@ if($is_admin == 0){
                 <td>
                         
                         <?php if($is_admin == 0 || ($is_admin == 2 && $users['id'] == $id)){?>
-                                <?= $this->Form->button(__('Submit')) ?>
+                                <?php
+                                    if($is_full){
+
+                                ?>
+                                   <a onclick="alert('Training full, Try today after 7 pm to attend for tomorrow');return false;"><?= $this->Form->button(__('Submit'))  ?></a> 
+                                <?php
+                                    }else{
+                                ?>
+                                    <?= $this->Form->button(__('Submit')) ?>
+                                <?php
+                                    }
+                                ?>
                         <?php
                          }
                          ?>

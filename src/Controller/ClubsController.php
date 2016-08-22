@@ -238,14 +238,18 @@ class ClubsController extends AppController
         $this->set('block',$block);
         $this->set('id',$id);
         $this->set('users', $this->paginate($this->Users));
-        $max_playing = $training['number_of_users'];
-            if($number > $max_playing){
+        $max_users = $training['number_of_users'];
+        $number_playing = $training['number_of_playing'];
+        var_dump($number_playing);exit;
+        
+            if($number > $max_users){
                 $is_full = true;
             }else{
                 $is_full = false;
             }
-            $this->set('max_playing',$max_playing);
+            $this->set('max_users',$max_users);
             $this->set('is_full', $is_full);
+            $this->set('number_playing', $number_playing);
     }
     
     
@@ -317,7 +321,18 @@ class ClubsController extends AppController
         $this->set('block',$block); 
         $this->set('users', $this->paginate($this->Users));
         
+        $max_users = $training['number_of_users'];
+        $number_playing = $training['number_of_playing'];
+        //var_dump($number_playing);exit;
         
+        if($number > $max_users){
+            $is_full = true;
+        }else{
+            $is_full = false;
+        }
+        $this->set('max_users',$max_users);
+        $this->set('is_full', $is_full);
+        $this->set('number_playing', $number_playing);
         //count order
         
         $show_member = array();
