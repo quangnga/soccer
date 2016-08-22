@@ -206,7 +206,7 @@ class UsersController extends AppController
         return $this->redirect(['controller' => 'Users', 'action' => 'index', '']);
     }
 
-           public function reset_redirect(){
+        public function reset_redirect(){
                
         $this->Auth->Logout();
         return $this->redirect('/Users/resetPassword');
@@ -245,11 +245,6 @@ class UsersController extends AppController
     {
         return $this->redirect('/Users');
     }
-
-    //public function addUser()
-    //{
-      //  return $this->redirect('/Users/add');
-    //}
     
     public function changePassword()
     {
