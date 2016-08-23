@@ -41,6 +41,29 @@
                         </div>
 
                     </div>
+                    <div  class="form-group col-md-6">
+                            <label>City</label> 
+                            <select name="city_id">
+                                <option value="0"> ---Select City---</option>
+                                <?php
+                                    foreach($name_city as $values){?>
+                                    <option value="<?php echo ($values->id) ?>"> <?php echo ($values->city_name) ?></option>
+                                <?php        
+                                    }
+                                ?>
+                            </select>
+                    </div>
+                    <div  class="form-group col-md-6">
+                        <div class="form-group">
+                            <?php echo $this->Form->input('number_users', array('class' => 'form-control', 'placeholder' => 'Enter First club name', 'label' => ' Number of users *')); ?>
+                        </div>
+                    </div>
+                    <div  class="form-group col-md-6">
+                        <div class="form-group">
+                            <?php echo $this->Form->input('number_playing', array('class' => 'form-control', 'placeholder' => 'Enter First club name', 'label' => ' Number of playing *')); ?>
+                        </div>
+                    </div> 
+                        
 
                     <div  class="form-group col-md-6">
                         <div class="form-group">

@@ -38,6 +38,7 @@ class UsersController extends AppController
                 $this->Auth->allow(['index','getclubs','getregions','logout','edit','view','resetPassword','forgotpassword','resetPasswordSent','changePassword','sendCodeActive']);
             }
             $this->Auth->allow(['register']);
+            
     }
     
 

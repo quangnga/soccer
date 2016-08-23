@@ -41,8 +41,7 @@ class AppController extends Controller
     
 
     public function initialize()
-    {   parent::initialize();
-        
+    {   parent::initialize(); 
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
         $this->loadComponent('Auth', [
@@ -102,7 +101,9 @@ class AppController extends Controller
        $this->getCity();
        $this->getComing();
        $clubByuser = $this->Auth->user('club_id');
-       $this->set('clubByuser',$clubByuser);  
+       $this->set('clubByuser',$clubByuser); 
+       
+       
     }
     
     public function isAuthorizedAdmin()

@@ -36,11 +36,9 @@ class ClubsController extends AppController
             'contain' => ['Trainings']
         ];
         $clubs = $this->paginate($this->Clubs); 
-        
-           
         $this->set(compact('clubs'));
         $this->set('_serialize', ['clubs']);
-        $test= $this->Cities->find('all');
+        $test= $this->Cities->find('list');
         //var_dump($test);exit;
         
         
@@ -68,6 +66,8 @@ class ClubsController extends AppController
         else{
             $this->Auth->allow(['index','logout','detail','view','advanced']);
         }
+        
+        
     }
    
     /**
@@ -94,6 +94,8 @@ class ClubsController extends AppController
      */
     public function add()
     {
+        $this->loadModel('Cities');
+        $this->loadModel('Trainings');
         $club = $this->Clubs->newEntity();
         if ($this->request->is('post')) {
             $club = $this->Clubs->patchEntity($club, $this->request->data);
@@ -103,10 +105,28 @@ class ClubsController extends AppController
             } else {
                 $this->Flash->error(__('The club could not be saved. Please, try again.'));
             }
+            $id_training = $this->request->data['training_id'];
+            $number_user = (int)$this->request->data['number_users'];
+            //var_dump($number_user);exit;
+            $number_playing = (int)$this->request->data['number_playing'];
+            //if(!empty($number_user,$number_playing)){
+                $temp = $this->Trainings->find('all',  [
+                'conditions'=>['Trainings.id'=>$id_training]]);
+                foreach($temp as $data){
+                    $articlesTable = TableRegistry::get('Trainings');
+                    $data = $articlesTable->get($data['id']); 
+                    $data->number_of_users = $number_user;
+                    $data->number_of_playing = $number_playing;
+                    $articlesTable->save($data);
+                }
         }
         $trainings = $this->Clubs->Trainings->find('list', ['limit' => 200]);
+        //$cities = $this->Clubs->Cities->find('list', ['limit' => 200]);
         $this->set(compact('club', 'trainings'));
         $this->set('_serialize', ['club']);
+        $name_city= $this->Cities->find('all');
+        $this->set('name_city', $name_city);
+        
     }
 
     /**
