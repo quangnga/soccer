@@ -38,7 +38,7 @@ class ClubsController extends AppController
         $clubs = $this->paginate($this->Clubs); 
         $this->set(compact('clubs'));
         $this->set('_serialize', ['clubs']);
-        $test= $this->Cities->find('list');
+        //$test= $this->Cities->find('all');
         //var_dump($test);exit;
         
         
@@ -260,7 +260,7 @@ class ClubsController extends AppController
         $this->set('users', $this->paginate($this->Users));
         $max_users = $training['number_of_users'];
         $number_playing = $training['number_of_playing'];
-        var_dump($number_playing);exit;
+        //var_dump($number_playing);exit;
         
             if($number > $max_users){
                 $is_full = true;

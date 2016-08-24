@@ -69,9 +69,7 @@ class ClubsTable extends Table
             ->requirePresence('address', 'create')
             ->notEmpty('address');
 
-        $validator
-            ->requirePresence('city', 'create')
-            ->notEmpty('city');
+        
 
         return $validator;
     }

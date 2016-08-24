@@ -55,12 +55,12 @@
                     </div>
                     <div  class="form-group col-md-6">
                         <div class="form-group">
-                            <?php echo $this->Form->input('number_users', array('class' => 'form-control', 'placeholder' => 'Enter First club name', 'label' => ' Number of users *')); ?>
+                            <?php echo $this->Form->input('number_users', array('class' => 'form-control', 'placeholder' => 'Enter number of users', 'label' => ' Number of users *')); ?>
                         </div>
                     </div>
                     <div  class="form-group col-md-6">
                         <div class="form-group">
-                            <?php echo $this->Form->input('number_playing', array('class' => 'form-control', 'placeholder' => 'Enter First club name', 'label' => ' Number of playing *')); ?>
+                            <?php echo $this->Form->input('number_playing', array('class' => 'form-control', 'placeholder' => 'Enter number of playing', 'label' => ' Number of playing *')); ?>
                         </div>
                     </div> 
                         
@@ -93,11 +93,6 @@
                         </div>
                     </div>
 
-                    <div  class="form-group col-md-6">
-                        <div class="form-group">
-                            <?php echo $this->Form->input('city', array('class' => 'form-control', 'placeholder' => 'Enter city', 'maxlength' => '20')); ?>
-                        </div>
-                    </div>
 
                     <div class="form-group col-md-6">
                         <div class="form-group">
