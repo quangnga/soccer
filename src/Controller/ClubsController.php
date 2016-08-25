@@ -323,11 +323,8 @@ class ClubsController extends AppController
             }                
         }
         //var_dump($temp2);exit;
-        $max_playing = $training['number_of_users'];
-        $this->set('max_playing', $max_playing);
         $this->set('club', $club);
         $this->set('time2', $time2);
-       
         $user=$this->Auth->user();
         $club_id = $club->id;
         $query= $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id,'Users.coming'=>1,'Users.block'=>0]]);        
@@ -339,12 +336,10 @@ class ClubsController extends AppController
         $this->set('num_all',$num_all);
         $block=$user['block'];
         $this->set('block',$block); 
-        $this->set('users', $this->paginate($this->Users));
-        
+        $this->set('users', $this->paginate($this->Users)); 
         $max_users = $training['number_of_users'];
         $number_playing = $training['number_of_playing'];
-        //var_dump($number_playing);exit;
-        
+        //var_dump($number_playing);exit;        
         if($number > $max_users){
             $is_full = true;
         }else{

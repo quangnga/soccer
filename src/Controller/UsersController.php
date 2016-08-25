@@ -106,6 +106,28 @@ class UsersController extends AppController
     {
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
+            $club_id = $this->request->data('club_id') ;
+            $query= $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id,'Users.coming'=>1,'Users.block'=>0]]);        
+            $number = $query->count();
+            //var_dump($number);exit;
+            $this->set('number',$number);
+            $query2 = $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id]]);
+            $num_all=   $query2->count();        
+            $this->set('num_all',$num_all);  
+            $this->loadModel('Trainings');
+            $training = $this->Trainings->find('all', ['conditions' => ['Trainings.id' => $club_id]]);
+            foreach($training as $values){
+                $max_users = $values['number_of_users'];
+                $number_playing = $values['number_of_playing'];
+                
+            }            
+            if($number > $max_users){
+                $is_full = true;
+            }else{
+                $is_full = false;
+            }
+            $this->set('number_playing', $number_playing);
+            $this->set('max_users',$max_users);
             $user = $this->Users->patchEntity($user, $this->request->data);
             if ($this->Users->save($user)) {
                 $this->Flash->success(__($user->first_name . ' ' . $user->last_name . ' has been added.'));
@@ -116,6 +138,8 @@ class UsersController extends AppController
         $clubs = $this->Users->Clubs->find('list', ['limit' => 200]);
         $this->set(compact('user', 'clubs'));
         $this->set('_serialize', ['user']);
+        $this->set('is_full', $is_full);
+        
     }
 
     public function default_permissions($id=null){
