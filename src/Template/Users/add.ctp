@@ -104,15 +104,7 @@
 
                     <a href="<?php echo $this->Url->build(["controller" => "Users", "action" => "index", ""]) ?>"><button type="button" class="btn btn-default">Cancel</button></a>
 
-                        <?php if($is_full){ ?>
-                            
-                            <a href="" onclick="alert('Training full, Try today after 7 pm to attend for tomorrow');return false;">
-                                <?= $this->Form->button(__('Submit'), array('class' => 'btn btn-default', 'formnovalidate' => true)) ?>
-                            </a>    
-                                    
-                        <?php  }else{?>
-                                <?= $this->Form->button(__('Submit'), array('class' => 'btn btn-default', 'formnovalidate' => true)) ?>
-                        <?php  }?>
+                         <?= $this->Form->button(__('Submit'), array('class' => 'btn btn-default', 'formnovalidate' => true)) ?>
                     
                     
                     

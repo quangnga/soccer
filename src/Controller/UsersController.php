@@ -105,7 +105,8 @@ class UsersController extends AppController
     public function add()
     {
         $user = $this->Users->newEntity();
-        $is_full = false;
+        $is_full = '';
+        $this->set('is_full', $is_full);
         if ($this->request->is('post')) {
             $club_id = $this->request->data('club_id') ;
             //var_dump($club_id);exit;
@@ -132,23 +133,31 @@ class UsersController extends AppController
                 
                 
             }           
-            if($number > $max_users){
+            if($number >= $max_users){
                 $is_full = true;
             }else{
                 $is_full = false;
             }
-            
+            $this->set('is_full', $is_full);
             $this->set('number_playing', $number_playing);
             $this->set('max_users',$max_users);
             $user = $this->Users->patchEntity($user, $this->request->data);
-            if ($this->Users->save($user)) {
+            if (($this->Users->save($user))&&($is_full = false)) {
                 $this->Flash->success(__($user->first_name . ' ' . $user->last_name . ' has been added.'));
                 return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The user could not be added. Please, try again.'));
+            }else{
+                if($is_full = true) {
+                    $this->Flash->error(__('Training full, Try today after 7 pm to attend for tomorrow'));
+                    $this->Users->delete($user);
+                }else{
+                    $this->Flash->error(__('The user could not be saved. Please, try again.'));
+                }
+                $user = $this->Users->newEntity();
+                
             }
         }
-        $this->set('is_full', $is_full);
+        
+        //var_dump($is_full);exit;
         $clubs = $this->Users->Clubs->find('list', ['limit' => 200]);
         $this->set(compact('user', 'clubs'));
         $this->set('_serialize', ['user']);
