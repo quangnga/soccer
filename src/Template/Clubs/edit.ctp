@@ -58,13 +58,45 @@
                             <?php echo $this->Form->input('club_name', array('class' => 'form-control', 'placeholder' => 'Enter Club Name', 'maxlength' => '45', 'label' => 'Club Name *')); ?>
                         </div>
                     </div>
-
-
                     <div  class="form-group col-md-6">
                         <div class="form-group">
                             <?php echo $this->Form->input('club_email', array('class' => 'form-control', 'placeholder' => 'Enter Club Email', 'maxlength' => '45', 'label' => 'Club email *')); ?>
                         </div>
                     </div>
+                    
+                    
+                    
+                    <div class="row">
+                        <div  class="form-group col-md-6">
+                            <div class="form-group">
+                                <?php echo $this->Form->input('training_id', ['options' => $trainings , array('type' => 'options', 'class' => 'form-control')]); ?>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div  class="form-group col-md-6">
+                        <div class="form-group">
+                            <?php echo $this->Form->input('number_users', array('class' => 'form-control', 'placeholder' => 'Enter number of users', 'label' => ' Number of users *')); ?>
+                        </div>
+                    </div>
+                    <div  class="form-group col-md-6">
+                        <div class="form-group">
+                            <?php echo $this->Form->input('number_playing', array('class' => 'form-control', 'placeholder' => 'Enter number of playing', 'label' => ' Number of playing *')); ?>
+                        </div>
+                    </div> 
+                    <div  class="form-group col-md-6">
+                        <div class="form-group">
+                            <?php echo $this->Form->input('open_training', array('type' => 'time','class' => 'form-control', 'label' => '  Time open training ')); ?>
+                        </div>
+                    </div>
+                    <div  class="form-group col-md-6">
+                        <div class="form-group">
+                            <?php echo $this->Form->input('close_training',array('type' => 'time','class' => 'form-control', 'label' => '  Time close training ')); ?>
+                        </div>
+                    </div>
+
+
+                    
 
                     <div  class="form-group col-md-6">
                         <div class="form-group">

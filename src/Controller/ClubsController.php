@@ -94,17 +94,11 @@ class ClubsController extends AppController
      */
     public function add()
     {
-        $this->loadModel('Cities');
+         $this->loadModel('Cities');
         $this->loadModel('Trainings');
         $club = $this->Clubs->newEntity();
         if ($this->request->is('post')) {
             $club = $this->Clubs->patchEntity($club, $this->request->data);
-            if ($this->Clubs->save($club)) {
-                $this->Flash->success(__('The club has been saved.'));
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The club could not be saved. Please, try again.'));
-            }
             $id_training = $this->request->data['training_id'];
             $number_user = (int)$this->request->data['number_users'];
             //var_dump($number_user);exit;
@@ -119,6 +113,13 @@ class ClubsController extends AppController
                     $data->number_of_playing = $number_playing;
                     $articlesTable->save($data);
                 }
+            if ($this->Clubs->save($club)) {
+                $this->Flash->success(__('The club has been saved.'));
+                return $this->redirect(['action' => 'index']);
+            } else {
+                $this->Flash->error(__('The club could not be saved. Please, try again.'));
+            }
+            
         }
         $trainings = $this->Clubs->Trainings->find('list', ['limit' => 200]);
         //$cities = $this->Clubs->Cities->find('list', ['limit' => 200]);
@@ -126,7 +127,6 @@ class ClubsController extends AppController
         $this->set('_serialize', ['club']);
         $name_city= $this->Cities->find('all');
         $this->set('name_city', $name_city);
-        
     }
 
     /**
@@ -140,20 +140,50 @@ class ClubsController extends AppController
     {
         $club = $this->Clubs->get($id, [
             'contain' => []
-        ]);
-        //var_dump($club);exit;
+        ]); 
+             
+        $this->loadModel('Cities');
+        $this->loadModel('Trainings');
+        //$club = $this->Clubs->newEntity();
         if ($this->request->is(['patch', 'post', 'put'])) {
             $club = $this->Clubs->patchEntity($club, $this->request->data);
+            //var_dump($club);exit; 
+            $id_training = $this->request->data['training_id'];
+                $number_user = (int)$this->request->data['number_users'];
+                $number_playing = (int)$this->request->data['number_playing'];
+                $temp1= $this->request->data['open_training'];
+                $open_time = $temp1['hour'].':'.$temp1['minute'];
+                $temp2 = $this->request->data['close_training'];
+                $close_time = $temp2['hour'].':'.$temp2['minute'];
+                //var_dump($open_time);exit;
+                //if(!empty($number_user,$number_playing)){
+                $temp = $this->Trainings->find('all',  [
+                'conditions'=>['Trainings.id'=>$id_training]]);
+                foreach($temp as $data){
+                    $articlesTable = TableRegistry::get('Trainings');
+                    $data = $articlesTable->get($data['id']); 
+                    $data->number_of_users = $number_user;
+                    $data->number_of_playing = $number_playing;
+                    $data->open_training = $open_time;
+                    $data->close_training = $close_time;
+                    $articlesTable->save($data);
+                }
             if ($this->Clubs->save($club)) {
                 $this->Flash->success(__('The club has been saved.'));
                 return $this->redirect(['action' => 'index']);
+                
+                
             } else {
                 $this->Flash->error(__('The club could not be saved. Please, try again.'));
             }
+            
         }
         $trainings = $this->Clubs->Trainings->find('list', ['limit' => 200]);
+        //$cities = $this->Clubs->Cities->find('list', ['limit' => 200]);
         $this->set(compact('club', 'trainings'));
         $this->set('_serialize', ['club']);
+        $name_city= $this->Cities->find('all');
+        $this->set('name_city', $name_city);
     }
 
     /**

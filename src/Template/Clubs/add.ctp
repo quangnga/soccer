@@ -32,7 +32,7 @@
                             * Indicates required field
                         </div>
                     </div>
-
+                    
                     <div class="row">
                         <div  class="form-group col-md-6">
                             <div class="form-group">
@@ -41,6 +41,7 @@
                         </div>
 
                     </div>
+                    
                     <div  class="form-group col-md-6">
                             <label>City</label> 
                             <select name="city_id">
