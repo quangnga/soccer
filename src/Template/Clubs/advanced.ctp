@@ -191,12 +191,18 @@
          
             </tbody>
             
-            <td>                                  
-               <?php if($is_full){?>
-                    <a onclick="alert('Training full, Try today after 7 pm to attend for tomorrow');return false;"><?= $this->Form->button(__('Submit')) ?></a>
-               <?php }else{?>
-                    <?= $this->Form->button(__('Submit')) ?>
-               <?php }?>     
+            <td>
+                <?php
+                    if($is_closed){
+                ?>
+                      <a onclick="alert('Training Closed, Try attend for tomorrow');return false;"><?= $this->Form->button(__('Submit')) ?></a> 
+                <?php }else{?>                           
+                       <?php if($is_full){?>
+                            <a onclick="alert('Training full, Try today after 7 pm to attend for tomorrow');return false;"><?= $this->Form->button(__('Submit')) ?></a>
+                       <?php }else{?>
+                            <?= $this->Form->button(__('Submit')) ?>
+                       <?php }?> 
+                 <?php }?>    
            </td>
                         
                       

@@ -31,10 +31,6 @@ class ClubsController extends AppController
 		$id = $this->Auth->user('id');
         $username = $this->Auth->user('username');        
         $club = $this->Auth->user('club_id'); 
-        
-        $this->paginate = [
-            'contain' => ['Trainings']
-        ];
         $clubs = $this->paginate($this->Clubs); 
         $this->set(compact('clubs'));
         $this->set('_serialize', ['clubs']);
@@ -80,7 +76,7 @@ class ClubsController extends AppController
     public function view($id = null)
     {
         $club = $this->Clubs->get($id, [
-            'contain' => ['Trainings', 'Users']
+            'contain' => [ 'Users']
         ]);
         //var_dump($club);exit;
         $this->set('club', $club);
@@ -94,39 +90,24 @@ class ClubsController extends AppController
      */
     public function add()
     {
-         $this->loadModel('Cities');
-        $this->loadModel('Trainings');
+        $this->loadModel('Cities');
+        
         $club = $this->Clubs->newEntity();
-        if ($this->request->is('post')) {
+       if ($this->request->is('post')) {
             $club = $this->Clubs->patchEntity($club, $this->request->data);
-            $id_training = $this->request->data['training_id'];
-            $number_user = (int)$this->request->data['number_users'];
-            //var_dump($number_user);exit;
-            $number_playing = (int)$this->request->data['number_playing'];
-            //if(!empty($number_user,$number_playing)){
-                $temp = $this->Trainings->find('all',  [
-                'conditions'=>['Trainings.id'=>$id_training]]);
-                foreach($temp as $data){
-                    $articlesTable = TableRegistry::get('Trainings');
-                    $data = $articlesTable->get($data['id']); 
-                    $data->number_of_users = $number_user;
-                    $data->number_of_playing = $number_playing;
-                    $articlesTable->save($data);
-                }
             if ($this->Clubs->save($club)) {
-                $this->Flash->success(__('The club has been saved.'));
+                $this->Flash->success(__('The training has been saved.'));
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__('The club could not be saved. Please, try again.'));
+                $this->Flash->error(__('The training could not be saved. Please, try again.'));
             }
-            
         }
-        $trainings = $this->Clubs->Trainings->find('list', ['limit' => 200]);
-        //$cities = $this->Clubs->Cities->find('list', ['limit' => 200]);
-        $this->set(compact('club', 'trainings'));
+        $this->set(compact('club'));
         $this->set('_serialize', ['club']);
+        //$cities = $this->Clubs->Cities->find('list', ['limit' => 200]);
         $name_city= $this->Cities->find('all');
         $this->set('name_city', $name_city);
+        
     }
 
     /**
@@ -141,33 +122,29 @@ class ClubsController extends AppController
         $club = $this->Clubs->get($id, [
             'contain' => []
         ]); 
-             
+        
+        // var_dump($club->id);exit;    
         $this->loadModel('Cities');
-        $this->loadModel('Trainings');
-        //$club = $this->Clubs->newEntity();
         if ($this->request->is(['patch', 'post', 'put'])) {
             $club = $this->Clubs->patchEntity($club, $this->request->data);
-            //var_dump($club);exit; 
-            $id_training = $this->request->data['training_id'];
-                $number_user = (int)$this->request->data['number_users'];
-                $number_playing = (int)$this->request->data['number_playing'];
-                $temp1= $this->request->data['open_training'];
-                $open_time = $temp1['hour'].':'.$temp1['minute'];
-                $temp2 = $this->request->data['close_training'];
-                $close_time = $temp2['hour'].':'.$temp2['minute'];
-                //var_dump($open_time);exit;
-                //if(!empty($number_user,$number_playing)){
-                $temp = $this->Trainings->find('all',  [
-                'conditions'=>['Trainings.id'=>$id_training]]);
-                foreach($temp as $data){
-                    $articlesTable = TableRegistry::get('Trainings');
-                    $data = $articlesTable->get($data['id']); 
-                    $data->number_of_users = $number_user;
-                    $data->number_of_playing = $number_playing;
-                    $data->open_training = $open_time;
-                    $data->close_training = $close_time;
-                    $articlesTable->save($data);
-                }
+            //var_dump($club);exit;
+            $data = $this->Clubs->find('all', [
+                'conditions'=>['Clubs.id '=>$club->id]
+            ]);
+            $date_temp1 = $this->request->data['start_day'];
+            $start_day = $date_temp1['year'].'-'.$date_temp1['month'].'-'.$date_temp1['day'];    
+            $date_temp2 = $this->request->data['end_day'];
+            $end_day = $date_temp2['year'].'-'.$date_temp2['month'].'-'.$date_temp2['day'];           
+            foreach($data as $value){
+                $articlesTable = TableRegistry::get('Clubs');
+                $value = $articlesTable->get($value['id']); 
+                //var_dump($this->request->data['start_day']);exit;
+                $value->start_date =$start_day;                
+                $value->end_date = $end_day;
+                $articlesTable->save($value);
+            } 
+            
+            
             if ($this->Clubs->save($club)) {
                 $this->Flash->success(__('The club has been saved.'));
                 return $this->redirect(['action' => 'index']);
@@ -178,8 +155,6 @@ class ClubsController extends AppController
             }
             
         }
-        $trainings = $this->Clubs->Trainings->find('list', ['limit' => 200]);
-        //$cities = $this->Clubs->Cities->find('list', ['limit' => 200]);
         $this->set(compact('club', 'trainings'));
         $this->set('_serialize', ['club']);
         $name_city= $this->Cities->find('all');
@@ -216,16 +191,29 @@ class ClubsController extends AppController
             
     public function advanced($id=null){
         
-        $this->loadModel('Trainings');
+        
         $this->loadModel('Users');
         $club = $this->Clubs->get($id, [
-            'contain' => ['Trainings', 'Users']
+            'contain' => [ 'Users']
         ]);
-        $training = $this->Trainings->get($club["training_id"], [
-            'contain' => []
-        ]);
+       
+        $temp = $club['close_training'];
+        $time_close = date("H:i:s",strtotime($temp));
+        $this->set('time_close',$time_close);
+        
+        $time_now = date("H:i:s");
+        $this->set('time_now',$time_now);
+        
+        if($time_now>=$time_close){
+            $is_closed = true;
+        }else{
+            $is_closed = false;
+        }
+        $this->set('is_closed',$is_closed);
+        
+        //var_dump($time_close);exit; 
         $register_time = date("Y-m-d H:i:s");
-        $time2 = new Time($training['training_time']);
+        $time2 = new Time($club->training_time);
         $id_coming = $this->Auth->user('id');    
         $user = $this->Users->get($id_coming, ['condition' => ['Users.id' => $id_coming]]);
             $date_data = $user['coming_date'];          
@@ -288,8 +276,8 @@ class ClubsController extends AppController
         $this->set('block',$block);
         $this->set('id',$id);
         $this->set('users', $this->paginate($this->Users));
-        $max_users = $training['number_of_users'];
-        $number_playing = $training['number_of_playing'];
+        $max_users = $club['number_of_users'];
+        $number_playing = $club['number_of_playing'];
         //var_dump($number_playing);exit;
         
             if($number > $max_users){
@@ -300,20 +288,36 @@ class ClubsController extends AppController
             $this->set('max_users',$max_users);
             $this->set('is_full', $is_full);
             $this->set('number_playing', $number_playing);
+            
+            
     }
     
     
     
     public function detail($id= null){
-        $this->loadModel('Trainings');
+        
         $this->loadModel('Users');
         $club = $this->Clubs->get($id, [
-            'contain' => ['Trainings', 'Users']
+            'contain' => [ 'Users']
         ]);     
-        $training = $this->Trainings->get($club["training_id"], [
-            'contain' => []
-        ]); 
-        $time2 = new Time($training['training_time']);
+        
+        $temp = $club['close_training'];
+        $time_close = date("H:i:s",strtotime($temp));
+        $this->set('time_close',$time_close);
+        
+        $time_now = date("H:i:s");
+        $this->set('time_now',$time_now);
+        
+        if($time_now>=$time_close){
+            $is_closed = true;
+        }else{
+            $is_closed = false;
+        }
+        $this->set('is_closed',$is_closed);
+        
+        
+        
+        $time2 = new Time($club['training_time']);
         $id_coming = $this->Auth->user('id');
         $dataComing = $this->Users->find('all', [
                 'conditions'=>['Users.id '=>$id_coming]
@@ -367,8 +371,8 @@ class ClubsController extends AppController
         $block=$user['block'];
         $this->set('block',$block); 
         $this->set('users', $this->paginate($this->Users)); 
-        $max_users = $training['number_of_users'];
-        $number_playing = $training['number_of_playing'];
+        $max_users = $club['number_of_users'];
+        $number_playing = $club['number_of_playing'];
         //var_dump($number_playing);exit;        
         if($number > $max_users){
             $is_full = true;

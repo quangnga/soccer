@@ -116,22 +116,15 @@ class UsersController extends AppController
             $query2 = $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id]]);
             $num_all=   $query2->count();        
             $this->set('num_all',$num_all);  
-            $this->loadModel('Trainings');
+            //$this->loadModel('Trainings');
             $this->loadModel('Clubs');
             $clubs = $this->Clubs->find('all', ['conditions' => ['Clubs.id' => $club_id]]);
-            foreach($clubs as $var){
-                $training_id = $var['training_id'];
+            foreach($clubs as $value){
+                $max_users = $value['number_of_users'];
+                $number_playing = $value['number_of_playing'];
             }
-            //var_dump($training_id);exit;
-            $training = $this->Trainings->find('all', ['conditions' => ['Trainings.id' => $training_id]]);
             
-            foreach($training as $values){
-                
-                $max_users = $values['number_of_users'];
-                $number_playing = $values['number_of_playing'];
-                
-                
-            } 
+            
             //var_dump($max_users);exit;          
             if($number >= $max_users){
                 $is_full = true;
@@ -159,9 +152,9 @@ class UsersController extends AppController
         }
         
         //var_dump($is_full);exit;
-        $clubs = $this->Users->Clubs->find('list', ['limit' => 200]);
-        $this->set(compact('user', 'clubs'));
-        $this->set('_serialize', ['user']);
+            $clubs = $this->Users->Clubs->find('list', ['limit' => 200]);
+            $this->set(compact('user', 'clubs'));
+            $this->set('_serialize', ['user']);
         
         
     }

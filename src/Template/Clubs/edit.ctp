@@ -52,7 +52,6 @@
                             * Indicates required field
                         </div>
                     </div>
-
                     <div  class="form-group col-md-6">
                         <div class="form-group">
                             <?php echo $this->Form->input('club_name', array('class' => 'form-control', 'placeholder' => 'Enter Club Name', 'maxlength' => '45', 'label' => 'Club Name *')); ?>
@@ -64,15 +63,20 @@
                         </div>
                     </div>
                     
-                    
-                    
-                    <div class="row">
-                        <div  class="form-group col-md-6">
-                            <div class="form-group">
-                                <?php echo $this->Form->input('training_id', ['options' => $trainings , array('type' => 'options', 'class' => 'form-control')]); ?>
-                            </div>
+                    <div  class="form-group col-md-12">
+                        <div class="form-group">
+                            <?php echo $this->Form->input('training_time', array('type' => 'time','class' => 'form-control', 'placeholder' => 'Enter number of users', 'label' => ' Training time *')); ?>
                         </div>
-
+                    </div>
+                    <div  class="form-group col-md-12">
+                        <div class="form-group">
+                            <?php echo $this->Form->input('start_day', array('type' => 'date','class' => 'form-control', 'placeholder' => 'Enter start day', 'label' => ' Start day *')); ?>
+                        </div>
+                    </div>
+                    <div  class="form-group col-md-12">
+                        <div class="form-group">
+                            <?php echo $this->Form->input('end_day', array('type' => 'date','class' => 'form-control', 'placeholder' => 'Enter end day', 'label' => ' End day *')); ?>
+                        </div>
                     </div>
                     <div  class="form-group col-md-6">
                         <div class="form-group">
@@ -108,12 +112,6 @@
                     <div  class="form-group col-md-6">
                         <div class="form-group">
                             <?php echo $this->Form->input('phone2', array('class' => 'form-control', 'placeholder' => 'Enter phone number 2', 'maxlength' => '45', 'label' => 'club phone number 2 *')); ?>
-                        </div>
-                    </div>
-
-                    <div  class="form-group col-md-6">
-                        <div class="form-group">
-                            <?php echo $this->Form->input('city', array('class' => 'form-control', 'placeholder' => 'Enter city', 'maxlength' => '45', 'label' => 'club city *')); ?>
                         </div>
                     </div>
 

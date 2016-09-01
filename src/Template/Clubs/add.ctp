@@ -33,14 +33,6 @@
                         </div>
                     </div>
                     
-                    <div class="row">
-                        <div  class="form-group col-md-6">
-                            <div class="form-group">
-                                <?php echo $this->Form->input('training_id', ['options' => $trainings, array('type' => 'options', 'class' => 'form-control')]); ?>
-                            </div>
-                        </div>
-
-                    </div>
                     
                     <div  class="form-group col-md-6">
                             <label>City</label> 
@@ -56,6 +48,38 @@
                     </div>
                     <div  class="form-group col-md-6">
                         <div class="form-group">
+                            <?php echo $this->Form->input('club_name', array('class' => 'form-control', 'placeholder' => 'Enter First club name', 'maxlength' => '45', 'label' => ' Club Name *')); ?>
+                        </div>
+                    </div>
+                    <div  class="form-group col-md-12">
+                        <div class="form-group">
+                            <?php echo $this->Form->input('start_day', array('type' => 'date','class' => 'form-control', 'placeholder' => 'Enter start day', 'label' => ' Start day *')); ?>
+                        </div>
+                    </div>
+                    <div  class="form-group col-md-12">
+                        <div class="form-group">
+                            <?php echo $this->Form->input('end_day', array('type' => 'date','class' => 'form-control', 'placeholder' => 'Enter end day', 'label' => ' End day *')); ?>
+                        </div>
+                    </div>
+                    <div  class="form-group col-md-12">
+                        <div class="form-group">
+                            <?php echo $this->Form->input('training_time', array('type' => 'time','class' => 'form-control', 'placeholder' => 'Enter number of users', 'label' => ' Training time *')); ?>
+                        </div>
+                    </div>
+                    <div  class="form-group col-md-12">
+                        <div class="form-group">
+                            <?php echo $this->Form->input('open_training', array('type' => 'time','class' => 'form-control', 'placeholder' => 'Enter number of users', 'label' => ' Open time training *')); ?>
+                        </div>
+                    </div>
+                    <div  class="form-group col-md-12">
+                        <div class="form-group">
+                            <?php echo $this->Form->input('close_training', array('type' => 'time','class' => 'form-control', 'placeholder' => 'Enter number of users', 'label' => ' Close time training *')); ?>
+                        </div>
+                    </div>
+                    
+                    
+                    <div  class="form-group col-md-6">
+                        <div class="form-group">
                             <?php echo $this->Form->input('number_users', array('class' => 'form-control', 'placeholder' => 'Enter number of users', 'label' => ' Number of users *')); ?>
                         </div>
                     </div>
@@ -66,11 +90,7 @@
                     </div> 
                         
 
-                    <div  class="form-group col-md-6">
-                        <div class="form-group">
-                            <?php echo $this->Form->input('club_name', array('class' => 'form-control', 'placeholder' => 'Enter First club name', 'maxlength' => '45', 'label' => ' Club Name *')); ?>
-                        </div>
-                    </div>
+                    
 
 
                     <div class="form-group col-md-6">

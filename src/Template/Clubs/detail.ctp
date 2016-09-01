@@ -319,7 +319,16 @@ if($is_admin == 0){
                 <td>
                         
                         <?php if($is_admin == 0 || ($is_admin == 2 && $users['id'] == $id)){?>
-                                <?php
+                        
+                            <?php
+                                if($is_closed){
+    
+                            ?>
+                                <a onclick="alert('Training Closed, Try attend for tomorrow');return false;"><?= $this->Form->button(__('Submit'))  ?></a> 
+                             <?php
+                                }else{
+                             ?>    
+                               <?php
                                     if($is_full){
 
                                 ?>
@@ -331,6 +340,9 @@ if($is_admin == 0){
                                 <?php
                                     }
                                 ?>
+                            <?php
+                             }
+                             ?>
                         <?php
                          }
                          ?>

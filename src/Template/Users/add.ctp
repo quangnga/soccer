@@ -48,7 +48,13 @@
                             <div class="form-group">
                                 <?php echo $this->Form->input('first_name', array('class' => 'form-control', 'placeholder' => 'Enter first name', 'maxlength' => '20', 'label' => ' First name', 'autocapitalize' => 'words')); ?>
                             </div>
+                            
                         </div>
+                        <div  class="form-group col-md-6">
+                            <div class="form-group">
+                                <?php echo $this->Form->input('club_id', ['select' => $clubs, array('class' => 'form-control', 'placeholder' => 'Choose clubs', 'maxlength' => '45', 'label' => 'Clubs')]); ?>
+                            </div>
+                    </div>
 
                     </div>
 
@@ -88,17 +94,7 @@
                         <?php echo $this->Form->password('confirm_password', array('class' => 'form-control', 'placeholder' => 'Confirm Password', 'maxlength' => '20', 'label' => 'Confirm Password')); ?>
                     </div>
 
-                    <div  class="form-group col-md-6">
-
-                        <div class="form-group">
-                            <?php echo $this->Form->input('coming', array('class' => 'form-control', 'type' => 'checkbox', 'placeholder' => 'are you coming? enter 1 for coming.', 'maxlength' => '20', 'label' => 'coming')); ?>
-                        </div>
-
-
-                        <div class="form-group">
-                            <?php echo $this->Form->input('club_id', ['select' => $clubs, array('class' => 'form-control', 'placeholder' => 'Choose clubs', 'maxlength' => '45', 'label' => 'Clubs')]); ?>
-                        </div>
-                    </div>
+                    
                 </fieldset>
                 <div class="row" align="center">
 

@@ -48,8 +48,7 @@
             $this->set('countclubs',$countclubs);
             $this->set('countusers',$countusers);
           //  $this->set('countmessages_unread',$countmessages_unread);
-
-            $trainings=TableRegistry::get('Trainings');
+            //$trainings=TableRegistry::get('Trainings');
             
             $club = $this->Auth->user('club_id');
             $this->loadModel('Clubs');
@@ -67,20 +66,13 @@
             $user=$this->Auth->user();
             $club_id = $user['club_id'];
             $query= $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id,'Users.coming'=>1,'Users.block'=>0]]);        
-            $number = $query->count();
-            //
-            
-            $this->loadModel('Trainings');
+            $number = $query->count();          
             $this->loadModel('Users');
             $club = $this->Clubs->get($club_id, [
-                'contain' => ['Trainings', 'Users']
-            ]);
-        
-        
-            $training = $this->Trainings->get($club["training_id"], [
-                'contain' => []
-            ]);
-            $max_users = $training['number_of_users'];
+                'contain' => ['Users']
+            ]); 
+            
+            $max_users = $club['number_of_users'];
             if($number >= $max_users){
                 $is_full = true;
             }else{
