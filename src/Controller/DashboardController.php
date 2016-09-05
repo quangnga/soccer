@@ -73,6 +73,7 @@
             ]); 
             
             $max_users = $club['number_of_users'];
+            //var_dump($max_users);exit;
             if($number >= $max_users){
                 $is_full = true;
             }else{
@@ -84,6 +85,23 @@
             $this->set('is_traning', $is_traning);
             $this->set('is_full', $is_full);
             
+            
+            $temp = $club['close_training'];
+            $time_close = date("H:i:s",strtotime($temp));
+            $this->set('time_close',$time_close);
+            
+            $time_now = date("H:i:s");
+            $this->set('time_now',$time_now);
+            
+            if($time_now>=$time_close){
+                $is_closed = true;
+            }else{
+                $is_closed = false;
+            }
+            $this->set('is_closed',$is_closed);
+            
+           // var_dump($time_close);exit;
+                
         }
     }
     

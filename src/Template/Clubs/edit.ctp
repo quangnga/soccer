@@ -70,22 +70,22 @@
                     </div>
                     <div  class="form-group col-md-12">
                         <div class="form-group">
-                            <?php echo $this->Form->input('start_day', array('type' => 'date','class' => 'form-control', 'placeholder' => 'Enter start day', 'label' => ' Start day *')); ?>
+                            <?php echo $this->Form->input('start_date', array('type' => 'date','class' => 'form-control', 'placeholder' => 'Enter start day', 'label' => ' Start day *')); ?>
                         </div>
                     </div>
                     <div  class="form-group col-md-12">
                         <div class="form-group">
-                            <?php echo $this->Form->input('end_day', array('type' => 'date','class' => 'form-control', 'placeholder' => 'Enter end day', 'label' => ' End day *')); ?>
+                            <?php echo $this->Form->input('end_date', array('type' => 'date','class' => 'form-control', 'placeholder' => 'Enter end day', 'label' => ' End day *')); ?>
                         </div>
                     </div>
                     <div  class="form-group col-md-6">
                         <div class="form-group">
-                            <?php echo $this->Form->input('number_users', array('class' => 'form-control', 'placeholder' => 'Enter number of users', 'label' => ' Number of users *')); ?>
+                            <?php echo $this->Form->input('number_of_users', array('type' => 'number','class' => 'form-control', 'placeholder' => 'Enter number of users', 'label' => ' Number of users *')); ?>
                         </div>
                     </div>
                     <div  class="form-group col-md-6">
                         <div class="form-group">
-                            <?php echo $this->Form->input('number_playing', array('class' => 'form-control', 'placeholder' => 'Enter number of playing', 'label' => ' Number of playing *')); ?>
+                            <?php echo $this->Form->input('number_of_playing', array('type' => 'number','class' => 'form-control', 'placeholder' => 'Enter number of playing', 'label' => ' Number of playing *')); ?>
                         </div>
                     </div> 
                     <div  class="form-group col-md-6">
