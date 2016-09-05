@@ -279,9 +279,9 @@
           <?php }}} ?>  
         
 <?php 
-if($is_admin == 0){
+if(($is_admin == 0)||(($is_admin == 1)&&$number == 0)||(($is_admin == 2)&&$number == 0)){
     foreach ($club->users as $users ){ 
-        if($is_admin == 0 && $users['id']==$id){
+        if($users['id']==$id){
 ?>
 
     <tr '.$color.'>
@@ -318,7 +318,7 @@ if($is_admin == 0){
                 </td>
                 <td>
                         
-                        <?php if($is_admin == 0 || ($is_admin == 2 && $users['id'] == $id)){?>
+                        <?php if($is_admin == 0 || ($is_admin == 2 && $users['id'] == $id)|| ($is_admin == 1 && $users['id'] == $id)){?>
                         
                             <?php
                                 if($is_closed){

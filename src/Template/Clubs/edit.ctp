@@ -20,7 +20,7 @@
 <!-- left col -->
 
 
-<div align="center">
+<div align="center" class="row">
     <a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "index", ""]) ?>"><button type="button" class="btn btn-default animated slideInLeft"><i class="fa fa-Clubs"></i> List Clubs</button></a>
 
     <a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "View", $club->id]) ?>"><button type="button" class="btn btn-orange animated fadeInDown"><i class="fa fa-pencil"></i> View <strong><?= h($club->club_name) ?> <?= h($club->city) ?></strong></button></a>
@@ -33,8 +33,8 @@
 </div>
 <br>
 
-
-<div class="col-md-12 col-lg-8 col-lg-offset-2">
+<div class="row">
+        <div class="col-md-12 col-lg-8 col-lg-offset-2">
     <div class="portlet portlet-blue">
         <div class="portlet-heading">
             <div class="portlet-title">
@@ -63,17 +63,17 @@
                         </div>
                     </div>
                     
-                    <div  class="form-group col-md-12">
+                    <div  class="form-group col-md-6">
                         <div class="form-group">
                             <?php echo $this->Form->input('training_time', array('type' => 'time','class' => 'form-control', 'placeholder' => 'Enter number of users', 'label' => ' Training time *')); ?>
                         </div>
                     </div>
-                    <div  class="form-group col-md-12">
+                    <div  class="form-group col-md-6">
                         <div class="form-group">
                             <?php echo $this->Form->input('start_date', array('type' => 'date','class' => 'form-control', 'placeholder' => 'Enter start day', 'label' => ' Start day *')); ?>
                         </div>
                     </div>
-                    <div  class="form-group col-md-12">
+                    <div  class="form-group col-md-6">
                         <div class="form-group">
                             <?php echo $this->Form->input('end_date', array('type' => 'date','class' => 'form-control', 'placeholder' => 'Enter end day', 'label' => ' End day *')); ?>
                         </div>
@@ -161,6 +161,8 @@
         </div>
     </div>
 </div>
+</div>
+
 </div>
 </div>
 
