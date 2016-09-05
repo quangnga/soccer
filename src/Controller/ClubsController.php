@@ -123,7 +123,8 @@ class ClubsController extends AppController
             'contain' => []
         ]); 
         
-        // var_dump($club->id);exit;    
+          $time_now = date("H:i:s");
+          //var_dump($time_now);exit; 
         $this->loadModel('Cities');
         if ($this->request->is(['patch', 'post', 'put'])) {
             $club = $this->Clubs->patchEntity($club, $this->request->data);
@@ -201,19 +202,23 @@ class ClubsController extends AppController
             'contain' => [ 'Users']
         ]);
        
-        $temp = $club['close_training'];
-        $time_close = date("H:i:s",strtotime($temp));
-        $this->set('time_close',$time_close);
-        
-        $time_now = date("H:i:s");
-        $this->set('time_now',$time_now);
-        
-        if($time_now>=$time_close){
-            $is_closed = true;
-        }else{
-            $is_closed = false;
-        }
-        $this->set('is_closed',$is_closed);
+        $temp1 = $club['close_training'];
+            $temp2 = $club['open_training'];
+            $time_close = date("H:i:s",strtotime($temp1));
+            $time_open = date("H:i:s",strtotime($temp2));
+            $this->set('time_close',$time_close);
+            $this->set('open_close',$time_open);
+            $time_now = date("H:i:s");
+            $this->set('time_now',$time_now);
+            
+            
+            if(($time_now>=$time_close)&&($time_now<=$time_open)){
+                $is_closed = true;
+                //var_dump(1);exit;
+            }else{
+                $is_closed = false;
+            }
+            $this->set('is_closed',$is_closed);
         
         //var_dump($time_close);exit; 
         $register_time = date("Y-m-d H:i:s");
@@ -305,19 +310,23 @@ class ClubsController extends AppController
             'contain' => [ 'Users']
         ]);     
         
-        $temp = $club['close_training'];
-        $time_close = date("H:i:s",strtotime($temp));
-        $this->set('time_close',$time_close);
-        
-        $time_now = date("H:i:s");
-        $this->set('time_now',$time_now);
-        
-        if($time_now>=$time_close){
-            $is_closed = true;
-        }else{
-            $is_closed = false;
-        }
-        $this->set('is_closed',$is_closed);
+        $temp1 = $club['close_training'];
+            $temp2 = $club['open_training'];
+            $time_close = date("H:i:s",strtotime($temp1));
+            $time_open = date("H:i:s",strtotime($temp2));
+            $this->set('time_close',$time_close);
+            $this->set('open_close',$time_open);
+            $time_now = date("H:i:s");
+            $this->set('time_now',$time_now);
+            
+            
+            if(($time_now>=$time_close)&&($time_now<=$time_open)){
+                $is_closed = true;
+                //var_dump(1);exit;
+            }else{
+                $is_closed = false;
+            }
+            $this->set('is_closed',$is_closed);
         
         
         

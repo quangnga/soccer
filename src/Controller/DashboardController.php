@@ -86,15 +86,19 @@
             $this->set('is_full', $is_full);
             
             
-            $temp = $club['close_training'];
-            $time_close = date("H:i:s",strtotime($temp));
+            $temp1 = $club['close_training'];
+            $temp2 = $club['open_training'];
+            $time_close = date("H:i:s",strtotime($temp1));
+            $time_open = date("H:i:s",strtotime($temp2));
             $this->set('time_close',$time_close);
-            
+            $this->set('open_close',$time_open);
             $time_now = date("H:i:s");
             $this->set('time_now',$time_now);
             
-            if($time_now>=$time_close){
+            
+            if(($time_now>=$time_close)&&($time_now<=$time_open)){
                 $is_closed = true;
+                //var_dump(1);exit;
             }else{
                 $is_closed = false;
             }
