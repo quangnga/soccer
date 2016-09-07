@@ -36,6 +36,8 @@ class ClubsController extends AppController
         $this->set('_serialize', ['clubs']);
         //$test= $this->Cities->find('all');
         //var_dump($test);exit;
+        $time_now = date("H:i:s");
+        //var_dump($time_now);exit;
         
         
         
@@ -212,7 +214,7 @@ class ClubsController extends AppController
             $this->set('time_now',$time_now);
             
             
-            if(($time_now<=$time_close)&&($time_now>=$time_open)){
+            if(($time_now>=$time_close)&&($time_now<=$time_open)){
                 $is_closed = true;
                 //var_dump(1);exit;
             }else{
@@ -320,7 +322,7 @@ class ClubsController extends AppController
             $this->set('time_now',$time_now);
             
             
-            if(($time_now<=$time_close)&&($time_now>=$time_open)){
+            if(($time_now>=$time_close)&&($time_now<=$time_open)){
                 $is_closed = true;
                 //var_dump(1);exit;
             }else{
