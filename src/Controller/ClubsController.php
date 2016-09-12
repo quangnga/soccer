@@ -52,7 +52,9 @@ class ClubsController extends AppController
         // Allow users to register and logout.
         // You should not add the "login" action to allow list. Doing so would
         // cause problems with normal functioning of AuthComponent.
-        
+        if(empty($this->isAuthorizedAdmin())){
+                $this->redirect(["controller"=>"Pages","action"=>'display', 'home']);
+            }
         // only supper admin access to all
         if($this->isAuthorizedAdmin()==1){
             $this->Auth->allow();

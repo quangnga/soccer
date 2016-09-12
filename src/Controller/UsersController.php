@@ -27,6 +27,9 @@ class UsersController extends AppController
             
             // only supper admin access to all
             $uses = array('Clubs');
+            if(empty($this->isAuthorizedAdmin())){
+                $this->redirect(["controller"=>"Pages","action"=>'display', 'home']);
+            }
             if($this->isAuthorizedAdmin()==1){
                 $this->Auth->allow();
                 
@@ -256,6 +259,7 @@ class UsersController extends AppController
 
      public function login()
     {   
+        //show sms register end, not reset coming here!
         $h1="14";
         $strotime1 = strtotime(date("Y-m-d $h1:00:00"));
         $time1 = date("H:i:s",$strotime1);      

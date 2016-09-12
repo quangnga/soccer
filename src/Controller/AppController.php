@@ -77,6 +77,7 @@ class AppController extends Controller
     public function beforeFilter(Event $event)
     {
         //$this->Auth->allow(['add']);
+        
         $user=$this->Auth->user();//Gets currently logged in user
       //  debug($user);
         $first_name=$user['first_name'];//Gets the first name of the currently logged in user
