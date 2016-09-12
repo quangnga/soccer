@@ -339,5 +339,9 @@ return [
      */
     'Session' => [
         'defaults' => 'php',
+        'timeout' => 120,            // auto logout after 120 minutes
+    'cookieTimeout' => 1440,    // session cookie 24 hours
+    'autoRegenerate' => true
+        
     ],
 ];
