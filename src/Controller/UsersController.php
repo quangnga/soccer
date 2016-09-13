@@ -27,7 +27,6 @@ class UsersController extends AppController
             
             // only supper admin access to all
             $uses = array('Clubs');
-            
             if($this->isAuthorizedAdmin()==1){
                 $this->Auth->allow();
                 
