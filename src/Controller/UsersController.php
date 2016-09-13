@@ -27,9 +27,7 @@ class UsersController extends AppController
             
             // only supper admin access to all
             $uses = array('Clubs');
-            if(empty($this->isAuthorizedAdmin())){
-                $this->redirect(["controller"=>"Pages","action"=>'display', 'home']);
-            }
+            
             if($this->isAuthorizedAdmin()==1){
                 $this->Auth->allow();
                 
@@ -53,6 +51,9 @@ class UsersController extends AppController
     public function index()
     {
         $user=$this->Auth->user();
+        if(empty($this->isAuthorizedAdmin())){
+                $this->redirect(["controller"=>"Pages","action"=>'display', 'home']);
+            }
         $club_id = $user['club_id'];
         $coming_1 = $user['coming'];
         $user_id = $user['id'];
@@ -270,6 +271,7 @@ class UsersController extends AppController
         $this->set('time_now',$time_now);
         $this->set('time1',$time1);
         $this->set('time2',$time2);
+        
         
         if ($this->request->is('post')) {
             $user = $this->Auth->identify();
