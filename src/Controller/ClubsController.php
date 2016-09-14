@@ -29,6 +29,9 @@ class ClubsController extends AppController
         //$city= $this->Cities
         
 		$id = $this->Auth->user('id');
+        if(empty($id)){
+              $this->redirect(["controller"=>"Pages","action"=>'display', 'home']);  
+            }
         $username = $this->Auth->user('username');        
         $club = $this->Auth->user('club_id'); 
         $clubs = $this->paginate($this->Clubs); 
@@ -52,9 +55,7 @@ class ClubsController extends AppController
         // Allow users to register and logout.
         // You should not add the "login" action to allow list. Doing so would
         // cause problems with normal functioning of AuthComponent.
-        if(empty($this->isAuthorizedAdmin())){
-                $this->redirect(["controller"=>"Pages","action"=>'display', 'home']);
-            }
+        
         // only supper admin access to all
         if($this->isAuthorizedAdmin()==1){
             $this->Auth->allow();
@@ -207,22 +208,22 @@ class ClubsController extends AppController
         ]);
        
         $temp1 = $club['close_training'];
-            $temp2 = $club['open_training'];
-            $time_close = date("H:i:s",strtotime($temp1));
-            $time_open = date("H:i:s",strtotime($temp2));
-            $this->set('time_close',$time_close);
-            $this->set('open_close',$time_open);
-            $time_now = date("H:i:s");
-            $this->set('time_now',$time_now);
+        $temp2 = $club['open_training'];
+        $time_close = date("H:i:s",strtotime($temp1));
+        $time_open = date("H:i:s",strtotime($temp2));
+        $this->set('time_close',$time_close);
+        $this->set('open_close',$time_open);
+        $time_now = date("H:i:s");
+        $this->set('time_now',$time_now);
             
             
-            if(($time_now>=$time_close)&&($time_now<=$time_open)){
-                $is_closed = true;
-                //var_dump(1);exit;
-            }else{
-                $is_closed = false;
-            }
-            $this->set('is_closed',$is_closed);
+        if(($time_now>=$time_close)&&($time_now<=$time_open)){
+            $is_closed = true;
+            //var_dump(1);exit;
+        }else{
+            $is_closed = false;
+        }
+        $this->set('is_closed',$is_closed);
         
         //var_dump($time_close);exit; 
         $register_time = date("Y-m-d H:i:s");
@@ -279,28 +280,30 @@ class ClubsController extends AppController
         $club_id = $user['club_id'];
         $query= $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id,'Users.coming'=>1,'Users.block'=>0]]);        
         $number = $query->count();
-        //var_dump($number);exit;
         $this->set('number',$number);
+        
         $query2 = $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id]]);
         $num_all=   $query2->count();
         $this->set('num_all',$num_all);
-        //var_dump($num_all);exit;
+        
         $block=$user['block'];
         $this->set('block',$block);
+        
         $this->set('id',$id);
         $this->set('users', $this->paginate($this->Users));
+        
         $max_users = $club['number_of_users'];
         $number_playing = $club['number_of_playing'];
-        //var_dump($number_playing);exit;
+
         
-            if($number > $max_users){
-                $is_full = true;
-            }else{
-                $is_full = false;
-            }
-            $this->set('max_users',$max_users);
-            $this->set('is_full', $is_full);
-            $this->set('number_playing', $number_playing);
+        if($number > $max_users){
+            $is_full = true;
+        }else{
+            $is_full = false;
+        }
+        $this->set('max_users',$max_users);
+        $this->set('is_full', $is_full);
+        $this->set('number_playing', $number_playing);
             
             
     }
@@ -315,23 +318,23 @@ class ClubsController extends AppController
         ]);     
         
         $temp1 = $club['close_training'];
-            $temp2 = $club['open_training'];
-            $time_close = date("H:i:s",strtotime($temp1));
-            $time_open = date("H:i:s",strtotime($temp2));
-            $this->set('time_close',$time_close);
-            $this->set('open_close',$time_open);
-            $time_now = date("H:i:s");
-            $this->set('time_now',$time_now);
+        $temp2 = $club['open_training'];
+        $time_close = date("H:i:s",strtotime($temp1));
+        $time_open = date("H:i:s",strtotime($temp2));
+        $this->set('time_close',$time_close);
+        $this->set('open_close',$time_open);
+        $time_now = date("H:i:s");
+        $this->set('time_now',$time_now);
             
             
-            if(($time_now>=$time_close)&&($time_now<=$time_open)){
-                $is_closed = true;
-                //var_dump(1);exit;
-            }else{
-                $is_closed = false;
-            }
-            $this->set('is_closed',$is_closed);
-        
+        if(($time_now>=$time_close)&&($time_now<=$time_open)){
+            $is_closed = true;
+            //var_dump(1);exit;
+        }else{
+            $is_closed = false;
+        }
+        $this->set('is_closed',$is_closed);
+    
         
         
         $time2 = new Time($club['training_time']);
@@ -376,21 +379,24 @@ class ClubsController extends AppController
         //var_dump($temp2);exit;
         $this->set('club', $club);
         $this->set('time2', $time2);
+        
         $user=$this->Auth->user();
         $club_id = $club->id;
         $query= $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id,'Users.coming'=>1,'Users.block'=>0]]);        
-        $number = $query->count();
-        //var_dump($number);exit;
+        $number = $query->count();       
         $this->set('number',$number);
+        
         $query2 = $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id]]);
         $num_all=   $query2->count();        
         $this->set('num_all',$num_all);
+        
         $block=$user['block'];
         $this->set('block',$block); 
+        
         $this->set('users', $this->paginate($this->Users)); 
         $max_users = $club['number_of_users'];
         $number_playing = $club['number_of_playing'];
-        //var_dump($number_playing);exit;        
+              
         if($number > $max_users){
             $is_full = true;
         }else{
@@ -399,27 +405,64 @@ class ClubsController extends AppController
         $this->set('max_users',$max_users);
         $this->set('is_full', $is_full);
         $this->set('number_playing', $number_playing);
+        
+        
         //count order
         
+        $now = strtolower(date("l"));
+        switch ($now) {
+                case 'monday':
+                    $yesterday = 'sunday';
+                    break;
+                case 'tuesday':
+                    $yesterday = 'monday';
+                    break;    
+                case 'wednesday':
+                    $yesterday = 'tuesday';
+                    break;
+                case 'thursday':
+                    $yesterday = 'wednesday';
+                    break;
+                case 'friday':
+                    $yesterday = 'thursday';
+                    break;
+                case 'saturday':
+                    $yesterday = 'friday';
+                    break;
+                
+                default:
+                    $yesterday = 'saturday';
+                    break;
+            }
+        
         $show_member = array();
-        $datas = array(); 
+        $show_member2 = array();
+        $datas = array();
+        $data2= array(); 
         $i=0;
         foreach($club->users as $value){
             $temp = json_decode($value);
-            //          
-            $array = get_object_vars($temp);
-            //var_dump($array['coming']);
+                   
+            $array = get_object_vars($temp);//convert object to array
+            
+            $coming_temp = json_decode($array['coming_date']);
+            
             if($array['coming']==1){
               $datas[$i] = $array;
               $i++;  
-            }  
+            }elseif($coming_temp->$yesterday==1){
+                $data2[$i] = $array;
+                $i++;
+            }
             
         }
         $show_member = $datas;   
         usort($show_member, array($this, "__cmp"));
-        //var_dump($show_member);exit;
         
-        $this->set('show_member',$show_member);           
+        $show_member2 = array_merge($show_member,$data2);//merge array
+        
+        $this->set('show_member2',$show_member2); 
+        //var_dump($show_member2);exit;          
     }
     private function __cmp($a, $b)
         {

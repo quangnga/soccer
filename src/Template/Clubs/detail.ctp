@@ -214,10 +214,10 @@
  <tbody>
         <?php      
                 if($is_admin == 2||$is_admin == 1){             
-                    foreach($show_member as $key => $users){
+                    foreach($show_member2 as $key => $users){
                    //var_dump($key);exit;.
                                           
-                        if(!empty($users['register_time'])){
+                        if(!empty($users['register_time']) && $users['coming']==1){
 
                            
         ?>
@@ -273,7 +273,48 @@
   </tr>
           <?php }else{?>
           <tr>
-            <td> <?= __('Register_time = NULL , Please click advance to coming')?> </td>
+               
+                <td> <?= h($key+1)?> </td>
+                <td> <?= h($users['first_name'])  ?> <?= h($users['last_name'])  ?></td>
+                <?php
+                    if($users['coming']==1){
+                ?>    
+                <td>
+                    <?= __('Waiting because col register_time == Null pls enter day time')?>
+                </td>
+                 <?php }else{?>
+                 <td>
+                    <?= __('Waiting')?>
+                </td>
+                 <?php }?>
+                <?php
+                    if($block==0){
+                ?>
+                <td>
+                
+                        <?php echo $this->Form->input('id',array('class' => 'checkbox','type'=>'hidden', 'label' => false,'value'=> $users['id'])); ?>
+                        <?php echo $this->Form->input('coming',array('class' => 'checkbox','type'=>'checkbox','checked'=>'checked', 'label' => false)); ?>
+                </td>
+                
+                 <?php
+                    } else{                   
+                 ?>  
+                
+                <td>user blocked</td>
+                <?php
+                        }
+                ?>
+                <td>
+                        <textarea name="comment"  cols="5" rows="2">
+                    
+                        </textarea>
+                    
+                </td>
+                
+                <td>
+                                <?= $this->Form->button(__('Block')) ?>
+                        
+                </td>
           </tr>
           
           <?php }}} ?>  
