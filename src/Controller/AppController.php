@@ -257,10 +257,23 @@ class AppController extends Controller
         $date_data = date("Y-m-d");
         $user = $this->Users->find('all');
         $today = strtolower(date("l"));
+        
+        $time_now = strtotime(date('H:i'));
+        $time_reset = strtotime("19:00");// change time here and change date_reset in table users < today
+        
+        
         foreach($user as $value){
             $articlesTable = TableRegistry::get('Users');        
             $value = $articlesTable->get($value['id']);
             $get_comings = json_decode($value->coming_date);
+            
+            if(($time_now >= $time_reset)&&(strtotime($date_data)>strtotime($value->date_reset))){
+            
+                $value->coming = 0;
+                $articlesTable->save($value);
+                
+            }
+            
             if(!empty($get_comings)){ 
                 
                 $coming = $value->coming;
