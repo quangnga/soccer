@@ -259,26 +259,35 @@ class AppController extends Controller
         $today = strtolower(date("l"));
         
         $time_now = strtotime(date('H:i'));
-        $time_reset = strtotime("19:00");// change time here and change date_reset in table users < today
+        //var_dump(date('H:i'));exit;
+        $time_reset = strtotime("5:14");// change time here and change date_reset in table users < today
         
         
         foreach($user as $value){
             $articlesTable = TableRegistry::get('Users');        
             $value = $articlesTable->get($value['id']);
             $get_comings = json_decode($value->coming_date);
+            $array_comings =get_object_vars($get_comings); 
             
             if(($time_now >= $time_reset)&&(strtotime($date_data)>strtotime($value->date_reset))){
             
                 $value->coming = 0;
+                foreach($array_comings as $key => $get_coming){               
+                
+                    if($key==$today ){
+                        $array_comings["$key"] = 0;                     
+                    }                   
+                }
+                $temp_coming= json_encode($array_comings);
+                $value->coming_date = $temp_coming;
                 $articlesTable->save($value);
                 
-            }
-            
-            if(!empty($get_comings)){ 
+            }// reset comings by time;
+            $get_coming_new = json_decode($value->coming_date);
+            if(!empty($get_coming_new)){ 
                 
                 $coming = $value->coming;
-                foreach($get_comings as $key => $get_coming){               
-                //var_dump($get_coming);exit;
+                foreach($get_coming_new as $key => $get_coming){               
                     if($key==$today ){
                         $data_coming = $get_coming; 
                         $value->coming = $data_coming;
@@ -291,7 +300,8 @@ class AppController extends Controller
                 $temp = array('monday'=>0,'tuesday'=>0,'wednesday'=>0,'thursday'=>0,'friday'=>0,'saturday'=>0,'sunday'=>0);
                 $value->coming_date = json_encode($temp);
                 $articlesTable->save($value);
-            }
+            }// get coming from coming_date;
+            json_encode($get_comings);
         }
         
         
