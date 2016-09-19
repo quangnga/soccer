@@ -438,31 +438,42 @@ class ClubsController extends AppController
         $show_member = array();
         $show_member2 = array();
         $datas = array();
-        $data2= array(); 
+        $data2= array();       
         $i=0;
+     
         foreach($club->users as $value){
             $temp = json_decode($value);
                    
-            $array = get_object_vars($temp);//convert object to array
+            $array = get_object_vars($temp);
             
-            $coming_temp = json_decode($array['coming_date']);
+            $temp_cominglast = json_decode($value->coming_last_day);
+            $array_cominglast = get_object_vars($temp_cominglast);
+            //convert object to array
+            $last_coming = $array_cominglast['now'];
             
-            if($array['coming']==1){
-              $datas[$i] = $array;
-              $i++;  
-            }elseif(empty($coming_temp->$yesterday)&&($array['coming']==1)){
-                $data2[$i] = $array;
-                $i++;
+            
+            
+            
+            if(($array['coming']==1)&&($last_coming==1)){
+                    $datas[$i] = $array;
+                    $i++;  
+            }elseif(($last_coming==0)&&($array['coming']==1)){
+                    $data2[$i] = $array;
+                    $i++;
             }
             
         }
-        $show_member = $datas;   
+       
+        //$this->set('last_coming_array',$last_coming_array);
+        $show_member = $datas;  
+         
         usort($show_member, array($this, "__cmp"));
         
         $show_member2 = array_merge($show_member,$data2);//merge array
         
         $this->set('show_member2',$show_member2); 
-        //var_dump($show_member2);exit;          
+        
+             
     }
     private function __cmp($a, $b)
         {

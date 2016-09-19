@@ -213,19 +213,19 @@
                 
  <tbody>
         <?php      
-                if($is_admin == 2||$is_admin == 1){             
+                if($is_admin == 2||$is_admin == 1){ 
+                    
                     foreach($show_member2 as $key => $users){
-                   //var_dump($key);exit;.
-                                          
+                        $yesterday = get_object_vars(json_decode($users['coming_last_day']));
+                        //var_dump($yesterday['now']);
                         if(!empty($users['register_time']) && $users['coming']==1){
-
-                           
+                       
         ?>
         <tr '.$color.'>
                 <td> <?= h($key+1)?> </td>
                 <td> <?= h($users['first_name'])  ?> <?= h($users['last_name'])  ?></td>
                 <?php
-                    if($key+1 <= $number_playing){
+                    if(($key+1 <= $number_playing)&&($yesterday['now'] == 1)){
                  ?>
                     <td> <?= __('Playing')?> </td>
                     
@@ -317,7 +317,11 @@
                 </td>
           </tr>
           
-          <?php }}} ?>  
+          <?php }
+          
+           
+          
+          } } ?>  
         
 <?php 
 if(($is_admin == 0)||(($is_admin == 1)&&$number == 0)||(($is_admin == 2)&&$number == 0)){

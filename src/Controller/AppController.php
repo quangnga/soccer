@@ -101,6 +101,7 @@ class AppController extends Controller
        $this->resetComing();
        $this->getCity();
        $this->getComing();
+       $this->getComingYesterday();
        $clubByuser = $this->Auth->user('club_id');
        $this->set('clubByuser',$clubByuser); 
        
@@ -194,7 +195,17 @@ class AppController extends Controller
         $this->loadModel('Users');
         $current_week= date("W");
         $datas = $this->Users->find('all');
+        $temp_coming= array('lastsunday'=>0,'now'=>0);
+        
         foreach($datas as $data){
+            //var_dump(json_encode($temp_coming));exit;
+            if(empty($data->coming_last_day)){
+                $articlesTable = TableRegistry::get('Users');
+                $data = $articlesTable->get($data['id']); // Return data with id 
+                 $data->coming_last_day = json_encode($temp_coming);
+                $articlesTable->save($data);
+               
+            }
             if($data->week == 52 && $current_week==1){
                 $articlesTable = TableRegistry::get('Users');
                 $data = $articlesTable->get($data['id']); // Return data with id 
@@ -215,15 +226,21 @@ class AppController extends Controller
                 $articlesTable = TableRegistry::get('Users');
                 $data = $articlesTable->get($data['id']);
                 $data->reset_coming = 1;
+                $temp_data = json_decode($data->coming_date);
+                $array_data =get_object_vars($temp_data);
+                
 
                 if($data->reset_coming == 1){
+                    $temp_coming['lastsunday'] = $array_data['sunday'];
+                    $temp_coming['now'] = 0;
                     
+                    $data->coming_last_day = json_encode($temp_coming);
                     $temp = array('monday'=>0,'tuesday'=>0,'wednesday'=>0,'thursday'=>0,'friday'=>0,'saturday'=>0,'sunday'=>0);
                     $data->coming_date = json_encode($temp) ;
                     $data->reset_coming = 1;
-                    //var_dump($data->coming_date);exit;      
+                          
                 }
-                //$data->date_reset = $date;
+                
                 $articlesTable->save($data);
         }
     }
@@ -307,6 +324,59 @@ class AppController extends Controller
         
     }
     
+    
+    public function getComingYesterday(){
+        $this->loadModel('Users');
+        $date_data = date("Y-m-d");
+        $user = $this->Users->find('all');
+        $today = strtolower(date("l"));
+        
+        switch ($today) {
+                case 'monday':
+                    $yesterday = 'sunday';
+                    break;
+                case 'tuesday':
+                    $yesterday = 'monday';
+                    break;    
+                case 'wednesday':
+                    $yesterday = 'tuesday';
+                    break;
+                case 'thursday':
+                    $yesterday = 'wednesday';
+                    break;
+                case 'friday':
+                    $yesterday = 'thursday';
+                    break;
+                case 'saturday':
+                    $yesterday = 'friday';
+                    break;
+                
+                default:
+                    $yesterday = 'saturday';
+                    break;
+            }
+        foreach($user as $value){
+            $articlesTable = TableRegistry::get('Users');        
+            $value = $articlesTable->get($value['id']);
+            $get_comings = json_decode($value->coming_date);
+            $array_comings =get_object_vars($get_comings);
+            $temp_json = json_decode($value->coming_last_day);
+            $array_temp_json =get_object_vars($temp_json);
+            $temp_last_coming = $array_comings[$yesterday]; 
+            //var_dump($temp_last_coming);exit; 
+            if($today=='monday'){
+                $array_temp_json['now'] = $array_temp_json['lastsunday']; 
+            }else{
+                $array_temp_json['now'] = $temp_last_coming;
+            }
+            $value->coming_last_day = json_encode($array_temp_json);
+            
+            $articlesTable->save($value);
+            //var_dump($temp_last_coming);exit; 
+        
+        }
+        
+    }
         
         
     
