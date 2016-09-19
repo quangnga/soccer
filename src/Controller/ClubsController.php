@@ -450,7 +450,7 @@ class ClubsController extends AppController
             if($array['coming']==1){
               $datas[$i] = $array;
               $i++;  
-            }elseif($coming_temp->$yesterday==1){
+            }elseif(empty($coming_temp->$yesterday)&&($array['coming']==1)){
                 $data2[$i] = $array;
                 $i++;
             }
