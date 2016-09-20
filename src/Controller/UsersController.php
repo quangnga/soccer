@@ -49,9 +49,10 @@ class UsersController extends AppController
      */
     public function index()
     {
-        $user=$this->Auth->user();
-        
-        if(empty($user_id)){
+        $user = $this->Auth->user();
+        $id = $this->Auth->user('id');
+        //var_dump($id);exit;
+        if(empty($id)){
               $this->redirect(["controller"=>"Pages","action"=>'display', 'home']);  
             }
         $club_id = $user['club_id'];

@@ -1,3 +1,8 @@
+<style>
+    .edit-users{
+        text-align: center;
+    }
+</style>
 <?php
     if(($is_admin == 0 && $user->id == $id ) || $is_admin == 1|| ($is_admin == 2 && $user->club_id == $club_id )){
 ?>
@@ -118,10 +123,13 @@
     }else{
         
 ?>
-
-   <h3>
-        Data not found!
-   </h3> 
+    <div class="edit-users">
+        <h1>
+            Data not found!
+        </h1>
+        <?php echo $this->Html->link('Back >>', ['controller'=>'Users','action' => 'index']);?>
+    </div>
+    
 <?php
     }
 ?>

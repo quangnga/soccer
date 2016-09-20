@@ -1,3 +1,12 @@
+<style>
+    .e404{
+    text-align: center;
+    }
+</style>
+
+<?php
+    if($advanced){
+?>
 
 <div class="page-title">
 
@@ -226,3 +235,15 @@
 </div>
 </div>
 </div>
+<?php
+    }else{
+        
+?>
+    <div class="e404">
+        <h1>DATA NOT FOUND!</h1>
+        <?php echo $this->Html->link('Back', ['controller'=>'Clubs','action' => 'index']);?>
+    </div>
+
+<?php
+  }  
+?>

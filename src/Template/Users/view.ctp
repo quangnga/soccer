@@ -1,3 +1,9 @@
+<style>
+    .view-user{
+        text-align: center;
+    }
+</style>
+
 <?php
     if(($is_admin == 0 && $user->id == $id ) || $is_admin == 1|| ($is_admin == 2 && $user->club_id == $club_id )){
 ?>
@@ -167,9 +173,10 @@
         
 ?>
 
-   <h3>
-        Data not found!
-   </h3> 
+   <div class="view-user">
+        <h1>Data not found!</h1>
+        <?php echo $this->Html->link('Back >>', ['controller'=>'Users','action' => 'index']);?>
+   </div> 
 <?php
     }
 ?>

@@ -1,4 +1,12 @@
 <style>
+    .view404{
+        text-align: center;
+    }
+</style>
+<?php
+    if($view == 1){
+?>
+<style>
     #page-wrapper {
 
         min-height: 800px;
@@ -205,3 +213,15 @@ if ($club->sunday == 0) {
     </div>
     <!-- /.modal-dialog -->
 </div>
+<?php
+    }else{
+?>
+    <div class="view404">
+        <h1>DATA NOT FOUND!</h1>
+        <?php echo $this->Html->link('Back', ['controller'=>'Clubs','action' => 'index']);?>
+    </div>
+    
+    
+<?php
+    }
+?>

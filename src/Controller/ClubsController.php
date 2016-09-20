@@ -6,6 +6,7 @@ use Cake\Event\Event;
 use Cake\I18n\Time;
 use Cake\ORM\TableRegistry;
 use Cake\Network\Exception\NotFoundException;
+
 use Cake\Network\Email\Email;
 use Cake\Routing\Router;
 
@@ -83,9 +84,21 @@ class ClubsController extends AppController
         $club = $this->Clubs->get($id, [
             'contain' => [ 'Users']
         ]);
-        //var_dump($club);exit;
+        $id_user = $this->Auth->user('role');
+        $club_user = $this->Auth->user('club_id');
+        if((($id_user == 0)||($id_user==2))&&($club_user==$club->id)){
+            //var_dump(1);exit;
+            $view = 1;
+        }elseif($id_user == 1){
+            $view = 1;
+        }else{
+             $view = 0;
+        }
+        //var_dump($club->id);exit;
+        $this->set('view', $view);
         $this->set('club', $club);
         $this->set('_serialize', ['club']);
+        
     }
 
     /**
@@ -216,16 +229,22 @@ class ClubsController extends AppController
         $time_now = date("H:i:s");
         $this->set('time_now',$time_now);
             
-            
+        $id_user = $this->Auth->user('role');
+        $club_user = $this->Auth->user('club_id');
+        if($club_user==$club->id){
+            $advanced = 1;
+        }else{
+            $advanced = 0;
+        }  
+        $this->set('advanced',$advanced);
+        
         if(($time_now>=$time_close)&&($time_now<=$time_open)){
             $is_closed = true;
-            //var_dump(1);exit;
         }else{
             $is_closed = false;
         }
         $this->set('is_closed',$is_closed);
-        
-        //var_dump($time_close);exit; 
+
         $register_time = date("Y-m-d H:i:s");
         $time2 = new Time($club->training_time);
         $id_coming = $this->Auth->user('id');    
@@ -238,7 +257,6 @@ class ClubsController extends AppController
             }
         if ($this->request->is(['patch', 'post', 'put'])) {
             $save_comings = array('monday'=>0,'tuesday'=>0,'wednesday'=>0,'thursday'=>0,'friday'=>0,'saturday'=>0,'sunday'=>0);
-            //var_dump($save_comings[0]);exit;
             foreach($get_comings as $key => $get_coming){                
                  if($this->request->data[$key] == 1){
                         $save_comings[$key] = 1;                        
@@ -257,7 +275,6 @@ class ClubsController extends AppController
                 $articlesTable->save($data);
             }
          $user = $this->Users->patchEntity($user, $this->request->data);
-            //var_dump($user);exit;
             if ($this->Users->save($user)) {
                 $this->Flash->success(__($user->first_name . ' ' . $user->last_name . ' has been added.'));              
             } else {
@@ -329,7 +346,6 @@ class ClubsController extends AppController
             
         if(($time_now>=$time_close)&&($time_now<=$time_open)){
             $is_closed = true;
-            //var_dump(1);exit;
         }else{
             $is_closed = false;
         }
@@ -344,9 +360,7 @@ class ClubsController extends AppController
             ]);                    
         $user = $this->Users->get($id_coming, ['condition' => ['Users.id' => $id_coming],]);             
         
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            //$value = $this->request->data['coming'];
-            
+        if ($this->request->is(['patch', 'post', 'put'])) {            
             foreach($dataComing as $data){
                 $articlesTable = TableRegistry::get('Users');
                 $data = $articlesTable->get($data['id']); 
@@ -355,28 +369,23 @@ class ClubsController extends AppController
                 foreach($array as $key=>$value){
                     if($key == strtolower(date("l"))){
                          
-                        $array[$key] = (int)$this->request->data['coming'];
-                        
-                        
+                        $array[$key] = (int)$this->request->data['coming'];                       
                     }
                 } 
             $temp2=json_encode($array);
             
             $data->coming_date = $temp2;
             $data->register_time = date("Y-m-d H:i:s");
-            //$data->coming_date = $temp2;
             $articlesTable->save($data);
             }   
             
             if ($this->Users->save($user)) {
                 $this->Flash->success(__($user->first_name . ' ' . $user->last_name . ' has been added.'));
-                //$coming==0;
                 
             } else {
                 $this->Flash->error(__('The user could not be added. Please, try again.'));
             }                
         }
-        //var_dump($temp2);exit;
         $this->set('club', $club);
         $this->set('time2', $time2);
         
@@ -463,8 +472,6 @@ class ClubsController extends AppController
             }
             
         }
-       
-        //$this->set('last_coming_array',$last_coming_array);
         $show_member = $datas;  
          
         usort($show_member, array($this, "__cmp"));
@@ -472,8 +479,7 @@ class ClubsController extends AppController
         $show_member2 = array_merge($show_member,$data2);//merge array
         
         $this->set('show_member2',$show_member2); 
-        
-             
+            
     }
     private function __cmp($a, $b)
         {
