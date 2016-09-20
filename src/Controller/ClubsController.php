@@ -25,10 +25,7 @@ class ClubsController extends AppController
      */
     public function index()
     {   
-        $this->loadModel('Cities');
-        //$id1=$this->loadModel('Cities');
-        //$city= $this->Cities
-        
+        $this->loadModel('Cities');        
 		$id = $this->Auth->user('id');
         if(empty($id)){
               $this->redirect(["controller"=>"Pages","action"=>'display', 'home']);  
@@ -38,16 +35,7 @@ class ClubsController extends AppController
         $clubs = $this->paginate($this->Clubs); 
         $this->set(compact('clubs'));
         $this->set('_serialize', ['clubs']);
-        //$test= $this->Cities->find('all');
-        //var_dump($test);exit;
-        $time_now = date("H:i:s");
-        //var_dump($time_now);exit;
-        
-        
-        
-        
-        
-        
+        $time_now = date("H:i:s");       
     }
     
     public function beforeFilter(Event $event)
@@ -87,14 +75,12 @@ class ClubsController extends AppController
         $id_user = $this->Auth->user('role');
         $club_user = $this->Auth->user('club_id');
         if((($id_user == 0)||($id_user==2))&&($club_user==$club->id)){
-            //var_dump(1);exit;
             $view = 1;
         }elseif($id_user == 1){
             $view = 1;
         }else{
              $view = 0;
         }
-        //var_dump($club->id);exit;
         $this->set('view', $view);
         $this->set('club', $club);
         $this->set('_serialize', ['club']);
@@ -122,7 +108,6 @@ class ClubsController extends AppController
         }
         $this->set(compact('club'));
         $this->set('_serialize', ['club']);
-        //$cities = $this->Clubs->Cities->find('list', ['limit' => 200]);
         $name_city= $this->Cities->find('all');
         $this->set('name_city', $name_city);
         
@@ -142,11 +127,9 @@ class ClubsController extends AppController
         ]); 
         
           $time_now = date("H:i:s");
-          //var_dump($time_now);exit; 
         $this->loadModel('Cities');
         if ($this->request->is(['patch', 'post', 'put'])) {
             $club = $this->Clubs->patchEntity($club, $this->request->data);
-            //var_dump($club);exit;
             $data = $this->Clubs->find('all', [
                 'conditions'=>['Clubs.id '=>$club->id]
             ]);
@@ -157,7 +140,6 @@ class ClubsController extends AppController
             foreach($data as $value){
                 $articlesTable = TableRegistry::get('Clubs');
                 $value = $articlesTable->get($value['id']); 
-                //var_dump($this->request->data['start_day']);exit;
                 $value->start_date =$start_day;                
                 $value->end_date = $end_day;
                 $value->number_of_users = (int)$this->request->data['number_of_users'];
@@ -165,7 +147,6 @@ class ClubsController extends AppController
                 $articlesTable->save($value);
                 
             }
-            //var_dump($this->request->data['number_users']);exit; 
             
             
             if ($this->Clubs->save($club)) {

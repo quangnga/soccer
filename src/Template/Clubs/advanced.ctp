@@ -10,12 +10,12 @@
 
 <div class="page-title">
 
-<ol class="breadcrumb">
-<li class="active"> <a href="<?php echo $this->Url->build(["controller" => "dashboard", "action" => "index"])?>"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-<li class="active"> <a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "index"])?>"><i class="fa fa-building-o"></i> My Club</a></li>
-<?php //var_dump($club->Clubs);exit;?>
-<li class="active animated slideInRight"><i class="fa fa-list-alt animated slideInRight"></i>  <?= h($club->club_name) ?>  attendance sheet</a></li>
-</ol>
+    <ol class="breadcrumb">
+        <li class="active"> <a href="<?php echo $this->Url->build(["controller" => "dashboard", "action" => "index"])?>"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+        <li class="active"> <a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "index"])?>"><i class="fa fa-building-o"></i> My Club</a></li>
+        <?php //var_dump($club->Clubs);exit;?>
+        <li class="active animated slideInRight"><i class="fa fa-list-alt animated slideInRight"></i>  <?= h($club->club_name) ?>  attendance sheet</a></li>
+    </ol>
 </div>
 
 
@@ -112,15 +112,9 @@
                 
         </tr>
                 <?= $this->Form->create($users) ?>
-                <?php 
-             
-                 
-                
-                           
+                <?php                         
                 $data_show = array('monday','tuesday','wednesday','thursday','friday','saturday','sunday');
-                    //$allow = 0;
                     $today = strtolower(date("l"));
-                    //$today='tuesday';
                     $data_show = array();
                     
                     foreach($get_comings as $key => $get_coming){
@@ -128,36 +122,18 @@
                         $data_show[$key] = $get_coming;
                         
                     }
-                    //var_dump($get_coming);exit;
                     foreach($data_show as $key => $value){
-                        //if(strcmp($today,$data_show[$key])== 0){
-                          //  $allow = 1;
-                            //$temp = $key;
-                        //}
-                                
-                    //var_dump($allow);exit;
-                        //if($club->$data_show[$key]  == 1){        
-                        //for($i= $temp; $i<7; $i++){   
-                        //foreach ($club->users as $users ):
                         $users = $club->users;
-                        //var_dump($users[0]['id']);exit;
-                            
-                            
-                                ?>
+                        
+                    ?>
                             <tbody>
                                 <tr>
-                                    <td> <?= h($first_name)  ?> <?= h($last_name)  ?></td>
-                            
-                            
-                                    
-                                    <td>
-                            
-                                    
+                                    <td> <?= h($first_name)  ?> <?= h($last_name)  ?></td>                       
+                                    <td>                                
                                     <?php if($club[$today] == 0){
                                                 echo 'no training today';}
                                                 else {echo '<button type="button" class="weeksOn"><strong>'.$today.'</strong></button>';}
-            
-                                    ?>
+                                     ?>
                             
                                     </td>
                                     <td>
@@ -171,8 +147,6 @@
                                         <?php //echo $this->Form->input($data_show[$i],array('class' => 'checkbox','type'=>'hidden', 'label' => false,'value'=> $data_show[$i])); ?>
                                         <?php //echo $this->Form->input('id',array('class' => 'checkbox','type'=>'hidden', 'label' => false,'value'=> $users['id'])); ?>
                                         <?php
-                                        
-                                            //var_dump($value);exit;
                                             if($club[$key]  == 1){
                                                 if($data_show[$key] == 1){
                                                     echo $this->Form->input($key,array('class' => 'checkbox','type'=>'checkbox','checked'=>'checked', 'label' => false));
