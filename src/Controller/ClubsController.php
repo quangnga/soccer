@@ -341,7 +341,7 @@ class ClubsController extends AppController
             ]);                    
         $user = $this->Users->get($id_coming, ['condition' => ['Users.id' => $id_coming],]);              
         
-        //$user=$this->Auth->user();
+        //var_dump($user['coming']);exit;//$user=$this->Auth->user();
         $club_id = $club->id;
         $query= $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id,'Users.coming'=>1,'Users.block'=>0]]);        
         $number = $query->count();       
@@ -371,9 +371,11 @@ class ClubsController extends AppController
                 $this->Users->save($user);
                 $this->Flash->success(__($user->first_name . ' ' . $user->last_name . ' has been added.'));
             }else{
-                if($is_full==true){
+                if(($value_coming==1)&&($is_full==true)&&($user['coming']==0)){
                     $this->Flash->error(__('Training full...'));
                     return $this->redirect(['action' => 'index']);
+                }elseif(($value_coming==1)&&($user['coming']==1)){
+                    return $this->redirect($this->here);
                 }else{
                     $this->Users->save($user);
                     $this->Flash->success(__($user->first_name . ' ' . $user->last_name . ' has been added.'));
