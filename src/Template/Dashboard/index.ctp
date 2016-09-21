@@ -76,34 +76,7 @@
             <?php }else{?>
             <?php if($is_traning){            
                 
-            ?>
-            
-                <?php if($is_full){
-                            
-                    
-                ?>
-            
-                    <a onclick="alert('Training full, Try today after 7 pm to attend for tomorrow');return false;" href="<?php echo $this->Url->build(["controller" => "clubs", "action" => "detail",$clubByuser=>$club_id])?>">
-                        <div class="circle-tile-heading dark-blue">
-                            <i class="fa fa-futbol-o fa-fw fa-3x animated zoomIn"></i> 
-                        </div>
-                     </a>
-                    
-                   <a onclick="alert('Training full, Try today after 7 pm to attend for tomorrow');return false;" href="<?php echo $this->Url->build(["controller" => "clubs", "action" => "detail",$clubByuser=>$club_id])?>">
-        
-                        <div class="circle-tile-content green">
-                            <div class="circle-tile-description text-faded">
-                                <i class="fa fa-long-arrow-right animated slideInLeft"></i>   <i class="fa fa-long-arrow-left animated slideInRight"></i>
-                            </div>
-                            <div class="circle-tile-number text-faded">
-                                Attendance sheet
-                                <span id="sparklineC"></span>
-                            </div>
-                            <br>
-                        </div>
-                    </a>
-            <?php }else{?>
-                
+            ?>      
                     <a href="<?php echo $this->Url->build(["controller" => "clubs", "action" => "detail",$clubByuser=>$club_id])?>">
                         <div class="circle-tile-heading dark-blue">
                             <i class="fa fa-futbol-o fa-fw fa-3x animated zoomIn"></i> 
@@ -123,7 +96,7 @@
                             <br>
                         </div>
                     </a>
-            <?php }}else {?>
+            <?php }else {?>
             
                 <a onclick="alert('No training today');return false;" href="<?php echo $this->Url->build(["controller" => "clubs", "action" => "detail",$clubByuser=>$club_id])?>">
                     <div class="circle-tile-heading dark-blue">

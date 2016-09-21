@@ -294,7 +294,7 @@ class ClubsController extends AppController
         $number_playing = $club['number_of_playing'];
 
         
-        if($number > $max_users){
+        if($number >= $max_users){
             $is_full = true;
         }else{
             $is_full = false;
@@ -339,9 +339,46 @@ class ClubsController extends AppController
         $dataComing = $this->Users->find('all', [
                 'conditions'=>['Users.id '=>$id_coming]
             ]);                    
-        $user = $this->Users->get($id_coming, ['condition' => ['Users.id' => $id_coming],]);             
+        $user = $this->Users->get($id_coming, ['condition' => ['Users.id' => $id_coming],]);              
         
-        if ($this->request->is(['patch', 'post', 'put'])) {            
+        //$user=$this->Auth->user();
+        $club_id = $club->id;
+        $query= $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id,'Users.coming'=>1,'Users.block'=>0]]);        
+        $number = $query->count();       
+        $this->set('number',$number);
+        
+        $query2 = $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id]]);
+        $num_all=   $query2->count();        
+        $this->set('num_all',$num_all);
+        
+        $block=$user['block'];
+        $this->set('block',$block); 
+        
+        
+        $max_users = $club['number_of_users'];
+        $number_playing = $club['number_of_playing'];
+              
+        if($number >= $max_users){
+            $is_full = true;
+        }else{
+            $is_full = false;
+        }
+        
+        if ($this->request->is(['patch', 'post', 'put'])) {   
+            $value_coming= (int)$this->request->data('coming');
+            //var_dump($is_full);exit;
+            if(($value_coming==0)&&($is_full==true)){
+                $this->Users->save($user);
+                $this->Flash->success(__($user->first_name . ' ' . $user->last_name . ' has been added.'));
+            }else{
+                if($is_full==true){
+                    $this->Flash->error(__('Training full...'));
+                    return $this->redirect(['action' => 'index']);
+                }else{
+                    $this->Users->save($user);
+                    $this->Flash->success(__($user->first_name . ' ' . $user->last_name . ' has been added.'));
+                }
+            }
             foreach($dataComing as $data){
                 $articlesTable = TableRegistry::get('Users');
                 $data = $articlesTable->get($data['id']); 
@@ -358,45 +395,19 @@ class ClubsController extends AppController
             $data->coming_date = $temp2;
             $data->register_time = date("Y-m-d H:i:s");
             $articlesTable->save($data);
+            
+            
             }   
             
-            if ($this->Users->save($user)) {
-                $this->Flash->success(__($user->first_name . ' ' . $user->last_name . ' has been added.'));
-                
-            } else {
-                $this->Flash->error(__('The user could not be added. Please, try again.'));
-            }                
-        }
-        $this->set('club', $club);
-        $this->set('time2', $time2);
-        
-        $user=$this->Auth->user();
-        $club_id = $club->id;
-        $query= $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id,'Users.coming'=>1,'Users.block'=>0]]);        
-        $number = $query->count();       
-        $this->set('number',$number);
-        
-        $query2 = $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id]]);
-        $num_all=   $query2->count();        
-        $this->set('num_all',$num_all);
-        
-        $block=$user['block'];
-        $this->set('block',$block); 
-        
-        $this->set('users', $this->paginate($this->Users)); 
-        $max_users = $club['number_of_users'];
-        $number_playing = $club['number_of_playing'];
-              
-        if($number > $max_users){
-            $is_full = true;
-        }else{
-            $is_full = false;
+           
+                           
         }
         $this->set('max_users',$max_users);
         $this->set('is_full', $is_full);
         $this->set('number_playing', $number_playing);
-        
-        
+        $this->set('club', $club);
+        $this->set('time2', $time2);
+        $this->set('users', $this->paginate($this->Users)); 
         //count order
         
         $now = strtolower(date("l"));

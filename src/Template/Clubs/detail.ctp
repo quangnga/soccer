@@ -320,24 +320,17 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                                 <?php if($is_admin == 0 || ($is_admin == 2 && $users['id'] == $id)|| ($is_admin == 1 && $users['id'] == $id)){?>
                                 
                                 <?php
+                                //var_dump($is_full);exit;
                                 if($is_closed){
                                 
                                 ?>
-                                <a onclick="alert('Training Closed, Try attend for tomorrow');return false;"><?= $this->Form->button(__('Submit'))  ?></a>
+                                    <a onclick="alert('Training Closed, Try attend for tomorrow');return false;"><?= $this->Form->button(__('Submit'))  ?></a>
                                 <?php
                                 }else{
                                 ?>
-                                <?php
-                                if($is_full){
-                                ?>
-                                <a onclick="alert('Training full, Try today after 7 pm to attend for tomorrow');return false;"><?= $this->Form->button(__('Submit'))  ?></a>
-                                <?php
-                                }else{
-                                ?>
-                                <?= $this->Form->button(__('Submit')) ?>
-                                <?php
-                                }
-                                ?>
+                                
+                                    <?= $this->Form->button(__('Submit')) ?>
+                                
                                 <?php
                                 }
                                 ?>
