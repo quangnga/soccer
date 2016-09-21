@@ -64,6 +64,7 @@
             }
             
             $user=$this->Auth->user();
+            $user_coming = $user['coming'];
             $club_id = $user['club_id'];
             $query= $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id,'Users.coming'=>1,'Users.block'=>0]]);        
             $number = $query->count();          
@@ -80,7 +81,7 @@
                 $is_full = false;
             }
             //var_dump($max_playing);exit;
-            
+            $this->set('user_coming',$user_coming);
             $this->set('max_users',$max_users);
             $this->set('is_traning', $is_traning);
             $this->set('is_full', $is_full);

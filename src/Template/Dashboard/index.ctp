@@ -76,8 +76,34 @@
             <?php }else{?>
             <?php if($is_traning){            
                 
-            ?>      
-                    <a href="<?php echo $this->Url->build(["controller" => "clubs", "action" => "detail",$clubByuser=>$club_id])?>">
+            ?>
+                    <?php
+                        if($is_full==true && $user_coming == 0){
+                    ?> 
+                    <a onclick="alert('Training Full...');return false;" href="<?php echo $this->Url->build(["controller" => "clubs", "action" => "detail",$clubByuser=>$club_id])?>">
+                        <div class="circle-tile-heading dark-blue">
+                            <i class="fa fa-futbol-o fa-fw fa-3x animated zoomIn"></i> 
+                        </div>
+                    </a>
+                    
+                   <a onclick="alert('Training Full...');return false;" href="<?php echo $this->Url->build(["controller" => "clubs", "action" => "detail",$clubByuser=>$club_id])?>">
+        
+                        <div class="circle-tile-content green">
+                            <div class="circle-tile-description text-faded">
+                                <i class="fa fa-long-arrow-right animated slideInLeft"></i>   <i class="fa fa-long-arrow-left animated slideInRight"></i>
+                            </div>
+                            <div class="circle-tile-number text-faded">
+                                Attendance sheet
+                                <span id="sparklineC"></span>
+                            </div>
+                            <br>
+                        </div>
+                    </a>
+                             
+                  <?php
+                    }else{
+                  ?>  
+                    <a    href="<?php echo $this->Url->build(["controller" => "clubs", "action" => "detail",$clubByuser=>$club_id])?>">
                         <div class="circle-tile-heading dark-blue">
                             <i class="fa fa-futbol-o fa-fw fa-3x animated zoomIn"></i> 
                         </div>
@@ -96,6 +122,11 @@
                             <br>
                         </div>
                     </a>
+                        
+                    <?php        
+                        }
+                    ?>      
+                    
             <?php }else {?>
             
                 <a onclick="alert('No training today');return false;" href="<?php echo $this->Url->build(["controller" => "clubs", "action" => "detail",$clubByuser=>$club_id])?>">
