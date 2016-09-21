@@ -28,7 +28,7 @@ class ClubsController extends AppController
         $this->loadModel('Cities');        
 		$id = $this->Auth->user('id');
         if(empty($id)){
-              $this->redirect(["controller"=>"Pages","action"=>'display', 'home']);  
+              $this->redirect('/');  
             }
         $username = $this->Auth->user('username');        
         $club = $this->Auth->user('club_id'); 

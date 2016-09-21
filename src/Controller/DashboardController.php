@@ -16,11 +16,7 @@
         {
             
             parent::beforeFilter($event);
-            // Allow users to register and logout.
-            // You should not add the "login" action to allow list. Doing so would
-            // cause problems with normal functioning of AuthComponent.
-            
-            // only supper admin access to all
+
             if($this->isAuthorizedAdmin()==1){
                 $this->Auth->allow();
                 
@@ -32,11 +28,20 @@
             else{
                 $this->Auth->allow();
             }
+            
+            $id = $this->Auth->user('id');
+            if(empty($id)){
+              return $this->redirect('/');  
+            }
+            
         }
         public function index(){
             
             
-            
+            $id = $this->Auth->user('id');
+            if(empty($id)){
+              return $this->redirect("/");  
+            }
             $clubs=TableRegistry::get('clubs');
             
             $user=TableRegistry::get('Users');
@@ -47,16 +52,11 @@
             $countusers=$user->find('all')->count();
             $this->set('countclubs',$countclubs);
             $this->set('countusers',$countusers);
-          //  $this->set('countmessages_unread',$countmessages_unread);
-            //$trainings=TableRegistry::get('Trainings');
-            
             $club = $this->Auth->user('club_id');
             $this->loadModel('Clubs');
             $clubTemporary = $this->Clubs->get($club);
             //var_dump($club2);exit;
             $today = strtolower(date("l"));
-            //var_dump($today);exit;
-            //$is_traning = false;
             if($clubTemporary[$today]== 1){
                 $is_traning = true;
             }else{
