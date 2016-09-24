@@ -63,9 +63,14 @@
                 $is_traning = false;
             }
             
-            $user=$this->Auth->user();
-            $user_coming = $user['coming'];
-            $club_id = $user['club_id'];
+            $user_id=$this->Auth->user('id');
+            $db= $this->Users->find('all', ['conditions' => ['Users.id' => $user_id]]);
+            foreach($db as $value){
+                $coming_user = $value->coming;
+            }
+            $this->set('coming_user',$coming_user);
+            //var_dump($user);exit;
+            $club_id = $this->Auth->user('club_id');;
             $query= $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id,'Users.coming'=>1,'Users.block'=>0]]);        
             $number = $query->count();          
             $this->loadModel('Users');
@@ -81,7 +86,8 @@
                 $is_full = false;
             }
             //var_dump($max_playing);exit;
-            $this->set('user_coming',$user_coming);
+            $is_admin=$this->Auth->user('role');
+            $this->set('is_admin',$is_admin);
             $this->set('max_users',$max_users);
             $this->set('is_traning', $is_traning);
             $this->set('is_full', $is_full);

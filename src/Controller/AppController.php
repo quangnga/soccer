@@ -94,9 +94,10 @@ class AppController extends Controller
         $this->set('username',$username);
         $time = Time::now();
         $this->set('time',$time->i18nFormat(\IntlDateFormatter::FULL));
-        //var_dump($now);exit;
-       $coming=$user['coming'];
-       $this->set('coming',$coming);
+        
+       //$coming=$user['coming'];
+       //var_dump($user);exit;
+       //$this->set('coming',$coming);
        //$this->updateComing();
        $this->resetComing();
        $this->getCity();
@@ -123,74 +124,7 @@ class AppController extends Controller
         return false;
          
     }
-    // reset coming by time if call function updataComing in beforeFillter
-    /*public function updateComing(){
-        $this->loadModel('Users');
-        $hour = "23";// time reset not timezone;
-        $h= date("H:i:s");
-        $strotime = strtotime(date("Y-m-d $hour:59:59"));
-        $date = date("Y-m-d H:i:s",$strotime);
-        
-        $date1 = date("Y-m-d H:i:s");
-        $date_data = date("Y-m-d");
-        //var_dump($date1);exit;
-        if($date1 > $date){
-            $datas = $this->Users->find('all', [
-                'conditions'=>['Users.date_reset <'=>$date_data]
-            ]);
-            foreach($datas as $data){
-                $articlesTable = TableRegistry::get('Users');
-                $data = $articlesTable->get($data['id']); // Return data with id 
-                $data->coming = 0;
-                $data->date_reset = $date;
-                $articlesTable->save($data);
-            }
-        }
-    }*/
-    /*public function resetTraining(){
-        $this->loadModel('Clubs'); 
-        $w= date("W");
-        $today = strtolower(date("l"));
-        //$day = array('monday','tuesday','wendesday','thursday','friday','saturday','sunday');
-        $datas = $this->Clubs->find('all');
-            
-        foreach($datas as $data){
-            //var_dump($data->week );exit;
-            if($data->week == 52 && $w==1){
-                $articlesTable = TableRegistry::get('Clubs');
-                $data = $articlesTable->get($data['id']); // Return data with id 
-                $data->week = 1;
-                $data->reset_training = 0;
-                $articlesTable->save($data);
-            }
-            if(($w > $data->week ) &&($data->reset_training == 1)){
-                $articlesTable = TableRegistry::get('Clubs');
-                $data = $articlesTable->get($data['id']); // Return data with id 
-                $data->reset_training = 0;
-                $data->week = $w;
-                $articlesTable->save($data);
-            }
-            if(($data->reset_training == 0) && $w == $data->week ){
-                $articlesTable = TableRegistry::get('Clubs');
-                $data = $articlesTable->get($data['id']); // Return data with id 
-                $data->reset_training = 1;
-
-                if($data->reset_training == 1){
-                    foreach($day as $value){
-                        //var_dump($value);exit;
-                       $data->$value = 0; 
-                    }
-                    $data->reset_training = 1;      
-                }
-                //$data->date_reset = $date;
-                $articlesTable->save($data);
-        }
-        
-        
-        
-    }      
-       
-    }*/
+    
     public function resetComing(){
         $this->loadModel('Users');
         $current_week= date("W");
@@ -237,7 +171,7 @@ class AppController extends Controller
                     $data->coming_last_day = json_encode($temp_coming);
                     $temp = array('monday'=>0,'tuesday'=>0,'wednesday'=>0,'thursday'=>0,'friday'=>0,'saturday'=>0,'sunday'=>0);
                     $data->coming_date = json_encode($temp) ;
-                    $data->reset_coming = 1;
+                    //$data->reset_coming = 1;
                           
                 }
                 

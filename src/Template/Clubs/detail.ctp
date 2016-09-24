@@ -1,7 +1,10 @@
+
+
 <?php
 
 if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 && $club_id == $club->id)){
 ?>
+<!--<meta http-equiv="refresh" content="2" >-->
 <div class="page-title">
     <ol class="breadcrumb">
         <li class="active"> <a href="<?php echo $this->Url->build(["controller" => "dashboard", "action" => "index"])?>"><i class="fa fa-dashboard"></i> Dashboard</a></li>
@@ -172,7 +175,7 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                     
                     <tbody>
                         <?php
-                        if($is_admin == 2||$is_admin == 1){
+                        if(($is_admin == 2)||$is_admin == 1){
                         
                         foreach($show_member2 as $key => $users){
                         $yesterday = get_object_vars(json_decode($users['coming_last_day']));
@@ -283,8 +286,9 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                         } } ?>
                         
                         <?php
-                        if(($is_admin == 0)||(($is_admin == 1)&&$number == 0)||(($is_admin == 2)&&$number == 0)){
                         foreach ($club->users as $users ){
+                        if(($is_admin == 0)||(($is_admin == 1)&&$users['coming']==0)||(($is_admin == 2)&&$users['coming']==0)){
+                        
                         if($users['id']==$id){
                         ?>
                         <tr '.$color.'>
@@ -328,7 +332,7 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                                 <?php
                                 }else{
                                 ?>
-                                
+                                    
                                     <?= $this->Form->button(__('Submit')) ?>
                                 
                                 <?php
@@ -359,16 +363,16 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                     </tbody>
                 </thead>
             </table>
-            <div>
+            <div >
                 <?php if($is_admin == 1 || $is_admin == 2){?>
                 <?php if($number >= 2){?>
-                <div class="row">
-                    <div class="counter"><?= h($number)?>/<?= h($num_all)?> لاعبين سيحضرون</div>
+                <div id="load" class="row">
+                    <div id="load" class="counter"><?= h($number)?>/<?= h($num_all)?> لاعبين سيحضرون</div>
                 </div>
                 <?php
                 }elseif($number <= 1){?>
-                <div class="row">
-                    <div class="counter2"><?= h($number)?>/<?= h($num_all)?> لاعبين سيحضرون</div>
+                <div id="load" class="row">
+                    <div id="load" class="counter2"><?= h($number)?>/<?= h($num_all)?> لاعبين سيحضرون</div>
                 </div>
                 <?php
                 }
@@ -378,7 +382,7 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                 <?php if($is_admin == 0){?>
                 
                 <div class="row">
-                    <div class="counter"><?= h($number)?> لاعبين سيحضرون</div>
+                    <div id="load" class="counter"><?= h($number)?> لاعبين سيحضرون</div>
                 </div>
                 <?php
                 }
@@ -402,6 +406,7 @@ Data not found!
 <?php
 }
 ?>
+
 <style>
 .bold{
 font-weight: bold;
@@ -435,3 +440,4 @@ height: 1px;
 background: rgba(22, 160, 133, 0.31);
 }
 </style>
+

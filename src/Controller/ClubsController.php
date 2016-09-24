@@ -260,7 +260,8 @@ class ClubsController extends AppController
                 $this->Flash->success(__($user->first_name . ' ' . $user->last_name . ' has been added.'));              
             } else {
                 $this->Flash->error(__('The user could not be added. Please, try again.'));
-            }                  
+            } 
+                             
         }
         $user = $this->Users->get($id_coming, ['condition' => ['user_id' => $id_coming]]);
         $date_data = $user['coming_date'];
@@ -336,6 +337,9 @@ class ClubsController extends AppController
         
         $time2 = new Time($club['training_time']);
         $id_coming = $this->Auth->user('id');
+        $role = $this->Auth->user('role');
+        
+        //var_dump($this->Auth->user('coming'));exit;
         $dataComing = $this->Users->find('all', [
                 'conditions'=>['Users.id '=>$id_coming]
             ]);                    
@@ -371,14 +375,16 @@ class ClubsController extends AppController
                 $this->Users->save($user);
                 $this->Flash->success(__($user->first_name . ' ' . $user->last_name . ' has been added.'));
             }else{
-                if(($value_coming==1)&&($is_full==true)&&($user['coming']==0)){
+                if(($value_coming==1)&&($is_full==true)&&($user['coming']==0)&&($role==0)){
                     $this->Flash->error(__('Training full...'));
                     return $this->redirect(['action' => 'index']);
                 }elseif(($value_coming==1)&&($user['coming']==1)){
                     return $this->redirect($this->here);
                 }else{
+                   
                     $this->Users->save($user);
                     $this->Flash->success(__($user->first_name . ' ' . $user->last_name . ' has been added.'));
+                    //return $this->redirect($this->here);
                 }
             }
             foreach($dataComing as $data){
@@ -400,10 +406,11 @@ class ClubsController extends AppController
             
             
             }   
-            
+          return $this->redirect($this->here);  
            
                            
         }
+        
         $this->set('max_users',$max_users);
         $this->set('is_full', $is_full);
         $this->set('number_playing', $number_playing);
@@ -473,6 +480,7 @@ class ClubsController extends AppController
         $show_member2 = array_merge($show_member,$data2);//merge array
         
         $this->set('show_member2',$show_member2); 
+        
             
     }
     private function __cmp($a, $b)
