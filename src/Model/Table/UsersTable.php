@@ -37,6 +37,11 @@ class UsersTable extends Table
             'joinType' => 'INNER'
         ]);
     }
+    public function getUsers(){
+        return $this->find('all',
+        ['contain' => ['Clubs']
+        ]);
+    }
 
     /**
      * Default validation rules.

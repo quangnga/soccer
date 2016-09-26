@@ -49,14 +49,24 @@ class UsersController extends AppController
      */
     public function index()
     {
-        $user = $this->Auth->user();
+        //
+        $this->paginate = [
+        'order'=>['coming'=>'DESC'],
+        'limit'=>10,
+        'contain' => ['Clubs']
+        ];
+        $users = $this->paginate($this->Users->getUsers());
+        //var_dump($users);exit;
+        $this->set(compact('users'));
+        $this->set('_serialize', ['users']);
+        $this->set('users',$users);
         $id = $this->Auth->user('id');
         //var_dump($id);exit;
         if(empty($id)){
               $this->redirect(["controller"=>"Pages","action"=>'display', 'home']);  
             }
+        $user = $this->Auth->user();
         $club_id = $user['club_id'];
-        $coming_1 = $user['coming'];
         $user_id = $user['id'];
         //var_dump($user_id);exit;
         if($this->isAuthorizedAdmin()==1){
@@ -75,11 +85,7 @@ class UsersController extends AppController
                 'conditions' => ['Users.id' => $user_id],
                 ];
         }
-        //var_dump($this->paginate);exit;
-        //$user = $this->Auth->user('id');
-        $this->set('users', $this->paginate($this->Users));
-        $this->set('_serialize', ['users']);
-        //var_dump($user);exit;
+        
         
     }
 

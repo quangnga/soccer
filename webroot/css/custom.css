@@ -15,7 +15,7 @@
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
   background-color: #bacbdb;
   margin: 140px auto;
-  width: 100px;
+  /*width: 100px;*/
 }
 
 .classWithP {

@@ -32,8 +32,11 @@
                     </thead>
                     <tbody>
                         <?php
-                        foreach($users as $user){                       
-                            if ($user->id == $id || $is_admin == 1 || $is_admin == 2) {     
+                        //var_dump($users);exit;
+                        foreach($users as $user){   
+                            
+                            if ($user->id == $id || $is_admin == 1 || $is_admin == 2) {
+                                
                         ?>
                                 <tr>
                                     <td><?= h($user->first_name) ?></td>
@@ -78,9 +81,9 @@
                 </table>
                 <div class="paginator">
                     <ul class="pagination">
-                        <?= $this->Paginator->prev('< ' . __('previous')) ?>
+                        <?= $this->Paginator->prev(('previous').' >') ?>
                         <?= $this->Paginator->numbers() ?>
-                        <?= $this->Paginator->next(__('next') . ' >') ?>
+                        <?= $this->Paginator->next('< '.__('next') ) ?>
                     </ul>
                     <p><?= $this->Paginator->counter() ?></p>
 
