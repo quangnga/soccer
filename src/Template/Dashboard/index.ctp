@@ -50,7 +50,27 @@
             <?php 
                 $today = strtolower(date("l")); //var_dump($club[$today]);exit; 
             ?>
-            
+            <?php if($is_block){?>
+                <a onclick="alert('You cannot enter because you blocked from Dashboard');return false;" href="<?php echo $this->Url->build(["controller" => "clubs", "action" => "detail",$clubByuser=>$club_id])?>">
+                        <div class="circle-tile-heading dark-blue">
+                            <i class="fa fa-futbol-o fa-fw fa-3x animated zoomIn"></i> 
+                        </div>
+                </a>
+                    
+                   <a onclick="alert('You cannot enter because you blocked from Dashboard');return false;" href="<?php echo $this->Url->build(["controller" => "clubs", "action" => "detail",$clubByuser=>$club_id])?>">
+        
+                        <div class="circle-tile-content green">
+                            <div class="circle-tile-description text-faded">
+                                <i class="fa fa-long-arrow-right animated slideInLeft"></i>   <i class="fa fa-long-arrow-left animated slideInRight"></i>
+                            </div>
+                            <div class="circle-tile-number text-faded">
+                                Attendance sheet
+                                <span id="sparklineC"></span>
+                            </div>
+                            <br>
+                        </div>
+                    </a>
+            <?php }else{?>
             <?php if($is_closed){            
                 
             ?>
@@ -171,7 +191,7 @@
             </div>
             </a>
             <?php
-            }}
+            }}}
             ?>
         </div>
     </div>

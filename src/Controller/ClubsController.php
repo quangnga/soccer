@@ -339,13 +339,13 @@ class ClubsController extends AppController
         $id_coming = $this->Auth->user('id');
         $role = $this->Auth->user('role');
         
-        //var_dump($this->Auth->user('coming'));exit;
+       
         $dataComing = $this->Users->find('all', [
                 'conditions'=>['Users.id '=>$id_coming]
             ]);                    
         $user = $this->Users->get($id_coming, ['condition' => ['Users.id' => $id_coming],]);              
-        
-        //var_dump($user['coming']);exit;//$user=$this->Auth->user();
+         
+
         $club_id = $club->id;
         //var_dump($club_id);exit;
         $query= $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id,'Users.coming'=>1,'Users.block'=>0]]);        
@@ -369,47 +369,66 @@ class ClubsController extends AppController
             $is_full = false;
         }
         
-        if ($this->request->is(['patch', 'post', 'put'])) {   
-            $value_coming= (int)$this->request->data('coming');
-            //var_dump($is_full);exit;
-            if(($value_coming==0)&&($is_full==true)){
-                $this->Users->save($user);
-                $this->Flash->success(__($user->first_name . ' ' . $user->last_name . ' has been added.'));
-            }else{
-                if(($value_coming==1)&&($is_full==true)&&($user['coming']==0)&&($role==0)){
-                    $this->Flash->error(__('Training full...'));
-                    return $this->redirect(['action' => 'index']);
-                }elseif(($value_coming==1)&&($user['coming']==1)){
-                    return $this->redirect($this->here);
-                }else{
-                   
+        
+       if ($this->request->is(['patch', 'post', 'put'])) { 
+            if(($role == 0)&&($number > 0)){
+                //code send coming and condition
+                $value_coming= (int)$this->request->data('coming');
+                //var_dump($is_full);exit;
+                if(($value_coming==0)&&($is_full==true)){
                     $this->Users->save($user);
                     $this->Flash->success(__($user->first_name . ' ' . $user->last_name . ' has been added.'));
-                    //return $this->redirect($this->here);
-                }
-            }
-            foreach($dataComing as $data){
-                $articlesTable = TableRegistry::get('Users');
-                $data = $articlesTable->get($data['id']); 
-                $temp =  json_decode($data['coming_date']);
-                $array = get_object_vars($temp);
-                foreach($array as $key=>$value){
-                    if($key == strtolower(date("l"))){
-                         
-                        $array[$key] = (int)$this->request->data['coming'];                       
+                }else{
+                    if(($value_coming==1)&&($is_full==true)&&($user['coming']==0)&&($role==0)){
+                        $this->Flash->error(__('Training full...'));
+                        return $this->redirect(['action' => 'index']);
+                    }elseif(($value_coming==1)&&($user['coming']==1)){
+                        return $this->redirect($this->here);
+                    }else{
+                       
+                        $this->Users->save($user);
+                        $this->Flash->success(__($user->first_name . ' ' . $user->last_name . ' has been added.'));
+                        //return $this->redirect($this->here);
                     }
-                } 
-            $temp2=json_encode($array);
-            
-            $data->coming_date = $temp2;
-            $data->register_time = date("Y-m-d H:i:s");
-            $articlesTable->save($data);
-            
-            
-            }   
-          return $this->redirect($this->here);  
-           
-                           
+                }
+                foreach($dataComing as $data){
+                    $articlesTable = TableRegistry::get('Users');
+                    $data = $articlesTable->get($data['id']); 
+                    $temp =  json_decode($data['coming_date']);
+                    $array = get_object_vars($temp);
+                    foreach($array as $key=>$value){
+                        if($key == strtolower(date("l"))){
+                             
+                            $array[$key] = (int)$this->request->data['coming'];                       
+                        }
+                    } 
+                $temp2=json_encode($array);
+                $data->comment = $this->request->data['comment']; 
+                $data->coming_date = $temp2;
+                $data->register_time = date("Y-m-d H:i:s");
+                $articlesTable->save($data);
+                
+                
+                }   
+              return $this->redirect($this->here);  
+                      
+            }else{
+                //do block user
+                $id_block = (int)$this->request->data['id'];
+                
+                $dataBlock = $this->Users->find('all', [
+                'conditions'=>['Users.id '=>$id_block]
+                ]);  
+                foreach($dataBlock as $data){
+                    
+                $articlesTable = TableRegistry::get('Users');
+                $data->block = $this->request->data('block');
+                $articlesTable->save($data);
+
+                }      
+            return $this->redirect($this->here);
+                
+            }
         }
         
         $this->set('max_users',$max_users);
@@ -418,7 +437,8 @@ class ClubsController extends AppController
         $this->set('club', $club);
         $this->set('time2', $time2);
         $this->set('users', $this->paginate($this->Users)); 
-        //count order
+        
+        //set value coming yesterday
         
         $now = strtolower(date("l"));
         switch ($now) {
@@ -445,13 +465,13 @@ class ClubsController extends AppController
                     $yesterday = 'saturday';
                     break;
             }
-        
-        $data_playing = $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id,'Users.coming'=>1,'Users.coming_yesterday'=>1],
+        // code load list users playing and waiting
+        $data_playing = $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id,'Users.coming'=>1,'Users.coming_yesterday'=>1,'Users.block'=>0],
                                                 'order'=>['register_time'=>'ASC'],
                                                 ]);
         $total = $data_playing->count();
         
-        $data_waiting = $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id,'Users.coming'=>1,'Users.coming_yesterday'=>0],
+        $data_waiting = $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id,'Users.coming'=>1,'Users.coming_yesterday'=>0,'Users.block'=>0],
                                                 'order'=>['register_time'=>'ASC'],
                                                 ]);
         $this->set('data_playing',$data_playing);
@@ -459,6 +479,7 @@ class ClubsController extends AppController
         $this->set('total',$total);
          
     }
+    
     /*private function __cmp($a, $b)
         {
             return 1 * strcmp($a['register_time'], $b['register_time']);

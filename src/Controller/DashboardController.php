@@ -62,6 +62,13 @@
             }else{
                 $is_traning = false;
             }
+            $blocks = $this->Users->get($id);
+            if($blocks['block']==1){
+                $is_block = true;
+            }else{
+                $is_block = false;
+            }
+            
             
             $user_id=$this->Auth->user('id');
             $db= $this->Users->find('all', ['conditions' => ['Users.id' => $user_id]]);
@@ -91,6 +98,7 @@
             $this->set('max_users',$max_users);
             $this->set('is_traning', $is_traning);
             $this->set('is_full', $is_full);
+            $this->set('is_block', $is_block);
             
             
             $temp1 = $club['close_training'];

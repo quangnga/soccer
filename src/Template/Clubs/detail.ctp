@@ -138,8 +138,13 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                         }
                         
                         ?>
+                        <?php
+                        if($is_admin == 0){
                         
+                        ?>
                         <th><?= __('Coming?') ?></th>
+                        
+                        <?php }?>
                         <th><?= __('Comments') ?></th>
                         <?php
                         if($is_admin==1||$is_admin == 2){
@@ -153,17 +158,10 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                         
                         ?>
                         
-                        <?php
-                        if($is_admin==1||$is_admin == 0){
                         
-                        ?>
                         <th><?= __('Action') ?></th>
                         
-                        
-                        <?php
-                        }
-                        
-                        ?>
+                    
                         
                         
                         
@@ -190,6 +188,9 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                         
                         <?php //$count == 0 ?>
                         <?php    foreach($data_playing  as $key => $users){?>
+                        <?php
+                            echo $this->Form->create();
+                        ?>
                         <tr >
                             <td> <?= h($key+1)?> </td>
                             <td> <?= h($users['first_name'])  ?> <?= h($users['last_name'])  ?></td>
@@ -207,8 +208,9 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                             <?php
                             }
                             ?>
-                            <?php
-                            if($block==0){
+                            <!--<?php
+                            if($is_admin ==0){
+                            if($block== 0){
                             ?>
                             <td style="float:right">
                                 
@@ -222,21 +224,33 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                             
                             <td>user blocked</td>
                             <?php
-                            }
+                            }}
+                            ?>-->
+                            <?php
+                                if(empty($users['comment'])){
                             ?>
-                            <td>
-                                <textarea name="comment"  cols="5" rows="2">
-                                
-                                </textarea>
+                            <td style="color: #ccc;">
+                                <?= h(__('...No comment'))  ?>
                                 
                             </td>
-                            
+                            <?php
+                                }else{
+                            ?>
+                                 <td>
+                                    <?= h($users['comment'])  ?>
+                                 </td>
+                            <?php }?>
+                            <td style="float:right">
+                                
+                                <?php echo $this->Form->input('id',array('class' => 'checkbox','type'=>'hidden', 'label' => false,'value'=> $users['id'])); ?>
+                                <?php echo $this->Form->input('block',array('class' => 'checkbox','type'=>'checkbox','label' => false)); ?>
+                            </td>
                             <td>
                                 <?= $this->Form->button(__('Block')) ?>
                                 
                             </td>
                             
-                            
+                            <?php echo $this->form->end()?>
                             
                             
                         </tr>
@@ -254,6 +268,9 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                          <tbody>
                          
                          <?php foreach($data_waiting  as $num=> $users){?>
+                         <?php
+                            echo $this->Form->create();
+                         ?>
                             <tr '.$color.'>
                             <td> <?= h($total+ $num + 1)?> </td>
                             <td> <?= h($users['first_name'])  ?> <?= h($users['last_name'])  ?></td>
@@ -261,37 +278,33 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                             <td>
                                 <?= __('Waiting')?>
                             </td>
-                           <?php
-                            if($block==0){
+                           
+                            <?php
+                                if(empty($users['comment'])){
                             ?>
+                            <td style="color: #ccc;">
+                                <?= h(__('...No comment'))  ?>
+                                
+                            </td>
+                            <?php
+                                }else{
+                            ?>
+                                 <td>
+                                    <?= h($users['comment'])  ?>
+                                 </td>
+                            <?php }?>
                             <td style="float:right">
                                 
                                 <?php echo $this->Form->input('id',array('class' => 'checkbox','type'=>'hidden', 'label' => false,'value'=> $users['id'])); ?>
-                                <?php echo $this->Form->input('coming',array('class' => 'checkbox','type'=>'checkbox','checked'=>'checked', 'label' => false)); ?>
+                                <?php echo $this->Form->input('block',array('class' => 'checkbox','type'=>'checkbox','label' => false)); ?>
                             </td>
-                            
-                            <?php
-                            } else{
-                            ?>
-                            
-                            <td>user blocked</td>
-                            <?php
-                            }
-                            ?>
-                            <td>
-                                <textarea name="comment"  cols="5" rows="2">
-                                
-                                </textarea>
-                                
-                            </td>
-                            
                             <td>
                                 <?= $this->Form->button(__('Block')) ?>
                                 
                             </td>
                             
                             
-                            
+                           <?php echo $this->form->end()?> 
                             
                         </tr>
                          <?php }} ?>
@@ -325,26 +338,31 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                             }
                             ?>
                             <td>
-                                <textarea name="comment"  cols="5" rows="2">
-                                
-                                </textarea>
+                               <?php
+                                    echo $this->Form->textarea('comment', ['rows' => '1', 'cols' => '20']);
+                               ?>
                                 
                             </td>
                             <td>
                                 
                                 <?php if($is_admin == 0 || ($is_admin == 2 && $users['id'] == $id)|| ($is_admin == 1 && $users['id'] == $id)){?>
                                 
+                                
                                 <?php
                                 //var_dump($is_full);exit;
-                                if($is_closed){
+                                if($users['block']==1){
                                 
                                 ?>
-                                    <a onclick="alert('Training Closed, Try attend for tomorrow');return false;"><?= $this->Form->button(__('Submit'))  ?></a>
+                                    <a onclick="alert('You cannot enter because you blocked from Dashboard');return false;"><?= $this->Form->button(__('Submit'))  ?></a>
                                 <?php
                                 }else{
                                 ?>
                                     
-                                    <?= $this->Form->button(__('Submit')) ?>
+                                    <?php if($is_closed){?>
+                                         <a onclick="alert('Training Closed, Try attend for tomorrow');return false;"><?= $this->Form->button(__('Submit'))  ?></a>
+                                    <?php }else{ ?>
+                                        <?= $this->Form->button(__('Submit')) ?>
+                                    <?php }?>
                                 
                                 <?php
                                 }
