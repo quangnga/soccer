@@ -140,7 +140,7 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                         ?>
                         
                         <th><?= __('Coming?') ?></th>
-                        <th><?= __('comments') ?></th>
+                        <th><?= __('Comments') ?></th>
                         <?php
                         if($is_admin==1||$is_admin == 2){
                         
@@ -173,21 +173,28 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                     
                     
                     
-                    <tbody>
+                    
+                        
                         <?php
-                        if(($is_admin == 2)||$is_admin == 1){
+                        if(($is_admin == 2)||$is_admin == 1){?>
+                        <tr>
+                            <td><h4 style="color: #16A085;"> Playing Users</h4></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            
+                        </tr>
+                        <tbody>
                         
-                        foreach($show_member2 as $key => $users){
-                        $yesterday = get_object_vars(json_decode($users['coming_last_day']));
-                        //var_dump($yesterday['now']);
-                        if(!empty($users['register_time']) && $users['coming']==1){
-                        
-                        ?>
-                        <tr '.$color.'>
+                        <?php //$count == 0 ?>
+                        <?php    foreach($data_playing  as $key => $users){?>
+                        <tr >
                             <td> <?= h($key+1)?> </td>
                             <td> <?= h($users['first_name'])  ?> <?= h($users['last_name'])  ?></td>
                             <?php
-                            if(($key+1 <= $number_playing)&&($yesterday['now'] == 1)){
+                            if(($key+1 <= $number_playing)){
                             ?>
                             <td> <?= __('Playing')?> </td>
                             
@@ -203,7 +210,7 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                             <?php
                             if($block==0){
                             ?>
-                            <td>
+                            <td style="float:right">
                                 
                                 <?php echo $this->Form->input('id',array('class' => 'checkbox','type'=>'hidden', 'label' => false,'value'=> $users['id'])); ?>
                                 <?php echo $this->Form->input('coming',array('class' => 'checkbox','type'=>'checkbox','checked'=>'checked', 'label' => false)); ?>
@@ -233,26 +240,31 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                             
                             
                         </tr>
-                        <?php }else{?>
-                        <tr>
+                        </tbody>
+                         <?php } ?>
+                         <tr> 
                             
-                            <td> <?= h($key+1)?> </td>
+                            <td><h4 style="color: #cf850f;">Waiting Users</h4> </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                         </tr>
+                         <tbody>
+                         
+                         <?php foreach($data_waiting  as $num=> $users){?>
+                            <tr '.$color.'>
+                            <td> <?= h($total+ $num + 1)?> </td>
                             <td> <?= h($users['first_name'])  ?> <?= h($users['last_name'])  ?></td>
-                            <?php
-                            if($users['coming']==1){
-                            ?>
-                            <td>
-                                <?= __('Waiting because col register_time == Null pls enter day time')?>
-                            </td>
-                            <?php }else{?>
+                            
                             <td>
                                 <?= __('Waiting')?>
                             </td>
-                            <?php }?>
-                            <?php
+                           <?php
                             if($block==0){
                             ?>
-                            <td>
+                            <td style="float:right">
                                 
                                 <?php echo $this->Form->input('id',array('class' => 'checkbox','type'=>'hidden', 'label' => false,'value'=> $users['id'])); ?>
                                 <?php echo $this->Form->input('coming',array('class' => 'checkbox','type'=>'checkbox','checked'=>'checked', 'label' => false)); ?>
@@ -277,18 +289,17 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                                 <?= $this->Form->button(__('Block')) ?>
                                 
                             </td>
+                            
+                            
+                            
+                            
                         </tr>
-                        
-                        <?php }
-                        
-                        
-                        
-                        } } ?>
-                        
+                         <?php }} ?>
+                        </tbody>
                         <?php
                         foreach ($club->users as $users ){
                         if(($is_admin == 0)||(($is_admin == 1)&&$users['coming']==0)||(($is_admin == 2)&&$users['coming']==0)){
-                        
+                            
                         if($users['id']==$id){
                         ?>
                         <tr '.$color.'>
@@ -299,7 +310,7 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                             <?php
                             if($block==0){
                             ?>
-                            <td>
+                            <td style="float:right">
                                 
                                 <?php echo $this->Form->input('id',array('class' => 'checkbox','type'=>'hidden', 'label' => false,'value'=> $users['id'])); ?>
                                 <?php echo $this->Form->input('coming',array('class' => 'checkbox','type'=>'checkbox', 'label' => false)); ?>

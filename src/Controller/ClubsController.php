@@ -347,6 +347,7 @@ class ClubsController extends AppController
         
         //var_dump($user['coming']);exit;//$user=$this->Auth->user();
         $club_id = $club->id;
+        //var_dump($club_id);exit;
         $query= $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id,'Users.coming'=>1,'Users.block'=>0]]);        
         $number = $query->count();       
         $this->set('number',$number);
@@ -445,47 +446,22 @@ class ClubsController extends AppController
                     break;
             }
         
-        $show_member = array();
-        $show_member2 = array();
-        $datas = array();
-        $data2= array();       
-        $i=0;
-     
-        foreach($club->users as $value){
-            $temp = json_decode($value);
-                   
-            $array = get_object_vars($temp);
-            
-            $temp_cominglast = json_decode($value->coming_last_day);
-            $array_cominglast = get_object_vars($temp_cominglast);
-            //convert object to array
-            $last_coming = $array_cominglast['now'];
-            
-            
-            
-            
-            if(($array['coming']==1)&&($last_coming==1)){
-                    $datas[$i] = $array;
-                    $i++;  
-            }elseif(($last_coming==0)&&($array['coming']==1)){
-                    $data2[$i] = $array;
-                    $i++;
-            }
-            
-        }
-        $show_member = $datas;  
+        $data_playing = $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id,'Users.coming'=>1,'Users.coming_yesterday'=>1],
+                                                'order'=>['register_time'=>'ASC'],
+                                                ]);
+        $total = $data_playing->count();
+        
+        $data_waiting = $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id,'Users.coming'=>1,'Users.coming_yesterday'=>0],
+                                                'order'=>['register_time'=>'ASC'],
+                                                ]);
+        $this->set('data_playing',$data_playing);
+        $this->set('data_waiting',$data_waiting);
+        $this->set('total',$total);
          
-        usort($show_member, array($this, "__cmp"));
-        
-        $show_member2 = array_merge($show_member,$data2);//merge array
-        
-        $this->set('show_member2',$show_member2); 
-        
-            
     }
-    private function __cmp($a, $b)
+    /*private function __cmp($a, $b)
         {
             return 1 * strcmp($a['register_time'], $b['register_time']);
-        }
+        }*/
     
 }

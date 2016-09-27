@@ -292,12 +292,15 @@ class AppController extends Controller
         foreach($user as $value){
             $articlesTable = TableRegistry::get('Users');        
             $value = $articlesTable->get($value['id']);
+            
             $get_comings = json_decode($value->coming_date);
             $array_comings =get_object_vars($get_comings);
+            
             $temp_json = json_decode($value->coming_last_day);
             $array_temp_json =get_object_vars($temp_json);
+            
             $temp_last_coming = $array_comings[$yesterday]; 
-            //var_dump($temp_last_coming);exit; 
+            $value->coming_yesterday = $array_temp_json['now'];
             if($today=='monday'){
                 $array_temp_json['now'] = $array_temp_json['lastsunday']; 
             }else{
