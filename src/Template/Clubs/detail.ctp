@@ -188,6 +188,7 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                         
                         <?php //$count == 0 ?>
                         <?php    foreach($data_playing  as $key => $users){?>
+                        
                         <?php
                             echo $this->Form->create();
                         ?>
@@ -316,9 +317,9 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                         if($users['id']==$id){
                         ?>
                         <tr '.$color.'>
+                            <td></td>
                             <td> <?= h($users->first_name)  ?> <?= h($users->last_name)  ?></td>
-                            
-                            
+  
                             <?= $this->Form->create($users) ?>
                             <?php
                             if($block==0){
@@ -343,6 +344,7 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                                ?>
                                 
                             </td>
+                            <td></td>
                             <td>
                                 
                                 <?php if($is_admin == 0 || ($is_admin == 2 && $users['id'] == $id)|| ($is_admin == 1 && $users['id'] == $id)){?>

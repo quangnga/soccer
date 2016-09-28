@@ -39,7 +39,8 @@ class UsersTable extends Table
     }
     public function getUsers(){
         return $this->find('all',
-        ['contain' => ['Clubs']
+        ['contain' => ['Clubs'],
+        'order'=>['club_id'=>'asc']
         ]);
     }
 

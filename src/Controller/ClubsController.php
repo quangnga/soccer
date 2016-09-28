@@ -29,10 +29,13 @@ class ClubsController extends AppController
 		$id = $this->Auth->user('id');
         if(empty($id)){
               $this->redirect('/');  
-            }
-        $username = $this->Auth->user('username');        
-        $club = $this->Auth->user('club_id'); 
+            } 
+        $this->paginate = [
+        'limit'=>10,
+        'contain' => ['Users']
+        ];
         $clubs = $this->paginate($this->Clubs); 
+        //debug($clubs);exit;
         $this->set(compact('clubs'));
         $this->set('_serialize', ['clubs']);
         $time_now = date("H:i:s");       
@@ -343,7 +346,8 @@ class ClubsController extends AppController
         $dataComing = $this->Users->find('all', [
                 'conditions'=>['Users.id '=>$id_coming]
             ]);                    
-        $user = $this->Users->get($id_coming, ['condition' => ['Users.id' => $id_coming],]);              
+        $user = $this->Users->get($id_coming, ['condition' => ['Users.id' => $id_coming],]); 
+        //var_dump($user);exit;             
          
 
         $club_id = $club->id;
@@ -371,7 +375,7 @@ class ClubsController extends AppController
         
         
        if ($this->request->is(['patch', 'post', 'put'])) { 
-            if(($role == 0)&&($number > 0)){
+            if(($this->request->data('block'))==NULL){
                 //code send coming and condition
                 $value_coming= (int)$this->request->data('coming');
                 //var_dump($is_full);exit;
