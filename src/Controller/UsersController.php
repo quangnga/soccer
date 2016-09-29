@@ -182,12 +182,6 @@ class UsersController extends AppController
     }
      public function addPermissions($id = null){
 
-        //$acl1=$this->acls->patchEntity($acltemp, $acltemp->user_id = $id);
-         //$user=$this->users->get($id);
-        //$aclsTable = TableRegistry::get('acls');
-        //$acltemp=$aclsTable->newEntity();
-        //$acltemp->user_id = $id;
-        //$aclsTable->save($acltemp);
          $user = $this->Users->get($id, ['contain'=>['acls'],'condition'=> ['user_id'=>$id]]);
         //$aclsTable = TableRegistry::get('acls');
         $acl = $this->Users->acls->findByUserId($id)->first();
@@ -474,7 +468,7 @@ class UsersController extends AppController
             $value = $articlesTable->get($value['id']); 
             $value->status = 1;
             $articlesTable->save($value);
-            $this->Flash->success(__('Your account actived! Register completed.'));
+            
            
             //debug($value);
         }
