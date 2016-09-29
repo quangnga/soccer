@@ -106,7 +106,6 @@ class AppController extends Controller
        $clubByuser = $this->Auth->user('club_id');
        $this->set('clubByuser',$clubByuser); 
        
-       
     }
     
     public function isAuthorizedAdmin()
@@ -163,7 +162,7 @@ class AppController extends Controller
                 if($data->coming_date != NULL){
                     $temp_data = json_decode($data->coming_date);
                     $array_data = get_object_vars($temp_data);
-                    debug($data);exit;
+                    //debug($data);exit;
                     
     
                     if($data->reset_coming == 1){
