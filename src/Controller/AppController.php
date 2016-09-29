@@ -160,22 +160,25 @@ class AppController extends Controller
                 $articlesTable = TableRegistry::get('Users');
                 $data = $articlesTable->get($data['id']);
                 $data->reset_coming = 1;
-                $temp_data = json_decode($data->coming_date);
-                $array_data =get_object_vars($temp_data);
-                
-
-                if($data->reset_coming == 1){
-                    $temp_coming['lastsunday'] = $array_data['sunday'];
-                    $temp_coming['now'] = 0;
+                if($data->coming_date != NULL){
+                    $temp_data = json_decode($data->coming_date);
+                    $array_data = get_object_vars($temp_data);
+                    debug($data);exit;
                     
-                    $data->coming_last_day = json_encode($temp_coming);
-                    $temp = array('monday'=>0,'tuesday'=>0,'wednesday'=>0,'thursday'=>0,'friday'=>0,'saturday'=>0,'sunday'=>0);
-                    $data->coming_date = json_encode($temp) ;
-                    //$data->reset_coming = 1;
-                          
+    
+                    if($data->reset_coming == 1){
+                        $temp_coming['lastsunday'] = $array_data['sunday'];
+                        $temp_coming['now'] = 0;
+                        
+                        $data->coming_last_day = json_encode($temp_coming);
+                        $temp = array('monday'=>0,'tuesday'=>0,'wednesday'=>0,'thursday'=>0,'friday'=>0,'saturday'=>0,'sunday'=>0);
+                        $data->coming_date = json_encode($temp) ;
+                        //$data->reset_coming = 1;
+                              
+                    }
+                    
+                    $articlesTable->save($data);
                 }
-                
-                $articlesTable->save($data);
         }
     }
 }
@@ -217,42 +220,44 @@ class AppController extends Controller
         foreach($user as $value){
             $articlesTable = TableRegistry::get('Users');        
             $value = $articlesTable->get($value['id']);
-            $get_comings = json_decode($value->coming_date);
-            $array_comings =get_object_vars($get_comings); 
-            
-            if(($time_now >= $time_reset)&&(strtotime($date_data)>strtotime($value->date_reset))){
-            
-                $value->coming = 0;
-                foreach($array_comings as $key => $get_coming){               
+            if($value->coming_date!=NULL){
+                $get_comings = json_decode($value->coming_date);
+                $array_comings =get_object_vars($get_comings); 
                 
-                    if($key==$today ){
-                        $array_comings["$key"] = 0;                     
-                    }                   
-                }
-                $temp_coming= json_encode($array_comings);
-                $value->coming_date = $temp_coming;
-                $articlesTable->save($value);
+                if(($time_now >= $time_reset)&&(strtotime($date_data)>strtotime($value->date_reset))){
                 
-            }// reset comings by time;
-            $get_coming_new = json_decode($value->coming_date);
-            if(!empty($get_coming_new)){ 
+                    $value->coming = 0;
+                    foreach($array_comings as $key => $get_coming){               
+                    
+                        if($key==$today ){
+                            $array_comings["$key"] = 0;                     
+                        }                   
+                    }
+                    $temp_coming= json_encode($array_comings);
+                    $value->coming_date = $temp_coming;
+                    $articlesTable->save($value);
+                    
+                }// reset comings by time;
+                $get_coming_new = json_decode($value->coming_date);
+                if(!empty($get_coming_new)){ 
+                    
+                    $coming = $value->coming;
+                    foreach($get_coming_new as $key => $get_coming){               
+                        if($key==$today ){
+                            $data_coming = $get_coming; 
+                            $value->coming = $data_coming;
+                            $value->date_reset = $date_data;
+                            $articlesTable->save($value);                        
+                        }                   
+                    }
                 
-                $coming = $value->coming;
-                foreach($get_coming_new as $key => $get_coming){               
-                    if($key==$today ){
-                        $data_coming = $get_coming; 
-                        $value->coming = $data_coming;
-                        $value->date_reset = $date_data;
-                        $articlesTable->save($value);                        
-                    }                   
-                }
-            
-            }else{
-                $temp = array('monday'=>0,'tuesday'=>0,'wednesday'=>0,'thursday'=>0,'friday'=>0,'saturday'=>0,'sunday'=>0);
-                $value->coming_date = json_encode($temp);
-                $articlesTable->save($value);
-            }// get coming from coming_date;
-            json_encode($get_comings);
+                }else{
+                    $temp = array('monday'=>0,'tuesday'=>0,'wednesday'=>0,'thursday'=>0,'friday'=>0,'saturday'=>0,'sunday'=>0);
+                    $value->coming_date = json_encode($temp);
+                    $articlesTable->save($value);
+                }// get coming from coming_date;
+                json_encode($get_comings);
+        }
         }
         
         
@@ -292,25 +297,25 @@ class AppController extends Controller
         foreach($user as $value){
             $articlesTable = TableRegistry::get('Users');        
             $value = $articlesTable->get($value['id']);
-            
-            $get_comings = json_decode($value->coming_date);
-            $array_comings =get_object_vars($get_comings);
-            
-            $temp_json = json_decode($value->coming_last_day);
-            $array_temp_json =get_object_vars($temp_json);
-            
-            $temp_last_coming = $array_comings[$yesterday]; 
-            $value->coming_yesterday = $array_temp_json['now'];
-            if($today=='monday'){
-                $array_temp_json['now'] = $array_temp_json['lastsunday']; 
-            }else{
-                $array_temp_json['now'] = $temp_last_coming;
-            }
-            $value->coming_last_day = json_encode($array_temp_json);
-            
-            $articlesTable->save($value);
+            if($value->coming_date!=NULL){
+                $get_comings = json_decode($value->coming_date);
+                $array_comings =get_object_vars($get_comings);
+                
+                $temp_json = json_decode($value->coming_last_day);
+                $array_temp_json =get_object_vars($temp_json);
+                
+                $temp_last_coming = $array_comings[$yesterday]; 
+                $value->coming_yesterday = $array_temp_json['now'];
+                if($today=='monday'){
+                    $array_temp_json['now'] = $array_temp_json['lastsunday']; 
+                }else{
+                    $array_temp_json['now'] = $temp_last_coming;
+                }
+                $value->coming_last_day = json_encode($array_temp_json);
+                
+                $articlesTable->save($value);
             //var_dump($temp_last_coming);exit; 
-        
+            }
         }
         
     }
