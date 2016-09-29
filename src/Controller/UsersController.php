@@ -436,9 +436,12 @@ class UsersController extends AppController
                                         "action" => "sendCodeActive",
                                         ], true);
                                         
-                    $email->send('Hello ' . $user->username .  "\nClick this link  " .$link.'/'.$code. " enter code ". $code . " to complete register ");
+                    $email->send('Hello ' . $user->username .  "\nClick this link  " .$link.'/'.$code." for complete register ");
+                    $this->Flash->success(__('Please check your email for activation details.'));
+                    return $this->redirect("/Users/login");
                     
-                    return $this->redirect("/Users/sendCodeActive/".$code);
+                    
+                    //return $this->redirect("/Users/sendCodeActive/".$code);
                 
                 }else {
                     $this->Flash->error(__('The user could not be registered. Email or username invalid. Please, try again.'));
