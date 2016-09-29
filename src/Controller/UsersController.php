@@ -442,9 +442,9 @@ class UsersController extends AppController
                                         "action" => "sendCodeActive",
                                         ], true);
                                         
-                    $email->send('Hello ' . $user->username .  "\nClick this link  " .$link. " enter code ". $code . " to complete register ");
+                    $email->send('Hello ' . $user->username .  "\nClick this link  " .$link.'/'.$code. " enter code ". $code . " to complete register ");
                     
-                    return $this->redirect("/Users/sendCodeActive");
+                    return $this->redirect("/Users/sendCodeActive/".$code);
                 
                 }else {
                     $this->Flash->error(__('The user could not be registered. Email or username invalid. Please, try again.'));
@@ -464,38 +464,21 @@ class UsersController extends AppController
         
     }
     
-    public function sendCodeActive(){
+    public function sendCodeActive($code=null){
         
-        if($this->request->is('post')){
-            $active = $this->request->data['code'];
-            if(!empty($active)){
-               $usertemp = $this->Users->find('all',  [
-                'conditions'=>['Users.activation'=>$active]]);
-            
-                foreach($usertemp as $value){
-                    //var_dump($value->activation);exit;
-                   if($active == $value->activation && $value->status==0){
-                        foreach($usertemp as $data){
-                            $articlesTable = TableRegistry::get('Users');
-                            $data = $articlesTable->get($data['id']); 
-                            $data->status = 1;
-                            $articlesTable->save($data);
-                        }
-                        $this->Flash->success('completed verify!');
-                        return $this->redirect('/Users/login');
-                    }elseif($active == $value->activation && $value->status==1){
-                        $this->Flash->error('Your account is actived!');
-                    }else{
-                        $this->Flash->error('Your code is not correct!');
-                    }
-                } 
-            }else{
-                $this->Flash->error('Please end code...');
-            }
-            
-            
+        $this->register();
+        $usertemp = $this->Users->find("all", ['conditions' => ['activation' => $code]])->toArray();
+        foreach($usertemp as $value){
+            $articlesTable = TableRegistry::get('Users');
+                
+            $value = $articlesTable->get($value['id']); 
+            $value->status = 1;
+            $articlesTable->save($value);
+            $this->Flash->success(__('Your account actived! Register completed.'));
+           
+            //debug($value);
         }
-        
+         //return $this->redirect(['controller' => 'Users', 'action' => 'login']);//exit;
         
     }
 
@@ -518,7 +501,7 @@ class UsersController extends AppController
             if ( $this->validate_email($email) )
             {
                 $query = $this->Users->find()->select(['email'])->where(['email ==' => $email]);
-                debug($query);
+                //debug($query);
                 
                 
                 if ( empty($query) ){
@@ -609,8 +592,7 @@ class UsersController extends AppController
             $userPatched = $this->Users->patchEntity($user, $this->request->data);
             $this->request->data['id'] = $user->id;
             $this->request->data['token'] = '';
-            
-            
+           
              
             //var_dump($userPatched);exit;//['password' => $this->request->data['password']]);
             if ($this->Users->save($userPatched)) {
