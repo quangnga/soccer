@@ -25,8 +25,13 @@ class RegionsTable extends Table
         parent::initialize($config);
 
         $this->table('regions');
-        $this->displayField('id');
+        $this->displayField('name');
+        
         $this->primaryKey('id');
+        
+        $this->hasMany('Cities', [
+            'foreignKey' => 'region_id'
+        ]);
 
         
     }
@@ -46,11 +51,9 @@ class RegionsTable extends Table
         
 
         $validator
-            ->requirePresence('region_name', 'create')
-            ->notEmpty('region_name');
-        $validator
-            ->requirePresence('city_id', 'create')
-            ->notEmpty('city_id');
+            ->requirePresence('name', 'create')
+            ->notEmpty('name');
+        
 
         return $validator;
     }
@@ -64,7 +67,6 @@ class RegionsTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['city_id'], 'Cities'));
         return $rules;
     }
 }

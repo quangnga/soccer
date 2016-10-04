@@ -2,23 +2,20 @@
     <div class="portlet portlet-default">
         <div class="portlet-heading">
             <div class="portlet-title">
-                <h4>Edit City Form</h4>
+                <h4>Edit Region Form</h4>
             </div>
             <div class="clearfix"></div>
         </div>
         <div id="basicFormExample" class="panel-collapse collapse in">
             <div class="portlet-body">
                 <fieldset style="border:0px;">
-                <?= $this->Form->create($city) ?>    
+                <?= $this->Form->create($region) ?>    
                     <div  class="form-group col-md-12">
                         <div class="form-group">
-                            <?php echo $this->Form->input('city_name', array('class' => 'form-control', 'placeholder' => 'Enter City name', 'maxlength' => '45', 'label' => ' City Name *')); ?>
+                            <?php echo $this->Form->input('name', array('class' => 'form-control', 'placeholder' => 'Enter Region name', 'maxlength' => '45', 'label' => ' Region Name *')); ?>
                         </div>
                     </div>
-                    <div  class="form-group col-md-12">
-                            <?php echo $this->Form->input('region_id', ['options' => $regions]);?>
-                    </div>
-                        
+    
                     <div class="row" align="center">
                         <?= $this->Form->button(__('Submit')) ?>
                         <?= $this->Form->end() ?>

@@ -161,8 +161,7 @@ class UsersController extends AppController
                 
             }
         }
-        
-        //var_dump($is_full);exit;
+
             $clubs = $this->Users->Clubs->find('list', ['limit' => 200]);
             $this->set(compact('user', 'clubs'));
             $this->set('_serialize', ['user']);
@@ -320,15 +319,24 @@ class UsersController extends AppController
         $this->Auth->Logout();
         return $this->redirect('/Users/login');
     }
-    public function getregions(){
+    /*public function getregions(){
         
         if ($this->request->is('post')) {
             $this->loadModel('Regions');
-            $city_id = $this->request->data['city_id'];
-            $this->set('city_id',$city_id);
+            $this->loadModel('Cities');
             
-            //var_dump($regions);exit;
-            $regions = $this->Regions->find('all',['conditions'=>['city_id'=>$city_id]]);
+            $city_id = $this->request->data['city_id'];
+            
+            $this->set('city_id',$city_id);    
+            $region_id = $this->Cities->find('all',['conditions'=>['id'=>$city_id]]);
+            foreach($region_id as $value){
+                
+                $temp_id = $value->region_id;
+            }
+            
+            //var_dump($region_id);exit;
+            $regions = $this->Regions->find('all',['conditions'=>['id'=>$temp_id]]);
+            
             $results = array();
             
             
@@ -338,7 +346,7 @@ class UsersController extends AppController
                     
                     $html .= '<option value="0">'.'---Select Region---'.'</option>';
                 foreach($regions as $region){
-                    $html .= '<option value="'.$region['id'].'">'.$region['region_name'].'</option>';
+                    $html .= '<option value="'.$region['id'].'">'.$region['name'].'</option>';
                     
                     $i = $i+1;
                 }
@@ -349,24 +357,15 @@ class UsersController extends AppController
             
             echo json_encode($html);exit;
         }
-    }
+    }*/
     
     public function getclubs(){
         
         if ($this->request->is('post')) {
-            $this->loadModel('Regions');
-            $region_id = $this->request->data['region_id'];
-            $temp = $this->Regions->find('all',  [
-                'conditions'=>['Regions.id '=>$region_id]]);
-            
-            foreach($temp as $value){
-                
-                $city_id = $value->city_id;
-            }
-            //var_dump($city_id);exit;
-            
-            
-            $clubs = $this->Clubs->find('all',['conditions'=>['city_id'=>$city_id]]);
+            $this->loadModel('Cities');
+            $city_id = $this->request->data['city_id'];
+ 
+            $clubs = $this->Clubs->find('all',['conditions'=>['Clubs.city_id'=>$city_id]]);
             $results = array();
             
             
@@ -456,17 +455,12 @@ class UsersController extends AppController
             $value = $articlesTable->get($value['id']); 
             $value->status = 1;
             $articlesTable->save($value);
-            
-           
-            //debug($value);
+
         }
          //return $this->redirect(['controller' => 'Users', 'action' => 'login']);//exit;
         
     }
-
-
-
-    
+  
 
     // Forgot Password functions
     

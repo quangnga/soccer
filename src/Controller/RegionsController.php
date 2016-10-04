@@ -7,13 +7,12 @@ use Cake\ORM\TableRegistry;
 use Cake\Network\Exception\NotFoundException;
 use Cake\Network\Email\Email;
 use Cake\Routing\Router;
-
 /**
  * Cities Controller
  *
  * @property \App\Model\Table\CitiesTable $Cities
  */
-class CitiesController extends AppController
+class RegionsController extends AppController
 {
     
     /**
@@ -37,15 +36,14 @@ class CitiesController extends AppController
         }
     public function index()
     {
-        
+        $this->paginate = [
+            'contain' => ['Cities']
+        ];
 
-        $cities = $this->paginate($this->Cities);
+        $region = $this->paginate($this->Regions);
        
-        $this->set(compact('cities'));
-        $this->set('_serialize', ['cities']);
-        
-          
-        //var_dump($clubs->club_id);exit;
+        $this->set(compact('region'));
+        $this->set('_serialize', ['region']);
             
     }
 
@@ -58,13 +56,10 @@ class CitiesController extends AppController
      */
     public function view($id = null)
     {
-        $city = $this->Cities->get($id,[
-            'contain' => ['Regions']
-        ]);
+        $region = $this->Regions->get($id);
 
-        $this->set('city', $city);
-        $this->set('_serialize', ['city']);
-        //debug($city->region['name']);exit;
+        $this->set('region', $region);
+        $this->set('_serialize', ['region']);
     }
 
     /**
@@ -73,26 +68,20 @@ class CitiesController extends AppController
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
      */
     public function add()
-    {   
-        
-       
-        $city = $this->Cities->newEntity();
-        
+    {    
+        $region = $this->Regions->newEntity();
         if ($this->request->is('post')) {
-            $city = $this->Cities->patchEntity($city, $this->request->data);
-            //debug($city);exit;
-            if ($this->Cities->save($city)) {
-                $this->Flash->success(__('The user has been saved.'));
+            $region = $this->Regions->patchEntity($region, $this->request->data);
+            if ($this->Regions->save($region)) {
+                $this->Flash->success(__('The city has been saved.'));
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__('The user could not be saved. Please, try again.'));
+                $this->Flash->error(__('The city could not be saved. Please, try again.'));
             }
         }
-        $regions = $this->Cities->Regions->find('all');
-        
-        $this->set(compact('city', 'regions'));
-        $this->set('_serialize', ['city']);
-        
+        //$clubs = $this->Cities->Clubs->find('list', ['limit' => 200]);
+        $this->set(compact('region'));
+        $this->set('_serialize', ['region']);
     }
 
     /**
@@ -104,21 +93,21 @@ class CitiesController extends AppController
      */
     public function edit($id = null)
     {
-        $city = $this->Cities->get($id, [
-            'contain' => ['Regions']
+        $region = $this->Regions->get($id, [
+            'contain' => []
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $city = $this->Cities->patchEntity($city, $this->request->data);
-            if ($this->Cities->save($city)) {
+            $region = $this->Regions->patchEntity($region, $this->request->data);
+            if ($this->Regions->save($region)) {
                 $this->Flash->success(__('The city has been saved.'));
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The city could not be saved. Please, try again.'));
             }
         }
-        $regions = $this->Cities->Regions->find('list');
-        $this->set(compact('city', 'regions'));
-        $this->set('_serialize', ['city']);
+        
+        $this->set(compact('region'));
+        $this->set('_serialize', ['region']);
     }
 
     /**
@@ -131,8 +120,8 @@ class CitiesController extends AppController
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $city = $this->Cities->get($id);
-        if ($this->Cities->delete($city)) {
+        $region = $this->Regions->get($id);
+        if ($this->Regions->delete($region)) {
             $this->Flash->success(__('The city has been deleted.'));
         } else {
             $this->Flash->error(__('The city could not be deleted. Please, try again.'));

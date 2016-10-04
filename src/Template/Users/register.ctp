@@ -64,7 +64,7 @@
                         </div>
                     </div>
                     
-                    <div class="row">
+                   <!-- <div class="row">
                         <div class="form-group col-md-6">
                             <label class="test" >Region</label> 
                             <div class="form-group showresultclubs ">
@@ -80,7 +80,7 @@
                         </div>
                         
 
-                    </div>
+                    </div>-->
                     <div class="row">
                         <div class="col-md-6"></div>
                         <div class="form-group showclubname col-md-6"  id="club">
@@ -151,21 +151,22 @@
 <script type="text/javascript">
 function getregion(o){
     var city = o.val();
+    
     $(".test ").css('display','none');
         
     if(city == 0){
         
         $(".showhide ").css('display','none');
         
-        $(".showresultclubs").html('');
+        $(".showclubname").html('');
     }else{
         $.ajax({
-            url:'<?php echo $this->Url->build(["controller" => "Users", "action" => "getregions", ""]);?>',
+            url:'<?php echo $this->Url->build(["controller" => "Users", "action" => "getclubs", ""]);?>',
             data: {city_id: city},
             type:'POST',
             dataType:'json',
             success: function(data){
-                $(".showresultclubs").html(data);
+                $(".showclubname").html(data);
                 
                 
             }
@@ -175,7 +176,7 @@ function getregion(o){
        
     }
 }
-function getclub(o){
+/*function getclub(o){
     var region = o.val();
    if(region == 0){
         
@@ -194,6 +195,6 @@ function getclub(o){
         });
         
    }    
-}
+}*/
     
 </script>

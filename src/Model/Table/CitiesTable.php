@@ -28,6 +28,11 @@ class CitiesTable extends Table
         $this->table('cities');
         $this->displayField('id');
         $this->primaryKey('id');
+        
+        $this->belongsTo('Regions', [
+            'foreignKey' => 'region_id',
+            'joinType' => 'INNER'
+        ]);
 
         
     }
@@ -49,8 +54,8 @@ class CitiesTable extends Table
             ->notEmpty('city_name');
 
         $validator
-            ->requirePresence('region_name', 'create')
-            ->notEmpty('region_name');
+            ->requirePresence('region_id', 'create')
+            ->notEmpty('region_id');
 
         return $validator;
     }
@@ -64,7 +69,8 @@ class CitiesTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['id'], 'Clubs'));
+      $rules->add($rules->existsIn(['region_id'], 'Regions'));
+
         return $rules;
     }
 }
