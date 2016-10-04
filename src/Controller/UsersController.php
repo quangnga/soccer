@@ -319,7 +319,7 @@ class UsersController extends AppController
         $this->Auth->Logout();
         return $this->redirect('/Users/login');
     }
-    /*public function getregions(){
+    public function getregions(){
         
         if ($this->request->is('post')) {
             $this->loadModel('Regions');
@@ -357,7 +357,7 @@ class UsersController extends AppController
             
             echo json_encode($html);exit;
         }
-    }*/
+    }
     
     public function getclubs(){
         
