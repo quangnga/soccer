@@ -30,8 +30,8 @@ class ClubsTable extends Table
         $this->displayField('club_name');
         $this->primaryKey('id');
 
-        $this->belongsTo('Trainings', [
-            'foreignKey' => 'training_id',
+        $this->belongsTo('Cities', [
+            'foreignKey' => 'city_id',
             'joinType' => 'INNER'
         ]);
         $this->hasMany('Users', [

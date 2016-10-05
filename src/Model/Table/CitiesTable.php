@@ -55,7 +55,7 @@ class CitiesTable extends Table
 
         $validator
             ->requirePresence('region_id', 'create')
-            ->notEmpty('region_id');
+            ->allowEmpty('region_id');
 
         return $validator;
     }
@@ -69,7 +69,7 @@ class CitiesTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-      $rules->add($rules->existsIn(['region_id'], 'Regions'));
+      //$rules->add($rules->existsIn(['region_id'], 'Regions'));
 
         return $rules;
     }

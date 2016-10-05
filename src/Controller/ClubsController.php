@@ -27,6 +27,7 @@ class ClubsController extends AppController
     {   
         $this->loadModel('Cities');        
 		$id = $this->Auth->user('id');
+        $club_id = $this->Auth->user('club_id');
         if(empty($id)){
               $this->redirect('/');  
             } 
@@ -34,8 +35,14 @@ class ClubsController extends AppController
         'limit'=>10,
         'contain' => ['Users']
         ];
-        $clubs = $this->paginate($this->Clubs); 
-        //debug($clubs);exit;
+        $role = $this->Auth->user('role');
+        if($role != 0){
+           $clubs = $this->paginate($this->Clubs); 
+        }else{
+           $clubs = $this->Clubs->find('all',['conditions'=>['Clubs.id'=> $club_id]]);
+        }
+         
+        
         $this->set(compact('clubs'));
         $this->set('_serialize', ['clubs']);
         $time_now = date("H:i:s");       
@@ -73,7 +80,7 @@ class ClubsController extends AppController
     public function view($id = null)
     {
         $club = $this->Clubs->get($id, [
-            'contain' => [ 'Users']
+            'contain' => [ 'Users','Cities']
         ]);
         $id_user = $this->Auth->user('role');
         $club_user = $this->Auth->user('club_id');
@@ -87,6 +94,7 @@ class ClubsController extends AppController
         $this->set('view', $view);
         $this->set('club', $club);
         $this->set('_serialize', ['club']);
+        //debug($club);exit;
         
     }
 

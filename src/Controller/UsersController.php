@@ -49,26 +49,14 @@ class UsersController extends AppController
      */
     public function index()
     {
-        //
-        $this->paginate = [
-        'order'=>['coming'=>'DESC'],
-        'limit'=>10,
-        'contain' => ['Clubs']
-        ];
-        $users = $this->paginate($this->Users->getUsers());
-        //var_dump($users);exit;
-        $this->set(compact('users'));
-        $this->set('_serialize', ['users']);
-        $this->set('users',$users);
         $id = $this->Auth->user('id');
-        //var_dump($id);exit;
         if(empty($id)){
               $this->redirect(["controller"=>"Pages","action"=>'display', 'home']);  
             }
         $user = $this->Auth->user();
         $club_id = $user['club_id'];
         $user_id = $user['id'];
-        //var_dump($user_id);exit;
+
         if($this->isAuthorizedAdmin()==1){
             $this->paginate = [
                 'contain' => ['Clubs'],
@@ -85,6 +73,10 @@ class UsersController extends AppController
                 'conditions' => ['Users.id' => $user_id],
                 ];
         }
+        $users = $this->paginate($this->Users); 
+        $this->set(compact('users'));
+        $this->set('_serialize', ['users']);
+        $this->set('users',$users);
         
         
     }
@@ -262,11 +254,12 @@ class UsersController extends AppController
     {    
         if ($this->request->is('post')) {
             $user = $this->Auth->identify();
+            //debug($user);exit;
                 if ($user && $user['status']== 1) {
                     $this->Auth->setUser($user);
                         return $this->redirect("/clubs/index");
                 } elseif($user && $user['status']== 0) {
-                    return $this->redirect("/Users/sendCodeActive");
+                    $this->Flash->error('Please check email to active account.');
                 }else{
                     $this->Flash->error('Your username or password is incorrect.');
                 }

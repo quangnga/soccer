@@ -13,7 +13,7 @@
 
     }
 </style><div class="page-title">
-    <h1>View <?= h($club->club_name) ?> <?= h($club->city) ?></h1>
+    <h1>View <?= h($club->club_name) ?> <?= h($club->city['city_name']) ?></h1>
 
     <ol class="breadcrumb">
         <li class="active"><a href="<?php echo $this->Url->build(["controller" => "dashboard", "action" => "index"]) ?>"><i class="fa fa-dashboard"></i> Dashboard</a>
@@ -51,7 +51,7 @@
     <div class="portlet portlet-blue">
         <div class="portlet-heading">
             <div class="portlet-title">
-                <h4><strong><?= h($club->club_name) ?> <?= h($club->city) ?></strong> Details</h4>
+                <h4><strong><?= h($club->club_name) ?> <?= h($club->city['city_name']) ?></strong> Details</h4>
             </div>
             <div class="clearfix"></div>
         </div>
@@ -92,7 +92,7 @@
                                 <?= __('City') ?>
                             </td>
                             <td>
-                                <?= h($club->city) ?>
+                                <?= h($club->city['city_name']) ?>
                             </td>
                         </tr>
 
