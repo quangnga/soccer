@@ -362,7 +362,7 @@ class UsersController extends AppController
             $results = array();
             
             
-            $html = '<label>Club </label> <select name="nameclub" class="showclubname form-group">';
+            $html = '<label>Club </label> <select name="nameclub" class="showclubname form-group col-md-10">';
             $i = 1;
                 
                 $html .= '<option value="0">'.'---Select Club---'.'</option>';

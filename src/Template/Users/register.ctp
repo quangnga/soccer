@@ -38,12 +38,18 @@
             <div class="portlet-body">
             <?= $this->Form->create($user) ?>
                 <fieldset style="border:0px; ">
+                
+                    <div class=" row form-group "  align="center">
+                        <div class="indicatorDefault">
+                            * Indicates required field
+                        </div>
+                    </div>
                         
-                         <div  class="form-group row" align="center" >
-                                
-                                <div class="form-group">
+                         <div  class="form-group row" style="margin-top: 30px;" >
+                                <div class="col-md-3"></div>
+                                <div class="form-group col-md-6">
                                     <label>City</label>
-                                    <select name="city" onchange="getregion($(this))" class="showcity">
+                                    <select name="city" onchange="getregion($(this))" class="showcity form-group col-md-9">
                                         <option value="0">---select city---</option>
                                         <?php foreach($cities as $city){ ?>
                                             
@@ -51,6 +57,8 @@
                                         <?php } ?>
                                     </select>
                                 </div>
+                                <div class="col-md-3"></div>
+                                
                                 
                                 
                             </div>
@@ -58,11 +66,6 @@
                     
                 <div class="showhide">  
                     
-                    <div class="form-group">
-                        <div class="indicatorDefault">
-                            * Indicates required field
-                        </div>
-                    </div>
                     
                    <!-- <div class="row">
                         <div class="form-group col-md-6">
@@ -71,43 +74,44 @@
                                 
                             </div>
                         </div>
-                        <div class="form-group col-md-6">
-                            <div class="form-group">
-                                <?php echo $this->Form->input('first_name', array('class' => 'form-control', 'placeholder' => 'Enter first name', 'maxlength' => '20', 'label' => ' First name', 'autocapitalize' => 'words')); ?>
-                            </div>
-                            
-                            
-                        </div>
+                        
                         
 
                     </div>-->
                     <div class="row">
-                        <div class="col-md-6"></div>
-                        <div class="form-group showclubname col-md-6"  id="club">
-                            
+                        <div class="form-group  col-md-6">
+                            <div class="form-group">
+                                <?php echo $this->Form->input('first_name', array('class' => 'form-control', 'placeholder' => 'Enter first name', 'maxlength' => '20', 'label' => ' First name', 'autocapitalize' => 'words')); ?>
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="row">
                         <div class="form-group col-md-6">
                             <div class="form-group">
                                 <?php echo $this->Form->input('lasst_name', array('class' => 'form-control', 'placeholder' => 'Enter last Name', 'maxlength' => '45', 'label' => 'last Name', 'autocapitalize' => 'words')); ?>
                             </div>
                         </div>
+                        
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group showclubname col-md-6" style="margin-top: 35px;"  id="club">
+                            
+                        </div>
                         <div class="form-group col-md-6">
                             <div class="form-group">
-                                <?php echo $this->Form->input('email', array('class' => 'form-control', 'type'=>'email', 'placeholder' => 'Enter email ', 'maxlength' => '45', 'label' => 'email')); ?>
+                                <?php echo $this->Form->input('username', array('class' => 'form-control', 'placeholder' => 'Enter username', 'maxlength' => '20')); ?>
                             </div>
                         </div>
+                        
                     </div>
 
 
                     <div class="row">
                         <div class="form-group col-md-6">
                             <div class="form-group">
-                                <?php echo $this->Form->input('username', array('class' => 'form-control', 'placeholder' => 'Enter username', 'maxlength' => '20')); ?>
+                                <?php echo $this->Form->input('email', array('class' => 'form-control', 'type'=>'email', 'placeholder' => 'Enter email ', 'maxlength' => '45', 'label' => 'Email')); ?>
                             </div>
                         </div>
+                        
                         <div class="form-group col-md-6">
                             <div class="form-group">
                                 <?php echo $this->Form->input('phone_number', array('class' => 'form-control', 'placeholder' => 'Enter Phone number', 'maxlength' => '50', 'label' => ' phone number')); ?>
