@@ -13,7 +13,7 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
         <li class="active animated slideInRight"><i class="fa fa-list-alt animated slideInRight"></i>  <?= h($club->club_name) ?>  attendance sheet</a></li>
     </ol>
 </div>
-<div class="col-lg-12 col-md-12">
+<div class="col-lg-12 col-md-12" >
     <div class="portlet portlet-green">
         <div class="portlet-heading">
             <div class="portlet-title">
@@ -22,6 +22,7 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
             <h4><?php
             $today = strtolower(date("l")); //var_dump($club[$today]);exit;
             ?>
+
             <?php if($club[$today] == 0){
             echo 'no training today';}
             else {echo 'There will be a training today';}
@@ -32,20 +33,20 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
             <td>
                 <?php if($club->monday==0){
                 
-                echo '<button type="button" class="weeksOff"></i> Monday</button>';}
+                echo '<button type="button" class="weeksOff"></i> الأثنين</button>';}
                 
-                else {echo '<button type="button" class="weeksOn"><strong>Monday</strong></button>';}
+                else {echo '<button type="button" class="weeksOn"><strong>الأثنين</strong></button>';}
                 
                 
                 
                 ?>
                 <?php if($club->tuesday==0){
                 
-                echo '<button type="button" class="weeksOff"></i>Tuesday</button>';}
+                echo '<button type="button" class="weeksOff"></i>الثلاثاء</button>';}
                 
                 
                 
-                else {echo '<button type="button" class="weeksOn"><strong>Tuesday</strong></button>';}
+                else {echo '<button type="button" class="weeksOn"><strong>الثلاثاء</strong></button>';}
                 
                 
                 
@@ -105,6 +106,7 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                 
                 
                 ?>
+
             </td>
             <div class="clearfix"></div>
         </div>
@@ -115,7 +117,7 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                     
                     <tr '.$color.'>
                         <?php
-                        if($is_admin==1||$is_admin == 2){
+                        if($is_admin==1||$is_admin == 2||$is_admin == 0){
                         
                         ?>
                         <th><?= __('Order') ?></th>
@@ -128,7 +130,7 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                         
                         <th><?= __('Full name') ?></th>
                         <?php
-                        if($is_admin==1||$is_admin == 2){
+                        if($is_admin==1||$is_admin == 2 || $is_admin == 0){
                         
                         ?>
                         <th><?= __('Status') ?></th>
@@ -153,20 +155,20 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                         <th><?= __('Block') ?></th>
                         
                         
-                        <?php
-                        }
-                        
-                        ?>
+
                         
                         
                         <th><?= __('Action') ?></th>
                         
                     
-                        
-                        
-                        
+<?php
+    }
+    
+    ?>
+
+
                     </tr>
-                    
+
                     <!-- section for playing players-->
                     
                     
