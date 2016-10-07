@@ -492,6 +492,46 @@ class ClubsController extends AppController
          
     }
     
+    public function getregions(){
+        
+        if ($this->request->is('post')) {
+            
+            $city_id = $this->request->data['city_id'];
+            $this->loadModel('CitiesRegions');
+            $this->loadModel('Regions');
+            $city = $this->Cities->newEntity();
+            $regions = $this->CitiesRegions->find('all', ['limit' => 200,'conditions'=>['CitiesRegions.city_id'=>$city_id]]);
+            $results = array();
+            $i=0;
+            foreach($regions as $value){
+                $temp = $value->region_id;
+                $names = $this->Regions->find('all', ['limit' => 200,'conditions'=>['Regions.id'=>$temp]]);
+                foreach($names as $name){
+                    $results[$i] =  ($name); 
+                    
+                }$i++;
+            }
+                
+            
+            
+            $html = '<select name="region_id" onchange="getclub($(this))" class="showregion form-group">';
+            $i = 1;
+                    
+                    $html .= '<option value="0">'.'---Select Region---'.'</option>';
+                foreach($results as $region){
+                    $html .= '<option value="'.$region['id'].'">'.$region['name'].'</option>';
+                    
+                    $i = $i+1;
+                }
+            if($i == 1){
+                $html .= '<option>Not have city in region</option>';
+            }
+            $html .= '</select>';
+            
+            echo json_encode($html);exit;
+        }
+    }
+    
     /*private function __cmp($a, $b)
         {
             return 1 * strcmp($a['register_time'], $b['register_time']);

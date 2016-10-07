@@ -312,45 +312,7 @@ class UsersController extends AppController
         $this->Auth->Logout();
         return $this->redirect('/Users/login');
     }
-    public function getregions(){
-        
-        if ($this->request->is('post')) {
-            $this->loadModel('Regions');
-            $this->loadModel('Cities');
-            
-            $city_id = $this->request->data['city_id'];
-            
-            $this->set('city_id',$city_id);    
-            $region_id = $this->Cities->find('all',['conditions'=>['id'=>$city_id]]);
-            foreach($region_id as $value){
-                
-                $temp_id = $value->region_id;
-            }
-            
-            //var_dump($region_id);exit;
-            $regions = $this->Regions->find('all',['conditions'=>['id'=>$temp_id]]);
-            
-            $results = array();
-            
-            
-            
-            $html = '<select name="region" onchange="getclub($(this))" class="showregion form-group">';
-            $i = 1;
-                    
-                    $html .= '<option value="0">'.'---Select Region---'.'</option>';
-                foreach($regions as $region){
-                    $html .= '<option value="'.$region['id'].'">'.$region['name'].'</option>';
-                    
-                    $i = $i+1;
-                }
-            if($i == 1){
-                $html .= '<option>Not have club in city</option>';
-            }
-            $html .= '</select>';
-            
-            echo json_encode($html);exit;
-        }
-    }
+    
     
     public function getclubs(){
         

@@ -188,7 +188,7 @@ function getregion(o){
         $(".showresultclubs").html('');
     }else{
         $.ajax({
-            url:'<?php echo $this->Url->build(["controller" => "Users", "action" => "getregions", ""]);?>',
+            url:'<?php echo $this->Url->build(["controller" => "Clubs", "action" => "getregions", ""]);?>',
             data: {city_id: city},
             type:'POST',
             dataType:'json',

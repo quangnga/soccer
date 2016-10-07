@@ -4,6 +4,7 @@
     }
 </style>
 
+
 <style>
     #page-wrapper {
 
@@ -11,27 +12,13 @@
 
     }
 </style>
-<div class="page-title">
-    <h1>View <?= h($city->city_name) ?></h1>
-
-    <ol class="breadcrumb">
-        <li class="active"><a href="<?php echo $this->Url->build(["controller" => "dashboard", "action" => "index"]) ?>"><i class="fa fa-dashboard"></i> Dashboard</a>
-        </li>
-        <li class="active"><a href="<?php echo $this->Url->build(["controller" => "Users", "action" => "index", ""]) ?>"><i class="fa fa-users"></i> Users</a></li>
-        <li class="active animated slideInRight"><i class="fa fa-user animated slideInRight"></i> View <?= h($city->city_name) ?> </li>
-    </ol>
-</div>
-<!-- left col -->
-
-
-
 
 <div align="center">
-    <a href="<?php echo $this->Url->build(["controller" => "Cities", "action" => "index", ""]) ?>"><button type="button" class="btn btn-default animated slideInLeft"><i class="fa fa-user"></i> List Cities</button></a>
+    <a href="<?php echo $this->Url->build(["controller" => "cities", "action" => "index", ""]) ?>"><button type="button" class="btn btn-default animated slideInLeft"><i class="fa fa-user"></i> List Cities</button></a>
     <?php
     if ($is_admin == 1) {
         ?>
-        <a href="<?php echo $this->Url->build(["controller" => "Cities", "action" => "edit", $city->id]) ?>"><button type="button" class="btn btn-orange animated fadeInDown"><i class="fa fa-pencil"></i> Edit <strong><?= h($city->city_name) ?></strong></button></a>
+        <a href="<?php echo $this->Url->build(["controller" => "cities", "action" => "edit", $city->id]) ?>"><button type="button" class="btn btn-orange animated fadeInDown"><i class="fa fa-pencil"></i> Edit <strong><?= h($city->city_name) ?></strong></button></a>
 
         <a href="#logout">
             <button type="button" class="btn btn-red animated slideInRight" data-toggle="modal" data-target="#standardModal"><i class="fa fa-remove"></i> Delete <strong><?= h($city->city_name) ?></strong></div></button>
@@ -50,7 +37,7 @@
     <div class="portlet portlet-blue">
         <div class="portlet-heading">
             <div class="portlet-title">
-                <h4><strong><?= h($city->city_name) ?></strong> Details</h4>
+                <h4><strong><?= h($city->city_name) ?> </strong> Details</h4>
             </div>
             <div class="clearfix"></div>
         </div>
@@ -61,27 +48,22 @@
                     <tbody>
                         <tr>
                             <td style="font-weight:bold">
-                                <?= __('City Name') ?>
+                                <?= __('Id') ?>
+                            </td>
+                            <td>
+                                <?= h($city->id) ?>
+                            </td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight:bold">
+                                <?= __('City name') ?>
                             </td>
                             <td>
                                 <?= h($city->city_name) ?>
                             </td>
-                            
                         </tr>
-                        <tr>
-                            <td style="font-weight:bold">
-                                <?= __('Region Name') ?>
-                            </td>
-                            <?php if(empty($city->region_id)){?>
-                               <td>
-                                    <?= h('no region') ?>
-                                </td> 
-                            <?php }else{?>
-                                <td>
-                                    <?= h($city->region['name']) ?>
-                                </td> 
-                            <?php }?>
-                        </tr>
+
 
                     </tbody>
                 </table>
@@ -98,7 +80,7 @@
                 </i> Are you sure?
             </h3>
             <p>Select "Delete" below if you are sure
-                <br> you want to delete  <strong><?= h($city->city_name) ?></strong>.</p>
+                <br> you want to delete  <strong> <?= h($city->city_name) ?></strong>.</p>
             <ul class="list-inline">
                 <li>
                     <a href="<?php echo $this->Url->build(["controller" => "Cities", "action" => "Delete", $city->id]) ?>" class="btn btn-red">
@@ -114,3 +96,7 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
+
+
+
+

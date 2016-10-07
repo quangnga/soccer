@@ -34,6 +34,10 @@ class ClubsTable extends Table
             'foreignKey' => 'city_id',
             'joinType' => 'INNER'
         ]);
+        $this->belongsTo('Cities', [
+            'foreignKey' => 'region_id',
+            'joinType' => 'INNER'
+        ]);
         $this->hasMany('Users', [
             'foreignKey' => 'club_id'
         ]);

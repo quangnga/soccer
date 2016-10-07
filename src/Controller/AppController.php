@@ -74,6 +74,7 @@ class AppController extends Controller
         $this->Auth->allow(['display']);
 
     }
+    
     public function beforeFilter(Event $event)
     {
         //$this->Auth->allow(['add']);

@@ -1,15 +1,23 @@
 <?php
 namespace App\Model\Table;
-use App\Model\Entity\Region;
+
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Cities Model
+ * Regions Model
  *
- * @property \Cake\ORM\Association\BelongsTo $Clubs
+ * @property \Cake\ORM\Association\BelongsToMany $Cities
+ *
+ * @method \App\Model\Entity\Region get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Region newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Region[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Region|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Region patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Region[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Region findOrCreate($search, callable $callback = null)
  */
 class RegionsTable extends Table
 {
@@ -26,14 +34,16 @@ class RegionsTable extends Table
 
         $this->table('regions');
         $this->displayField('name');
-        
         $this->primaryKey('id');
-        
-        $this->hasMany('Cities', [
+
+        $this->belongsToMany('Cities', [
+            'foreignKey' => 'region_id',
+            'targetForeignKey' => 'city_id',
+            'joinTable' => 'cities_regions'
+        ]);
+        $this->hasMany('Clubs', [
             'foreignKey' => 'region_id'
         ]);
-
-        
     }
 
     /**
@@ -50,23 +60,6 @@ class RegionsTable extends Table
 
         
 
-        $validator
-            ->requirePresence('name', 'create')
-            ->notEmpty('name');
-        
-
         return $validator;
-    }
-
-    /**
-     * Returns a rules checker object that will be used for validating
-     * application integrity.
-     *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
-     * @return \Cake\ORM\RulesChecker
-     */
-    public function buildRules(RulesChecker $rules)
-    {
-        return $rules;
     }
 }

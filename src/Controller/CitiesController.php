@@ -3,8 +3,10 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Event\Event;
+use Cake\I18n\Time;
 use Cake\ORM\TableRegistry;
 use Cake\Network\Exception\NotFoundException;
+
 use Cake\Network\Email\Email;
 use Cake\Routing\Router;
 
@@ -15,38 +17,37 @@ use Cake\Routing\Router;
  */
 class CitiesController extends AppController
 {
-    
+    public function beforeFilter(Event $event)
+        {
+            
+            parent::beforeFilter($event);
+
+            if($this->isAuthorizedAdmin()==1){
+                $this->Auth->allow();
+                
+            }else if($this->isAuthorizedAdmin()==2){
+                $this->Auth->allow();
+                
+            }
+       
+            else{
+                $this->Auth->allow();
+            }
+            
+            
+            
+        }
     /**
      * Index method
      *
      * @return \Cake\Network\Response|null
      */
-     
-       public function beforeFilter(Event $event)
-    {
-        
-            parent::beforeFilter($event);
-            // Allow users to register and logout.
-            // You should not add the "login" action to allow list. Doing so would
-            // cause problems with normal functioning of AuthComponent.
-            
-            // only supper admin access to all
-            $this->Auth->allow();
-            
-            
-        }
     public function index()
     {
-        
-
         $cities = $this->paginate($this->Cities);
-       
+
         $this->set(compact('cities'));
         $this->set('_serialize', ['cities']);
-        
-          
-        //var_dump($clubs->club_id);exit;
-            
     }
 
     /**
@@ -58,13 +59,12 @@ class CitiesController extends AppController
      */
     public function view($id = null)
     {
-        $city = $this->Cities->get($id,[
+        $city = $this->Cities->get($id, [
             'contain' => ['Regions']
         ]);
 
         $this->set('city', $city);
         $this->set('_serialize', ['city']);
-        //debug($city->region['name']);exit;
     }
 
     /**
@@ -73,26 +73,21 @@ class CitiesController extends AppController
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
      */
     public function add()
-    {   
-        
-       
+    {
         $city = $this->Cities->newEntity();
-        
         if ($this->request->is('post')) {
             $city = $this->Cities->patchEntity($city, $this->request->data);
-            //debug($city);exit;
             if ($this->Cities->save($city)) {
-                $this->Flash->success(__('The user has been saved.'));
+                $this->Flash->success(__('The city has been saved.'));
+
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__('The user could not be saved. Please, try again.'));
+                $this->Flash->error(__('The city could not be saved. Please, try again.'));
             }
         }
-        $regions = $this->Cities->Regions->find('all');
-        
+        $regions = $this->Cities->Regions->find('list', ['limit' => 200]);
         $this->set(compact('city', 'regions'));
         $this->set('_serialize', ['city']);
-        
     }
 
     /**
@@ -111,12 +106,13 @@ class CitiesController extends AppController
             $city = $this->Cities->patchEntity($city, $this->request->data);
             if ($this->Cities->save($city)) {
                 $this->Flash->success(__('The city has been saved.'));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The city could not be saved. Please, try again.'));
             }
         }
-        $regions = $this->Cities->Regions->find('list');
+        $regions = $this->Cities->Regions->find('list', ['limit' => 200]);
         $this->set(compact('city', 'regions'));
         $this->set('_serialize', ['city']);
     }
@@ -137,11 +133,7 @@ class CitiesController extends AppController
         } else {
             $this->Flash->error(__('The city could not be deleted. Please, try again.'));
         }
+
         return $this->redirect(['action' => 'index']);
     }
-    
-
-
-
-        
 }
