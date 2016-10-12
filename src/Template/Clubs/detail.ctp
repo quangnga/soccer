@@ -259,6 +259,8 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                         </tr>
                         </tbody>
                          <?php } ?>
+                         
+                         <!-- section for waiting players-->
                          <tr> 
                             
                             <td><h4 style="color: #cf850f;">Waiting Users</h4> </td>
@@ -271,11 +273,12 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                          <tbody>
                          
                          <?php foreach($data_waiting  as $num=> $users){?>
+                         
                          <?php
                             echo $this->Form->create();
                          ?>
                             <tr '.$color.'>
-                            <td> <?= h($total+ $num + 1)?> </td>
+                            <td> <?= h($number_playing+ $num + 1 )?> </td>
                             <td> <?= h($users['first_name'])  ?> <?= h($users['last_name'])  ?></td>
                             
                             <td>
@@ -373,7 +376,11 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                                     <?php if($is_closed){?>
                                          <a onclick="alert('Training Closed, Try attend for tomorrow');return false;"><?= $this->Form->button(__('Submit'))  ?></a>
                                     <?php }else{ ?>
-                                        <?= $this->Form->button(__('Submit')) ?>
+                                        <?php if($is_full){?>
+                                            <a onclick="alert('Training Full');return false;"><?= $this->Form->button(__('Submit'))  ?></a>
+                                        <?php }else{ ?>
+                                            <?= $this->Form->button(__('Submit')) ?>
+                                        <?php }?>
                                     <?php }?>
                                 
                                 <?php

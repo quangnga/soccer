@@ -375,7 +375,7 @@ class ClubsController extends AppController
         $max_users = $club['number_of_users'];
         $number_playing = $club['number_of_playing'];
               
-        if($number >= $max_users){
+        if($number > $max_users){
             $is_full = true;
         }else{
             $is_full = false;
@@ -478,17 +478,44 @@ class ClubsController extends AppController
                     break;
             }
         // code load list users playing and waiting
-        $data_playing = $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id,'Users.coming'=>1,'Users.coming_yesterday'=>1,'Users.block'=>0],
-                                                'order'=>['register_time'=>'ASC'],
-                                                ]);
-        $total = $data_playing->count();
+        $training_yesterday = $club->$yesterday;
         
-        $data_waiting = $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id,'Users.coming'=>1,'Users.coming_yesterday'=>0,'Users.block'=>0],
-                                                'order'=>['register_time'=>'ASC'],
-                                                ]);
+        //debug($number_playing);exit;
+        if($training_yesterday){
+            $data_playing = $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id,'Users.coming'=>1,'Users.coming_yesterday'=>1,'Users.block'=>0],
+                                                    'order'=>['register_time'=>'ASC'],'limit'=>$number_playing
+                                                    ]);
+            $total = $data_playing->count();
+            
+            $data_waiting = $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id,'Users.coming'=>1,'Users.coming_yesterday'=>0,'Users.block'=>0],
+                                                    'order'=>['register_time'=>'ASC'],
+                                                    ]);
+        }else{
+            $data_playing = $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id,'Users.coming'=>1,'Users.block'=>0],
+                                                    'order'=>['register_time'=>'ASC'],'limit'=>$number_playing
+                                                    ]);
+            $total = $data_playing->count();
+            
+            
+            $data_waiting = $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id,'Users.coming'=>1,'Users.block'=>0],
+                                                    'order'=>['register_time'=>'ASC'],
+                                                    ]);
+        }
+        
+        $db_waiting = array();
+        $k=0;
+        
+        
+        foreach($data_waiting as $data){
+            $db_waiting[$k] = $data;
+            $k++;
+        }
+        $db_waiting = array_slice($db_waiting, $number_playing);
+        
         $this->set('data_playing',$data_playing);
-        $this->set('data_waiting',$data_waiting);
+        $this->set('data_waiting',$db_waiting);
         $this->set('total',$total);
+        //var_dump($is_full);exit;
          
     }
     

@@ -266,8 +266,11 @@ class AppController extends Controller
     
     public function getComingYesterday(){
         $this->loadModel('Users');
+        $this->loadModel('Clubs');
         $date_data = date("Y-m-d");
         $user = $this->Users->find('all');
+        $club = $this->Users->Clubs->find('all');
+       
         $today = strtolower(date("l"));
         
         switch ($today) {
@@ -297,6 +300,7 @@ class AppController extends Controller
         foreach($user as $value){
             $articlesTable = TableRegistry::get('Users');        
             $value = $articlesTable->get($value['id']);
+            
             if($value->coming_date!=NULL){
                 $get_comings = json_decode($value->coming_date);
                 $array_comings =get_object_vars($get_comings);
