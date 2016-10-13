@@ -479,17 +479,22 @@ class ClubsController extends AppController
             }
         // code load list users playing and waiting
         $training_yesterday = $club->$yesterday;
-        
-        //debug($number_playing);exit;
+
         if($training_yesterday){
             $data_playing = $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id,'Users.coming'=>1,'Users.coming_yesterday'=>1,'Users.block'=>0],
                                                     'order'=>['register_time'=>'ASC'],'limit'=>$number_playing
                                                     ]);
             $total = $data_playing->count();
-            
-            $data_waiting = $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id,'Users.coming'=>1,'Users.coming_yesterday'=>0,'Users.block'=>0],
+            if($total>$number_playing){
+                $data_waiting = $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id,'Users.coming'=>1,'Users.block'=>0],
                                                     'order'=>['register_time'=>'ASC'],
                                                     ]);
+            }else{
+                $data_waiting = $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id,'Users.coming'=>1,'Users.coming_yesterday'=>0,'Users.block'=>0],
+                                                    'order'=>['register_time'=>'ASC'],
+                                                    ]);
+            }
+            
         }else{
             $data_playing = $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id,'Users.coming'=>1,'Users.block'=>0],
                                                     'order'=>['register_time'=>'ASC'],'limit'=>$number_playing
@@ -504,18 +509,24 @@ class ClubsController extends AppController
         
         $db_waiting = array();
         $k=0;
-        
-        
         foreach($data_waiting as $data){
+            //debug($data);
             $db_waiting[$k] = $data;
             $k++;
+        }//exit;
+        $count = count($db_waiting);
+        if($total > $number_playing){
+            $db_waiting = array_slice($db_waiting, $number_playing);
         }
-        $db_waiting = array_slice($db_waiting, $number_playing);
+        //debug($total);exit;
+        
         
         $this->set('data_playing',$data_playing);
         $this->set('data_waiting',$db_waiting);
+        
+        
         $this->set('total',$total);
-        //var_dump($is_full);exit;
+        
          
     }
     

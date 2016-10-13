@@ -278,7 +278,12 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                             echo $this->Form->create();
                          ?>
                             <tr '.$color.'>
-                            <td> <?= h($number_playing+ $num + 1 )?> </td>
+                            <?php if($total == $max_users){?>
+                                <td> <?= h($total+ $num )?> </td>
+                            <?php }else{?>
+                                <td> <?= h($total+ $num +1 )?> </td>
+                            <?php }?>
+                            
                             <td> <?= h($users['first_name'])  ?> <?= h($users['last_name'])  ?></td>
                             
                             <td>
