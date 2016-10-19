@@ -271,7 +271,7 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                             <td></td>
                          </tr>
                          <tbody>
-                         
+                         <?php if(!empty($data_waiting)){?>
                          <?php foreach($data_waiting  as $num=> $users){?>
                          
                          <?php
@@ -318,7 +318,7 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                            <?php echo $this->form->end()?> 
                             
                         </tr>
-                         <?php }} ?>
+                         <?php }}} ?>
                         </tbody>
                         <?php
                         foreach ($club->users as $users ){
