@@ -81,12 +81,12 @@
                     <div class="row">
                         <div class="form-group  col-md-6">
                             <div class="form-group">
-                                <?php echo $this->Form->input('first_name', array('class' => 'form-control', 'placeholder' => 'Enter first name', 'maxlength' => '20', 'label' => ' First name', 'autocapitalize' => 'words')); ?>
+                                <?php echo $this->Form->input('first_name', array('class' => 'form-control', 'placeholder' => 'Enter first name', 'maxlength' => '20', 'label' => ' First name *', 'autocapitalize' => 'words')); ?>
                             </div>
                         </div>
                         <div class="form-group col-md-6">
                             <div class="form-group">
-                                <?php echo $this->Form->input('lasst_name', array('class' => 'form-control', 'placeholder' => 'Enter last Name', 'maxlength' => '45', 'label' => 'last Name', 'autocapitalize' => 'words')); ?>
+                                <?php echo $this->Form->input('lasst_name', array('class' => 'form-control', 'placeholder' => 'Enter last Name', 'maxlength' => '45', 'label' => 'last Name *', 'autocapitalize' => 'words')); ?>
                             </div>
                         </div>
                         
@@ -98,7 +98,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <div class="form-group">
-                                <?php echo $this->Form->input('username', array('class' => 'form-control', 'placeholder' => 'Enter username', 'maxlength' => '20')); ?>
+                                <?php echo $this->Form->input('مركز اللاعب *', array('options' => array('Keeper' => 'Keeper','Deffender' => 'دفاع','Deffender-left' => ' دفاع - أيسر','Deffender-right' => ' دفاع - أيمن','center' => 'محور','middle' => 'وسط', 'Forward' => 'هجوم'))); ?>
                             </div>
                         </div>
                         
@@ -108,20 +108,20 @@
                     <div class="row">
                         <div class="form-group col-md-6">
                             <div class="form-group">
-                                <?php echo $this->Form->input('email', array('class' => 'form-control', 'type'=>'email', 'placeholder' => 'Enter email ', 'maxlength' => '45', 'label' => 'Email')); ?>
+                                <?php echo $this->Form->input('email', array('class' => 'form-control', 'type'=>'email', 'placeholder' => 'Enter email ', 'maxlength' => '45', 'label' => 'Email *')); ?>
                             </div>
                         </div>
                         
                         <div class="form-group col-md-6">
                             <div class="form-group">
-                                <?php echo $this->Form->input('phone_number', array('class' => 'form-control', 'placeholder' => 'Enter Phone number', 'maxlength' => '50', 'label' => ' phone number')); ?>
+                                <?php echo $this->Form->input('phone_number', array('class' => 'form-control', 'placeholder' => 'Enter Phone number', 'maxlength' => '50', 'label' => ' phone number *')); ?>
                             </div>
                         </div>
 
 
                     </div>
                     <div class="form-group">
-                        <?php echo $this->Form->input('password', array('class' => 'form-control', 'placeholder' => 'Enter Password', 'maxlength' => '20', 'label' => ' Password')); ?>
+                        <?php echo $this->Form->input('password', array('class' => 'form-control', 'placeholder' => 'Enter Password', 'maxlength' => '20', 'label' => ' Password *')); ?>
                     </div>
 
                     <div class="form-group">
