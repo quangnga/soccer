@@ -1,5 +1,5 @@
 
-
+<?php echo $this->Html->css('detail')?>
 <?php
 
 if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 && $club_id == $club->id)){
@@ -117,10 +117,10 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                     
                     <tr '.$color.'>
                         <?php
-                        if($is_admin==1||$is_admin == 2||$is_admin == 0){
+                        if($is_admin==1||$is_admin == 2){
                         
                         ?>
-                        <th><?= __('Order') ?></th>
+                            <th><?= __('Order') ?></th>
                         
                         
                         <?php
@@ -130,12 +130,10 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                         
                         <th><?= __('Full name') ?></th>
                         <?php
-                        if($is_admin==1||$is_admin == 2 || $is_admin == 0){
+                        if($is_admin==1||$is_admin == 2){
                         
                         ?>
-                        <th><?= __('Status') ?></th>
-                        
-                        
+                            <th><?= __('Status') ?></th>
                         <?php
                         }
                         
@@ -338,10 +336,16 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                             <?php
                             if($block==0){
                             ?>
-                            <td style="float:right">
+                            <td style="float:right" class="btn-coming">
+                               <div class="checkboxThree">
+                                    <?php echo $this->Form->input('id',array('class' => 'checkbox','type'=>'hidden', 'label' => false,'value'=> $users['id'])); ?>
+                                    <input type="checkbox" value="" id="checkboxThreeInput" class="checkbox" name="coming" />
+                                    <label for="checkboxThreeInput"></label>
+                                    
+                                    
+                                </div> 
                                 
-                                <?php echo $this->Form->input('id',array('class' => 'checkbox','type'=>'hidden', 'label' => false,'value'=> $users['id'])); ?>
-                                <?php echo $this->Form->input('coming',array('class' => 'checkbox','type'=>'checkbox', 'label' => false)); ?>
+                                
                             </td>
                             
                             <?php
@@ -493,4 +497,11 @@ height: 1px;
 background: rgba(22, 160, 133, 0.31);
 }
 </style>
-
+<script type="text/javascript">
+    $('.btn-coming label').on('click', function() {
+        $('.btn-coming label').css({left:0;});
+        $(this).css({color:"#dcdcdc"});
+        
+        
+    });
+</script>
