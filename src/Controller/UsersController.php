@@ -229,7 +229,7 @@ class UsersController extends AppController
     {
        // $this->request->allowMethod(['post', 'delete']);
         $user = $this->Users->get($id);
-        if($user->id == 112){
+        if($user->role == 1){
             $this->Flash->error(__('The super admin can not be deleted.'));
             return $this->redirect(['controller' => 'Users', 'action' => 'index', '']);
         }elseif ($this->Auth->user('id')== $id) {

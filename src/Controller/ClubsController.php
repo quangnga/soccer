@@ -386,7 +386,7 @@ class ClubsController extends AppController
             if(($this->request->data('block'))==NULL){
                 //code send coming and condition
                 $value_coming= (int)$this->request->data('coming');
-                //var_dump($is_full);exit;
+                //var_dump($value_coming);exit;
                 if(($value_coming==0)&&($is_full==true)){
                     $this->Users->save($user);
                     $this->Flash->success(__($user->first_name . ' ' . $user->last_name . ' has been added.'));
@@ -505,10 +505,7 @@ class ClubsController extends AppController
             
             $this->set('data_playing',$data_playing);
             $this->set('data_waiting',$db_waiting);
-            //foreach($data_playing as $db){
-                //debug($db);
-            //}
-            //exit;
+            
                                                         
         }else{// clubs haven't training yesterday
   

@@ -1,55 +1,18 @@
-input[type=checkbox] {
-    visibility: hidden;
-}
-
-.checkboxThree {
-    width: 120px;
-    height: 30px;
-    background: #16a085; 
-    border-radius: 50px;
-    position: relative;
- 
-}
-.checkboxThree:before {
-    content: 'YES';
-    position: absolute;
-    top: 3px;
-    left: 13px;
-    height: 2px;
-    color: #26ca28;
-    font-size: 16px;
-}
-
-.checkboxThree:after {
-    content: 'NO';
-    position: absolute;
-    top: 3px;
-    left: 84px;
-    height: 2px;
+.coming button{
     color: #fff;
-    font-size: 16px;
+    background-color: #16a085;
+    border-radius: 40px;
+    padding: 3px  10px;
+    border:  1px solid #fff;
+    
 }
-
-.checkboxThree label {
-    display: block;
-    width: 52px;
-    height: 22px;
-    border-radius: 50px;
- 
-    -webkit-transition: all .5s ease;
-    -moz-transition: all .5s ease;
-    -o-transition: all .5s ease;
-    -ms-transition: all .5s ease;
-    transition: all .5s ease;
-    cursor: pointer;
-    position: absolute;
-    top: 4px;
-    z-index: 1;
-    left: 12px;
-    background: #fc2a1c;
+.no-coming button{
+    color: #fff;
+    background-color: #cf692d;
+    border-radius: 40px;
+    padding: 3px  10px;
+    border:  1px solid #fff;
 }
-
-.checkboxThree input[type=checkbox]:checked + label {
-    left: 60px!important;
-    background: #26ca28!important;
+button {
+    outline: none!important;
 }
