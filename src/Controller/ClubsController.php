@@ -531,7 +531,26 @@ class ClubsController extends AppController
         $this->set('data_playing',$data_playing);
         $this->set('data_waiting',$db_waiting);  
         }
- 
+        //set status for user...
+        $db_wting = array();
+        $l=0;
+        foreach( $db_waiting as $db){
+            $db_wting[$l] = $db['id'];
+            $l++;
+        }
+        
+        $db_play = array();
+        $m=0;
+        foreach( $db_play as $db){
+            $db_wt[$m] = $db['id'];
+            $m++;
+        }
+        $this->set('db_wting',$db_wting);
+        $this->set('db_play',$db_play);
+        //var_dump($db_wting);exit;
+       ///code accsess 2 arry if else show status
+        
+        
         $this->set('total',$total);
         
          

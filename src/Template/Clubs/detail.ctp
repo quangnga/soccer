@@ -130,22 +130,15 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                         
                         <th><?= __('Full name') ?></th>
                         
-                        <?php
-                        if($is_admin==1||$is_admin == 2){
-                        
-                        ?>
-                        <th><?= __('Status') ?></th>
-                        <?php }?>
                         
                         
-                        <?php
-                        if($is_admin == 0){
                         
-                        ?>
                         <th><?= __('Coming ?') ?></th>
                         
-                        <?php }?>
+                    
                         <th><?= __('Comments') ?></th>
+                        
+                        <th><?= __('Status') ?></th>
                         <?php
                         if($is_admin==1||$is_admin == 2){
                         
@@ -192,20 +185,7 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                         <tr >
                             <td> <?= h($key+1)?> </td>
                             <td> <?= h($users['first_name'])  ?> <?= h($users['last_name'])  ?></td>
-                            <?php
-                            if(($key+1 <= $number_playing)){
-                            ?>
-                            <td> <?= __('Playing')?> </td>
                             
-                            <?php
-                            }else{
-                            ?>
-                            <td>
-                                <?= __('Waiting')?>
-                            </td>
-                            <?php
-                            }
-                            ?>
                             <td></td>
                         
                             <?php
@@ -222,6 +202,21 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                                     <?= h($users['comment'])  ?>
                                  </td>
                             <?php }?>
+                            
+                            <?php
+                            if(($key+1 <= $number_playing)){
+                            ?>
+                            <td> <?= __('Playing')?> </td>
+                            
+                            <?php
+                            }else{
+                            ?>
+                            <td>
+                                <?= __('Waiting')?>
+                            </td>
+                            <?php
+                            }
+                            ?>
                             <td style="float:right">
                                 
                                 <?php echo $this->Form->input('id',array('class' => 'checkbox','type'=>'hidden', 'label' => false,'value'=> $users['id'])); ?>
@@ -265,10 +260,8 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                             
                             <td> <?= h($users['first_name'])  ?> <?= h($users['last_name'])  ?></td>
                             
+                            <td></td>
                             
-                            <td>
-                                <?= __('Waiting')?>
-                            </td>
                             
                             <?php
                                 if(empty($users['comment'])){
@@ -284,6 +277,10 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                                     <?= h($users['comment'])  ?>
                                  </td>
                             <?php }?>
+                            
+                            <td>
+                                <?= __('Waiting')?>
+                            </td>
                             <td style="float:right">
                                 
                                 <?php echo $this->Form->input('id',array('class' => 'checkbox','type'=>'hidden', 'label' => false,'value'=> $users['id'])); ?>
@@ -300,9 +297,11 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                         </tr>
                          <?php }}} ?>
                         </tbody>
+                        
+                        <!--  session users...-->
                         <?php
                         foreach ($club->users as $users ){
-                        //if(($is_admin == 0)||(($is_admin == 1)&&$users['coming']==0)||(($is_admin == 2)&&$users['coming']==0)){
+                        
                             
                         if($users['id']==$id){
                         ?>
@@ -316,13 +315,9 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
   
                             <?= $this->Form->create($users) ?>
                            
-                            <?php if($number >0){?>
-                            
-                            <?php }else{?>
-                            <td></td>
-                            <?php }?>
-                             <?php
-                            if($block==0){
+                           
+                            <?php
+                                if($block==0){
                             ?>
                             <td style="display: none;" class="btn-coming">
 								
@@ -352,11 +347,7 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                             }
                             ?>
                             
-                            <?php if(($number >0)&&($is_admin !=0)){?>
                             
-                            <?php }else{?>
-                                <td></td>
-                            <?php }?>
                             <td>
                                 
                                 <?php if($is_admin == 0 || ($is_admin == 2 && $users['id'] == $id)|| ($is_admin == 1 && $users['id'] == $id)){?>
@@ -407,7 +398,20 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                                ?>
                                 
                             </td>
-                            
+                             <?php if($users->coming){ ?>
+                                   <?php if(in_array($users->id, $db_wting)){?>
+                                        
+                                     <td> Waiting</td>
+                                    
+                                   <?php }?>
+                                   <?php if(in_array($users->id, $db_play)){?>
+                                        
+                                     <td> Playing</td>
+                                    
+                                   <?php }?>
+                            <?php }else{?>
+                                <td></td>
+                            <?php }?>
                             
                             
                             <?= $this->Form->end() ?>
