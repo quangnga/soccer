@@ -21,11 +21,6 @@ class UsersController extends AppController
     {
             
             parent::beforeFilter($event);
-            // Allow users to register and logout.
-            // You should not add the "login" action to allow list. Doing so would
-            // cause problems with normal functioning of AuthComponent.
-            
-            // only supper admin access to all
             $uses = array('Clubs');
             if($this->isAuthorizedAdmin()==1){
                 $this->Auth->allow();
@@ -40,13 +35,7 @@ class UsersController extends AppController
             $this->Auth->allow(['register']);
             
     }
-    
 
-    /**
-     * Index method
-     *
-     * @return void
-     */
     public function index()
     {
         $id = $this->Auth->user('id');
@@ -55,7 +44,7 @@ class UsersController extends AppController
             }
         $user = $this->Auth->user();
         $club_id = $user['club_id'];
-        $user_id = $user['id'];
+        $user_id = $id;
 
         if($this->isAuthorizedAdmin()==1){
             $this->paginate = [
@@ -111,32 +100,32 @@ class UsersController extends AppController
       
         if ($this->request->is('post')) {
             $club_id = (int)$this->request->data('club_id') ;
-            //var_dump($club_id);exit;
+            
             $query= $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id,'Users.coming'=>1,'Users.block'=>0]]);        
             $number = $query->count();
-            
             $this->set('number',$number);
+            
             $query2 = $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id]]);
             $num_all=   $query2->count();        
             $this->set('num_all',$num_all);  
-            //$this->loadModel('Trainings');
+            
             $this->loadModel('Clubs');
             $clubs = $this->Clubs->find('all', ['conditions' => ['Clubs.id' => $club_id]]);
             foreach($clubs as $value){
                 $max_users = $value['number_of_users'];
                 $number_playing = $value['number_of_playing'];
-            }
-            
-            
-            //var_dump($max_users);exit;          
+            }   
+                      
             if($number >= $max_users){
                 $is_full = true;
             }else{
                 $is_full = false;
             }
+            
             $this->set('is_full', $is_full);
             $this->set('number_playing', $number_playing);
             $this->set('max_users',$max_users);
+            
             $user = $this->Users->patchEntity($user, $this->request->data);
             if ($is_full == false) {
                 $this->Users->save($user);
@@ -173,10 +162,9 @@ class UsersController extends AppController
     }
      public function addPermissions($id = null){
 
-         $user = $this->Users->get($id, ['contain'=>['acls'],'condition'=> ['user_id'=>$id]]);
-        //$aclsTable = TableRegistry::get('acls');
+        $user = $this->Users->get($id, ['contain'=>['acls'],'condition'=> ['user_id'=>$id]]);
         $acl = $this->Users->acls->findByUserId($id)->first();
-         if ($this->request->is(['patch', 'post', 'put'])) {
+        if ($this->request->is(['patch', 'post', 'put'])) {
         $acl = $this->Users->acls->patchEntity($acl, $this->request->data);
             if ($this->Users->acls->save($acl)) {
                 $this->Flash->success(__($user->first_name . ' ' . $user->last_name . '\'s permissions have been saved.'));
@@ -510,22 +498,17 @@ class UsersController extends AppController
     public function resetPasswordSent($token = null) {
         $usertemp = $this->Users->find("all", ['conditions' => ['token' => $token]])->toArray();
          //findByToken($token);
-         //var_dump($token);exit;
         if (empty($usertemp)) {
             $this->Flash->error(__('Invalid reset password link. Please enter your email below to start the reset password process again.'));
             return $this->redirect(['action' => 'resetPassword']);
         }
         $user = $this->Users->get($usertemp[0]['id'], []);
-        //var_dump($usertemp[0]['id']);exit;
-        //$user->password = '';
         if ($this->request->is(['post','put'])){
             
             $userPatched = $this->Users->patchEntity($user, $this->request->data);
             $this->request->data['id'] = $user->id;
             $this->request->data['token'] = '';
-           
-             
-            //var_dump($userPatched);exit;//['password' => $this->request->data['password']]);
+
             if ($this->Users->save($userPatched)) {
                 $this->Flash->success(__('Password has been changed successfully.'));
                 return $this->redirect('/Users/login');

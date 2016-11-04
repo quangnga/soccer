@@ -6,7 +6,6 @@ use Cake\Event\Event;
 use Cake\I18n\Time;
 use Cake\ORM\TableRegistry;
 use Cake\Network\Exception\NotFoundException;
-
 use Cake\Network\Email\Email;
 use Cake\Routing\Router;
 
@@ -41,8 +40,7 @@ class ClubsController extends AppController
         }else{
            $clubs = $this->Clubs->find('all',['conditions'=>['Clubs.id'=> $club_id]]);
         }
-         
-        
+                 
         $this->set(compact('clubs'));
         $this->set('_serialize', ['clubs']);
         $time_now = date("H:i:s");       
@@ -51,11 +49,6 @@ class ClubsController extends AppController
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
-        // Allow users to register and logout.
-        // You should not add the "login" action to allow list. Doing so would
-        // cause problems with normal functioning of AuthComponent.
-        
-        // only supper admin access to all
         if($this->isAuthorizedAdmin()==1){
             $this->Auth->allow();
             
@@ -137,7 +130,7 @@ class ClubsController extends AppController
             'contain' => []
         ]); 
         
-          $time_now = date("H:i:s");
+        $time_now = date("H:i:s");
         $this->loadModel('Cities');
         if ($this->request->is(['patch', 'post', 'put'])) {
             $club = $this->Clubs->patchEntity($club, $this->request->data);
@@ -202,7 +195,18 @@ class ClubsController extends AppController
     }
     
     
-            
+     public function comingClose($time_close, $time_open){
+        
+        $close = date("H:i:s",strtotime($time_close));
+        $open = date("H:i:s",strtotime($time_open));
+        $now = date("H:i:s");
+        
+        if(($now>=$close)&&($now<=$open)){
+            return $is_closed = true;
+        }else{
+            return $is_closed = false;
+        }
+    }        
             
     public function advanced($id=null){
         
@@ -214,12 +218,8 @@ class ClubsController extends AppController
        
         $temp1 = $club['close_training'];
         $temp2 = $club['open_training'];
-        $time_close = date("H:i:s",strtotime($temp1));
-        $time_open = date("H:i:s",strtotime($temp2));
-        $this->set('time_close',$time_close);
-        $this->set('open_close',$time_open);
-        $time_now = date("H:i:s");
-        $this->set('time_now',$time_now);
+        $is_closed = $this->comingClose($temp1,$temp2);
+        $this->set('is_closed',$is_closed);
             
         $id_user = $this->Auth->user('role');
         $club_user = $this->Auth->user('club_id');
@@ -230,16 +230,11 @@ class ClubsController extends AppController
         }  
         $this->set('advanced',$advanced);
         
-        if(($time_now>=$time_close)&&($time_now<=$time_open)){
-            $is_closed = true;
-        }else{
-            $is_closed = false;
-        }
-        $this->set('is_closed',$is_closed);
 
         $register_time = date("Y-m-d H:i:s");
         $time2 = new Time($club->training_time);
-        $id_coming = $this->Auth->user('id');    
+        $id_coming = $this->Auth->user('id');   
+         
         $user = $this->Users->get($id_coming, ['condition' => ['Users.id' => $id_coming]]);
             $date_data = $user['coming_date'];          
             if(empty($date_data)){
@@ -264,6 +259,7 @@ class ClubsController extends AppController
                 $data = $articlesTable->get($data['id']); 
                 $data->coming_date = $save_coming_data;
                 $data->register_time = $register_time;
+                
                 $articlesTable->save($data);
             }
          $user = $this->Users->patchEntity($user, $this->request->data);
@@ -274,7 +270,7 @@ class ClubsController extends AppController
             } 
                              
         }
-        $user = $this->Users->get($id_coming, ['condition' => ['user_id' => $id_coming]]);
+        
         $date_data = $user['coming_date'];
             if(empty($date_data)){
                 $get_comings = array('monday'=>0,'tuesday'=>0,'wednesday'=>0,'thursday'=>0,'friday'=>0,'saturday'=>0,'sunday'=>0);
@@ -285,9 +281,9 @@ class ClubsController extends AppController
         $this->set('club', $club);
         $this->set('time2', $time2);
         $this->set('get_comings', $get_comings);
-        
-        $user=$this->Auth->user();
+
         $club_id = $user['club_id'];
+        
         $query= $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id,'Users.coming'=>1,'Users.block'=>0]]);        
         $number = $query->count();
         $this->set('number',$number);
@@ -318,7 +314,36 @@ class ClubsController extends AppController
             
     }
     
+    public function getYesterday($day){
+        
+        switch ($day) {
+                case 'monday':
+                    $yesterday = 'sunday';
+                    break;
+                case 'tuesday':
+                    $yesterday = 'monday';
+                    break;    
+                case 'wednesday':
+                    $yesterday = 'tuesday';
+                    break;
+                case 'thursday':
+                    $yesterday = 'wednesday';
+                    break;
+                case 'friday':
+                    $yesterday = 'thursday';
+                    break;
+                case 'saturday':
+                    $yesterday = 'friday';
+                    break;
+                
+                default:
+                    $yesterday = 'saturday';
+                    break;
+            }
+        return $yesterday;
+    }
     
+   
     
     public function detail($id= null){
         
@@ -329,33 +354,18 @@ class ClubsController extends AppController
         
         $temp1 = $club['close_training'];
         $temp2 = $club['open_training'];
-        $time_close = date("H:i:s",strtotime($temp1));
-        $time_open = date("H:i:s",strtotime($temp2));
-        $this->set('time_close',$time_close);
-        $this->set('open_close',$time_open);
-        $time_now = date("H:i:s");
-        $this->set('time_now',$time_now);
-            
-            
-        if(($time_now>=$time_close)&&($time_now<=$time_open)){
-            $is_closed = true;
-        }else{
-            $is_closed = false;
-        }
-        $this->set('is_closed',$is_closed);
-    
         
+        $is_closed = $this->comingClose($temp1,$temp2);
+        $this->set('is_closed',$is_closed);
         
         $time2 = new Time($club['training_time']);
         $id_coming = $this->Auth->user('id');
-        $role = $this->Auth->user('role');
-        
+        $role = $this->Auth->user('role');        
        
         $dataComing = $this->Users->find('all', [
                 'conditions'=>['Users.id '=>$id_coming]
             ]);                    
-        $user = $this->Users->get($id_coming, ['condition' => ['Users.id' => $id_coming],]); 
-        //var_dump($user);exit;             
+        $user = $this->Users->get($id_coming, ['condition' => ['Users.id' => $id_coming],]);             
          
 
         $club_id = $club->id;
@@ -452,31 +462,9 @@ class ClubsController extends AppController
         
         //set value coming yesterday
         
-        $now = strtolower(date("l"));
-        switch ($now) {
-                case 'monday':
-                    $yesterday = 'sunday';
-                    break;
-                case 'tuesday':
-                    $yesterday = 'monday';
-                    break;    
-                case 'wednesday':
-                    $yesterday = 'tuesday';
-                    break;
-                case 'thursday':
-                    $yesterday = 'wednesday';
-                    break;
-                case 'friday':
-                    $yesterday = 'thursday';
-                    break;
-                case 'saturday':
-                    $yesterday = 'friday';
-                    break;
-                
-                default:
-                    $yesterday = 'saturday';
-                    break;
-            }
+        $day_now = strtolower(date("l"));
+        $yesterday = $this->getYesterday($day_now);
+        
         // code load list users playing and waiting
         $training_yesterday = $club->$yesterday;
         //case clubs have training yesterday
@@ -487,12 +475,12 @@ class ClubsController extends AppController
                                                         ,'order'=>['register_time'=>'ASC'],'limit'=>$max_users]);
             
             $total = $data_playing->count();// count number of users playing
-            //debug($total);exit;
+            
             if($total >= $number_playing){
                  $db_waiting = array();
                  $k=0;
                  foreach($data_waiting as $data){
-                    //debug($data);
+                    
                     $db_waiting[$k] = $data;
                     $k++;
                 }
@@ -522,7 +510,6 @@ class ClubsController extends AppController
             $db_waiting = array();
                  $k=0;
                  foreach($data_waiting as $data){
-                    //debug($data);
                     $db_waiting[$k] = $data;
                     $k++;
                 }
@@ -531,27 +518,29 @@ class ClubsController extends AppController
         $this->set('data_playing',$data_playing);
         $this->set('data_waiting',$db_waiting);  
         }
+        
         //set status for user...
         $db_wting = array();
         $l=0;
         foreach( $db_waiting as $db){
             $db_wting[$l] = $db['id'];
             $l++;
+            
         }
         
         $db_play = array();
         $m=0;
-        foreach( $db_play as $db){
-            $db_wt[$m] = $db['id'];
+        foreach( $data_playing as $db){
+            //var_dump($db['id']);
+            $db_play[$m] = $db['id'];
             $m++;
-        }
+                
+        }//exit;
+        
         $this->set('db_wting',$db_wting);
         $this->set('db_play',$db_play);
-        //var_dump($db_wting);exit;
-       ///code accsess 2 arry if else show status
-        
-        
         $this->set('total',$total);
+        
         
          
     }
@@ -575,9 +564,7 @@ class ClubsController extends AppController
                     
                 }$i++;
             }
-                
-            
-            
+                         
             $html = '<select name="region_id" onchange="getclub($(this))" class="showregion form-group">';
             $i = 1;
                     
