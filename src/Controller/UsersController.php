@@ -25,11 +25,11 @@ class UsersController extends AppController
                 $this->Auth->allow();
                 
             }else if($this->isAuthorizedAdmin()==2){
-                $this->Auth->allow(['view','index','logout','edit']);
+                $this->Auth->allow(['view','index','logout','edit','index','getclubs','getregions','logout','edit','view','resetPassword','register','forgotpassword','resetPasswordSent','changePassword','sendCodeActive']);
                 
             }
             else{
-                $this->Auth->allow(['index','getclubs','getregions','logout','edit','view','resetPassword','forgotpassword','resetPasswordSent','changePassword','sendCodeActive']);
+                $this->Auth->allow(['index','getclubs','getregions','logout','edit','view','resetPassword','register','forgotpassword','resetPasswordSent','changePassword','sendCodeActive']);
             }
             $this->Auth->allow(['register']);
             

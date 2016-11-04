@@ -85,6 +85,16 @@
                                                 <?php
                                                 }
                                                 ?>
+                                                <?php
+                                                if ($is_admin == 2) {
+                                                ?>
+                                                <a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "active", $club->id]) ?>">
+                                                    <button type="button" class="btn btn-primary"> Send Code <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                                                </a>
+                                                    
+                                                <?php
+                                                }
+                                                ?>
                                         </div>
 
                                     </td>

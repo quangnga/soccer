@@ -609,10 +609,49 @@ class ClubsController extends AppController
     
     //function send active for users
     
-    //public function active($id=null){
-//        
-//        
-//    }
+    public function active($id=null){
+        $this->loadModel('Users');
+        $condition = array('Users.status'=>0, 'Users.club_id'=>$id);
+        $data_users = $this->Users->getDataWhere($condition,'Users');
+        $this->set('data_users',$data_users);
+        
+        
+        
+        if($this->request->is('post')){
+            
+                    $email_user = $this->request->data['email'];
+                    $username = $this->request->data['username'];
+                    //$email_user = $this->request->data['email'];
+                    $code = md5($email_user.time());
+            
+                    Email::configTransport('gmail', [
+                    'host' => 'smtp.gmail.com',
+                    'port' => 587,
+                    'username' => 'epsminhtri@gmail.com',
+                    'password' => 'qekuiwbzfwdfvdsx',
+                    'className' => 'Smtp',
+                    'tls' => true, // <------ there it is
+                    ]);
+                    $email = new email();
+                    $email->transport('gmail');
+                    $email->to($email_user);
+                    $email->from('epsminhtri@gmail.com');
+                    $email->subject('Verify account'); 
+                    $link = Router::Url([
+                                        "controller" => "Users",
+                                        "action" => "sendCodeActive",
+                                        ], true);
+                                        
+                    $email->send('Hello ' . $username .  "\nClick this link  " .$link.'/'.$code." for complete register ");
+                    $this->Flash->success(__('Send code succses !'));
+                    return $this->redirect($this->here);
+            
+        }
+        
+        
+        
+        
+    }
     
     /*private function __cmp($a, $b)
         {
