@@ -11,6 +11,7 @@
     <h1>View <?= h($club->club_name) ?> <?= h($club->city) ?></h1>
 
     <ol class="breadcrumb">
+        
         <li class="active"><a href="<?php echo $this->Url->build(["controller" => "dashboard", "action" => "index"]) ?>"><i class="fa fa-dashboard"></i> Dashboard</a>
         </li>
         <li class="active"><a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "index", ""]) ?>"><i class="fa fa-users"></i> clubs</a></li>
@@ -21,6 +22,7 @@
 
 
 <div align="center" class="row">
+    <a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "unlock",$club->id]) ?>"><button type="button" class="btn btn-primary animated slideInLeft"><i class="fa fa-Clubs"></i>Unlock Users</button></a>
     <a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "index", ""]) ?>"><button type="button" class="btn btn-default animated slideInLeft"><i class="fa fa-Clubs"></i> List Clubs</button></a>
 
     <a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "View", $club->id]) ?>"><button type="button" class="btn btn-orange animated fadeInDown"><i class="fa fa-pencil"></i> View <strong><?= h($club->club_name) ?> <?= h($club->city) ?></strong></button></a>

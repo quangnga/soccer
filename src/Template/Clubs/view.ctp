@@ -32,7 +32,7 @@
     <?php
     if ($is_admin == 1) {
         ?>
-        <a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "edit", $club->id]) ?>"><button type="button" class="btn btn-orange animated fadeInDown"><i class="fa fa-pencil"></i> Edit <strong><?= h($club->club_name) ?> <?= h($club->city) ?></strong></button></a>
+        <a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "edit", $club->id]) ?>"><button type="button" class="btn btn-orange animated fadeInDown"><i class="fa fa-pencil"></i> Edit <strong><?= h($club['name']) ?> <?= h($club['city']) ?></strong></button></a>
 
         <a href="#logout">
             <button type="button" class="btn btn-red animated slideInRight" data-toggle="modal" data-target="#standardModal"><i class="fa fa-remove"></i> Delete <strong><?= h($club->club_name) ?> <?= h($club->city) ?></strong></div></button>

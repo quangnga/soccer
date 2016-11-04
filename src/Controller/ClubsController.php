@@ -583,6 +583,30 @@ class ClubsController extends AppController
         }
     }
     
+    
+    //function  unblock users...
+    
+    public function unlock($id=null){
+        $this->loadModel('Users');
+        $condition = array('Users.block'=>1, 'Users.club_id'=>$id);
+        $data_block = $this->Users->getDataWhere($condition,'Users');
+        $this->set('data_block',$data_block);
+        
+        if($this->request->is('post')){
+            
+            $id_unlock = $this->request->data['id'];
+            $articlesTable = TableRegistry::get('Users');
+            $data = $articlesTable->get($id_unlock);
+            //var_dump($data);exit;
+            $data->block = 0;
+            $articlesTable->save($data);
+            
+            
+        }
+        
+        
+    }
+    
     /*private function __cmp($a, $b)
         {
             return 1 * strcmp($a['register_time'], $b['register_time']);

@@ -43,6 +43,11 @@ class UsersTable extends Table
         'order'=>['club_id'=>'asc']
         ]);
     }
+    
+    public function getDataWhere($where,$table){
+        return $this->find('all')
+                ->where($where);
+    }
 
     /**
      * Default validation rules.

@@ -17,8 +17,7 @@ use Cake\I18n\Time;
  */
 class UsersController extends AppController
 {
-    public function beforeFilter(Event $event)
-    {
+    public function beforeFilter(Event $event){
             
             parent::beforeFilter($event);
             $uses = array('Clubs');
