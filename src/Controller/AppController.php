@@ -69,24 +69,21 @@ class AppController extends Controller
                 ]
             ]);
         
-        // Allow the displat action so out pages controller
-        // contines to work
         $this->Auth->allow(['display']);
 
     }
     
     public function beforeFilter(Event $event)
     {
-        //$this->Auth->allow(['add']);
         
         $user=$this->Auth->user();//Gets currently logged in user
-      //  debug($user);
         $first_name=$user['first_name'];//Gets the first name of the currently logged in user
         $last_name=$user['last_name'];//Gets the last name of the currently logged in user
         $id = $user['id'];
         $is_admin = $user['role'];
 		$club_id = $user['club_id'];
 		$username=$user['username'];
+        
         $this->set('first_name',$first_name);//Sets the first name of the currently logged in user
         $this->set('last_name',$last_name);//Sets the last name of the currently logged in user
         $this->set('id',$id);
@@ -95,11 +92,7 @@ class AppController extends Controller
         $this->set('username',$username);
         $time = Time::now();
         $this->set('time',$time->i18nFormat(\IntlDateFormatter::FULL));
-        
-       //$coming=$user['coming'];
-       //var_dump($user);exit;
-       //$this->set('coming',$coming);
-       //$this->updateComing();
+
        $this->resetComing();
        $this->getCity();
        $this->getComing();
@@ -188,7 +181,7 @@ class AppController extends Controller
         $this->loadModel('Cities');
         $datas = $this->Cities->find('all');
         $datas2 = $this->Clubs->find('all');
-        //$data = $datas->city_name;
+
         foreach($datas as $data){
            $id_city=$data->club_id;
            $id=$data->id;

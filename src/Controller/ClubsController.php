@@ -621,8 +621,14 @@ class ClubsController extends AppController
             
                     $email_user = $this->request->data['email'];
                     $username = $this->request->data['username'];
-                    //$email_user = $this->request->data['email'];
                     $code = md5($email_user.time());
+                    $id_active = $this->request->data['id'];
+                    
+                    $articlesTable = TableRegistry::get('Users');
+                    $data = $articlesTable->get($id_active);
+                    //var_dump($data);exit;
+                    $data->activation = $code;
+                    $articlesTable->save($data);
             
                     Email::configTransport('gmail', [
                     'host' => 'smtp.gmail.com',
