@@ -27,7 +27,7 @@ echo $this->Html->meta('favicon.ico','img/favicon.ico',array('type' => 'icon'));
         <div class="row">
             <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1">
                <?= $this->Flash->render(); ?>
-    <?= $this->Form->create(null, []) ?>
+   
                 <div class="login-banner text-center">
                     <h1><i class="fa fa-gears"></i> User Login</h1>
                 </div>
@@ -40,17 +40,18 @@ echo $this->Html->meta('favicon.ico','img/favicon.ico',array('type' => 'icon'));
                         <div class="clearfix"></div>
                     </div>
                     <div class="portlet-body">
-                        <form accept-charset="UTF-8" role="form">
+                        <?= $this->Form->create() ?>
                             <fieldset>
                                 <div class="form-group">
-                    <?= $this->Form->input('username',array('class' => 'form-control','placeholder' => 'Enter Username')) ?>
+                                <?= $this->Form->input('username', ['type' => 'text','class' => 'form-control','placeholder' => 'Enter username or email or phone']) ?>
+                    
                                 </div>
                                 <div class="form-group">
-                    <?= $this->Form->input('password', ['type' => 'password','class' => 'form-control','placeholder' => 'Enter Password']) ?>
+                                <?= $this->Form->input('password', ['type' => 'password','class' => 'form-control','placeholder' => 'Enter Password']) ?>
                                 </div>
                                 <div class="form-group">
-                    <?= $this->Form->submit(__('Log In'), ['class' => 'btn btn-lg btn-primary btn-block']) ?></div>
-                    <?= $this->Form->end() ?>
+                                 <?= $this->Form->submit(__('Log In'), ['class' => 'btn btn-lg btn-primary btn-block']) ?></div>
+                                    <?= $this->Form->end() ?>
                             </fieldset>
 
                             <p class="small">
@@ -63,7 +64,7 @@ echo $this->Html->meta('favicon.ico','img/favicon.ico',array('type' => 'icon'));
                                 <?php echo $this->Html->link('Register', ['controller'=>'Users','action' => 'register']);
 ?>
                             </p>
-                        </form>
+                         
                     </div>
                 </div>
             </div>

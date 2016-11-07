@@ -48,6 +48,11 @@ class UsersTable extends Table
         return $this->find('all')
                 ->where($where);
     }
+    public function getAll($table){
+        return $this->find('all',['fields'=>['username','password','status','phone_number','email','club_id','role']]);
+    }
+    
+    
 
     /**
      * Default validation rules.
@@ -61,7 +66,7 @@ class UsersTable extends Table
             ->integer('id')
             ->allowEmpty('id', 'create');
 
-       /* $validator
+       $validator
             ->requirePresence('first_name', 'create')
             ->notEmpty('first_name');
 
@@ -77,7 +82,7 @@ class UsersTable extends Table
         $validator
             ->requirePresence('username', 'create')
             ->notEmpty('username');
-*/
+
         $validator
             ->requirePresence('password', 'create')
             ->notEmpty('password');
@@ -90,14 +95,14 @@ class UsersTable extends Table
         ->notEmpty('confirm_password','*Please confirm your password');
         
         
-        /*
+        
         
 
         $validator
             ->integer('phone_number')
             ->requirePresence('phone_number', 'create')
             ->notEmpty('phone_number');
-*/
+
 
 
         return $validator;

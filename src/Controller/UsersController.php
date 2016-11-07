@@ -7,6 +7,7 @@ use Cake\ORM\TableRegistry;
 use Cake\Network\Exception\NotFoundException;
 use Cake\Routing\Router;
 use Cake\Auth\DefaultPasswordHasher;
+use Cake\Validation\Validation;
 use Cake\Mailer\Email;
 use Cake\I18n\Time;
 
@@ -32,6 +33,8 @@ class UsersController extends AppController
                 $this->Auth->allow(['index','getclubs','getregions','logout','edit','view','resetPassword','register','forgotpassword','resetPasswordSent','changePassword','sendCodeActive']);
             }
             $this->Auth->allow(['register']);
+            
+    
             
     }
 
@@ -238,11 +241,44 @@ class UsersController extends AppController
            }
 
      public function login()
-    {    
-        if ($this->request->is('post')) {
+        {    
+        
+        if ($this->request->is(['patch', 'post', 'put']))  {
+            
+            
+                $user_m = $this->request->data['username'];
+                $username_s = '';
+                if(Validation::email($user_m)){
+                    $find_by_email = $this->Users->find('all',['conditions'=>['Users.email'=>$user_m],'fields'=>'username'] );
+                        foreach($find_by_email as $db){
+                        $email = $db['username'];
+                    }
+                    $username_s = $email;
+                }else{
+                    $find_by_phone = $this->Users->find('all',['conditions'=>['Users.phone_number'=>(int)$user_m],'fields'=>'username'] );
+                        foreach($find_by_phone as $dbs){
+                            $phone = $dbs['username'];
+                        }
+                    if(!empty($phone)){
+                        
+                        $username_s = $phone;
+                        
+                    }else{
+                        $find_by_name = $this->Users->find('all',['conditions'=>['Users.username'=>$user_m],'fields'=>'username'] );
+                        foreach($find_by_name as $dbs){
+                            $name = $dbs['username'];
+                        }
+                        $username_s = $name;
+                    }         
+                }
+                 
+           
+            $this->request->data['username'] = $username_s;
+             
             $user = $this->Auth->identify();
             //debug($user);exit;
-                if ($user && $user['status']== 1) {
+            
+               if ($user && $user['status']== 1) {
                     $this->Auth->setUser($user);
                         return $this->redirect("/clubs/index");
                 } elseif($user && $user['status']== 0) {
@@ -250,6 +286,8 @@ class UsersController extends AppController
                 }else{
                     $this->Flash->error('Your username or password is incorrect.');
                 }
+            
+            
         }
         
     }
@@ -301,17 +339,83 @@ class UsersController extends AppController
     }
     
     
+    public function get_name_reg($city_id){
+        $this->loadModel('cities_regions');
+            //var_dump($this->loadModel('cities_regions'));exit;
+            $this->loadModel('Regions');
+            $this->loadModel('Cities');
+            $temp = $this->cities_regions->find('all', ['limit' => 200,'conditions'=>['cities_regions.city_id'=>$city_id]]);
+            $re_id = array();
+            $l =0;
+            foreach($temp as $db){
+                    $re_id[$l] = $db['region_id']; 
+                    $l++;
+                }
+            $re_name = array();
+            $m=0;
+            $n=0;
+            $k=0;
+            $array_reg = array();
+            foreach($re_id as $value){
+                $re_name[$m] = $this->Regions->find('all', ['limit' => 200,'conditions'=>['Regions.id'=>$value]]);
+                $m++;
+                $n=$m;
+            } 
+           foreach($re_name as $vl){
+                foreach($vl as $reg){
+                    
+                   $array_reg[$k] = $reg;
+                   $k++;
+                }
+            }
+            
+            return $array_reg;
+    }
+    
+    public function getregions(){
+        
+        if ($this->request->is('post')) {
+            
+            
+            $this->loadModel('cities_regions');
+            //var_dump($this->loadModel('cities_regions'));exit;
+            $this->loadModel('Regions');
+            $this->loadModel('Cities');
+            $city_id = $this->request->data['city_id'];
+            $reg_name = $this->get_name_reg($city_id);
+            
+            $html = '<label>Region </label> <select name="region_id" onchange="getclub($(this))" class=" form-group">';
+            $i = 1;
+                    
+                    $html .= '<option value="0">'.'---Select Region---'.'</option>';
+                foreach($reg_name as $region){
+                    $html .= '<option value="'.$region['id'].'">'.$region['name'].'</option>';
+                    
+                    $i = $i+1;
+                }
+            if($i == 1){
+                $html .= '<option>Not have city in region</option>';
+            }
+            $html .= '</select>';
+            
+            echo json_encode($html);exit;
+        }
+        
+    }
     public function getclubs(){
         
         if ($this->request->is('post')) {
+           
+            $this->loadModel('Cities_Regions');
+            $this->loadModel('Regions');
             $this->loadModel('Cities');
-            $city_id = $this->request->data['city_id'];
+            $region_id = $this->request->data['region_id'];
  
-            $clubs = $this->Clubs->find('all',['conditions'=>['Clubs.city_id'=>$city_id]]);
+            $clubs = $this->Clubs->find('all',['conditions'=>['Clubs.region_id'=>$region_id]]);
             $results = array();
             
             
-            $html = '<label>Club </label> <select name="nameclub" class="showclubname form-group col-md-10">';
+            $html = '<label>Club </label> <select name="nameclub"  onchange="showinput($(this))" class="showinput form-group col-md-10">';
             $i = 1;
                 
                 $html .= '<option value="0">'.'---Select Club---'.'</option>';
@@ -328,8 +432,13 @@ class UsersController extends AppController
             echo json_encode($html);exit;
         }
     }
+    
+    
     public function register()
-    {   
+    {  
+        
+         
+            
         if(empty($user=$this->Auth->user())){
             $user = $this->Users->newEntity();
         if ($this->request->is('post')) {

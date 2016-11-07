@@ -192,11 +192,13 @@ function getregion(o){
             data: {city_id: city},
             type:'POST',
             dataType:'json',
+            
             success: function(data){
                 $(".showresultclubs").html(data);
                 
                 
-            }
+            },
+            
         });
         $(".showhide").css('display','block');
         $(".test ").css('display','block');

@@ -6,22 +6,14 @@
 
     }
 </style><div class="page-title">
-    <h1>Add User</h1>
+    <h1>Register</h1>
 
     <ol class="breadcrumb">
         <li class="active"><a href="<?php echo $this->Url->build(["controller" => "clubs", "action" => "index"]) ?>"><i class="fa fa-dashboard"></i> clubs</a>
         </li>
         <li class="active"><a href="<?php echo $this->Url->build(["controller" => "Users", "action" => "index", ""]) ?>"><i class="fa fa-users"></i> Users</a></li>
-        <li class="active animated slideInRight"><i class="fa fa-user animated slideInRight"></i> Add User</li>
+        <li class="active animated slideInRight"><i class="fa fa-user animated slideInRight"></i> Register</li>
     </ol>
-</div>
-
-
-
-<div align="center">
-    <a href="<?php echo $this->Url->build(["controller" => "Users", "action" => "index", ""]) ?>">
-        <button type="button" class="btn btn-default animated fadeInDown"><i class="fa fa-users"></i> List Users</button>
-    </a>
 </div>
 <br />
 
@@ -30,7 +22,7 @@
     <div class="portlet portlet-default">
         <div class="portlet-heading">
             <div class="portlet-title">
-                <h4>Add User Form</h4>
+                <h4>Register Form</h4>
             </div>
             <div class="clearfix"></div>
         </div>
@@ -44,9 +36,19 @@
                             * Indicates required field
                         </div>
                     </div>
-                        
-                         <div  class="form-group row" style="margin-top: 30px;" >
-                                <div class="col-md-3"></div>
+                        <div class="box-ajax" style="border-bottom: 2px solid #dcdcdc; margin-bottom:5px;">
+                            <div  class="form-group row" style="margin-top: 30px;" >
+                                
+                                
+                                <div class="showhide1">  
+                    
+                                    <div class="form-group col-md-6">
+                                            
+                                            <div class="form-group showregion " style="margin-bottom: 10px!important;">
+                                                
+                                            </div>
+                                    </div>
+                                </div>
                                 <div class="form-group col-md-6">
                                     <label>City</label>
                                     <select name="city" onchange="getregion($(this))" class="showcity form-group col-md-9">
@@ -57,27 +59,29 @@
                                         <?php } ?>
                                     </select>
                                 </div>
-                                <div class="col-md-3"></div>
                                 
                                 
                                 
                             </div>
-                    
-                    
-                <div class="showhide">  
-                    
-                    
-                   <!-- <div class="row">
-                        <div class="form-group col-md-6">
-                            <label class="test" >Region</label> 
-                            <div class="form-group showresultclubs ">
-                                
+                            <div class="showhide2 row">
+                                <div class="col-md-3"></div>
+                                <div class="col-md-6">
+                                    
+                                    <div class="form-group showclub ">
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-md-3"></div>
                             </div>
                         </div>
-                        
-                        
-
-                    </div>-->
+                         
+                            
+                            
+                    
+                    
+                
+                
+                <div class="showhide3">
                     <div class="row">
                         <div class="form-group  col-md-6">
                             <div class="form-group">
@@ -93,8 +97,10 @@
                     </div>
 
                     <div class="row">
-                        <div class="form-group showclubname col-md-6" style="margin-top: 35px;"  id="club">
-                            
+                        <div class="form-group col-md-6"   id="club">
+                            <div class="form-group">
+                                <?php echo $this->Form->input('username', array('class' => 'form-control', 'placeholder' => 'Enter username', 'maxlength' => '45', 'label' => 'User name *', 'autocapitalize' => 'words')); ?>
+                            </div>
                         </div>
                         <div class="form-group col-md-6">
                             <div class="form-group">
@@ -136,21 +142,24 @@
                             
 
                     </div>
+                </div>
+                    
                    
                 </fieldset>
                  
                 <?= $this->Form->end() ?>
 
-            </div>
+            
             
         </div>
     </div>
 </div>
 </div>
 <style>
-.showhide{
+.showhide, .showhide2,.showhide3{
     display: none;
 }
+
 </style>
 <script type="text/javascript">
 function getregion(o){
@@ -160,31 +169,32 @@ function getregion(o){
         
     if(city == 0){
         
-        $(".showhide ").css('display','none');
+        $(".showhide1 ").css('display','none');
         
-        $(".showclubname").html('');
+        $(".showregion").html('');
     }else{
         $.ajax({
-            url:'<?php echo $this->Url->build(["controller" => "Users", "action" => "getclubs", ""]);?>',
+            url:'<?php echo $this->Url->build(["controller" => "Users", "action" => "getregions", ""]);?>',
             data: {city_id: city},
             type:'POST',
             dataType:'json',
+            
             success: function(data){
-                $(".showclubname").html(data);
+                $(".showregion").html(data);
                 
                 
             }
         });
-        $(".showhide").css('display','block');
+        $(".showhide1").css('display','block');
         $(".test ").css('display','block');
        
     }
 }
-/*function getclub(o){
+function getclub(o){
     var region = o.val();
    if(region == 0){
         
-        $(".showclubname").html('');
+        $(".showclub").html('');
     }else{
         
         $.ajax({
@@ -193,12 +203,16 @@ function getregion(o){
             type:'POST',
             dataType:'json',
             success: function(data){
-                $(".showclubname").html(data);
+                $(".showclub").html(data);
                 
             }
         });
+        $(".showhide2").css('display','block');
         
    }    
-}*/
+}
+function showinput(o){
+    $(".showhide3").css('display','block');
+}
     
 </script>

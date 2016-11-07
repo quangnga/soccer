@@ -49,7 +49,7 @@ class AppController extends Controller
             'authenticate' => [
                 'Form' => [
                     'fields' => [
-                        'username' => 'username',
+                        'username' =>'username',
                         'password' => 'password'
                         ]
                     ]
@@ -82,14 +82,14 @@ class AppController extends Controller
         $id = $user['id'];
         $is_admin = $user['role'];
 		$club_id = $user['club_id'];
-		$username=$user['username'];
+		//$username=$user['username'];
         
         $this->set('first_name',$first_name);//Sets the first name of the currently logged in user
         $this->set('last_name',$last_name);//Sets the last name of the currently logged in user
         $this->set('id',$id);
         $this->set('is_admin',$is_admin);
         $this->set('club_id',$club_id);
-        $this->set('username',$username);
+        //$this->set('username',$username);
         $time = Time::now();
         $this->set('time',$time->i18nFormat(\IntlDateFormatter::FULL));
 
