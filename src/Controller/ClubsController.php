@@ -72,11 +72,18 @@ class ClubsController extends AppController
      */
     public function view($id = null)
     {
+        $this->loadModel('Cities');
         $club = $this->Clubs->get($id, [
-            'contain' => [ 'Users','Cities']
+            'contain' => [ 'Users']
         ]);
-        $id_user = $this->Auth->user('role');
+        
+        $id_user = $this->Auth->user('role');        
         $club_user = $this->Auth->user('club_id');
+        $city_name = $this->Cities->find('all',['conditions'=>['Cities.id'=>$club->city_id]] );
+        foreach($city_name as $name){
+           $cty_name=($name['city_name']); 
+        }
+        $this->set('cty_name',$cty_name);
         if((($id_user == 0)||($id_user==2))&&($club_user==$club->id)){
             $view = 1;
         }elseif($id_user == 1){
@@ -87,7 +94,7 @@ class ClubsController extends AppController
         $this->set('view', $view);
         $this->set('club', $club);
         $this->set('_serialize', ['club']);
-        //debug($club);exit;
+        
         
     }
 
@@ -103,6 +110,7 @@ class ClubsController extends AppController
         $club = $this->Clubs->newEntity();
        if ($this->request->is('post')) {
             $club = $this->Clubs->patchEntity($club, $this->request->data);
+            var_dump($club);exit;
             if ($this->Clubs->save($club)) {
                 $this->Flash->success(__('The training has been saved.'));
                 return $this->redirect(['action' => 'index']);
@@ -649,7 +657,7 @@ class ClubsController extends AppController
                                         ], true);
                                         
                     $email->send('Hello ' . $username .  "\nClick this link  " .$link.'/'.$code." for complete register ");
-                    $this->Flash->success(__('Send code succses !'));
+                    $this->Flash->error(__('Send code succses, waiting users check email!'));
                     return $this->redirect($this->here);
             
         }

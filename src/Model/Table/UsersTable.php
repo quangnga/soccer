@@ -62,26 +62,26 @@ class UsersTable extends Table
      */
     public function validationDefault(Validator $validator)
     {
-        $validator
-            ->integer('id')
-            ->allowEmpty('id', 'create');
+       
+  $validator
+             ->integer('id')
+              ->allowEmpty('id', 'create');
 
-       $validator
-            ->requirePresence('first_name', 'create')
-            ->notEmpty('first_name');
+         /**
+ * $validator
+ *               ->requirePresence('first_name', 'create')
+ *               ->notEmpty('first_name');
 
-        $validator
-            ->requirePresence('last_name', 'create')
-            ->notEmpty('last_name');
+ *         $validator
+ *               ->requirePresence('last_name', 'create')
+ *               ->notEmpty('last_name');
+ */
+ 
 
         $validator
             ->email('email')
             ->requirePresence('email', 'create')
-            ->notEmpty('email');
-
-        $validator
-            ->requirePresence('username', 'create')
-            ->notEmpty('username');
+            ->notEmpty('email');   
 
         $validator
             ->requirePresence('password', 'create')
@@ -94,14 +94,10 @@ class UsersTable extends Table
               ])
         ->notEmpty('confirm_password','*Please confirm your password');
         
-        
-        
-        
-
-        $validator
-            ->integer('phone_number')
-            ->requirePresence('phone_number', 'create')
-            ->notEmpty('phone_number');
+          $validator
+                      ->requirePresence('phone_number', 'create')
+                      ->notEmpty('phone_number');
+ 
 
 
 

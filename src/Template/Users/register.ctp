@@ -51,7 +51,7 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>City</label>
-                                    <select name="city" onchange="getregion($(this))" class="showcity form-group col-md-9">
+                                    <select name="" onchange="getregion($(this))" class="showcity form-group col-md-9">
                                         <option value="0">---select city---</option>
                                         <?php foreach($cities as $city){ ?>
                                             
@@ -63,6 +63,7 @@
                                 
                                 
                             </div>
+                            <?= $this->Form->create($user) ?>
                             <div class="showhide2 row">
                                 <div class="col-md-3"></div>
                                 <div class="col-md-6">
@@ -97,16 +98,16 @@
                     </div>
 
                     <div class="row">
-                        <div class="form-group col-md-6"   id="club">
+                       <!-- <div class="form-group col-md-6"   id="club">
                             <div class="form-group">
                                 <?php echo $this->Form->input('username', array('class' => 'form-control', 'placeholder' => 'Enter username', 'maxlength' => '45', 'label' => 'User name *', 'autocapitalize' => 'words')); ?>
                             </div>
-                        </div>
-                        <div class="form-group col-md-6">
+                        </div>-->
+                        <!--<div class="form-group col-md-6">
                             <div class="form-group">
                                 <?php echo $this->Form->input('مركز اللاعب *', array('options' => array('Keeper' => 'Keeper','Deffender' => 'دفاع','Deffender-left' => ' دفاع - أيسر','Deffender-right' => ' دفاع - أيمن','center' => 'محور','middle' => 'وسط', 'Forward' => 'هجوم'))); ?>
                             </div>
-                        </div>
+                        </div>-->
                         
                     </div>
 

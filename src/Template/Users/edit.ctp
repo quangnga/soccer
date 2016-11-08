@@ -63,7 +63,14 @@ if(($is_admin == 0 && $user->id == $id ) || $is_admin == 1|| ($is_admin == 2 && 
             </div>
             <div class="form-group col-md-6">
                 <div class="form-group">
-                    <?php echo $this->Form->input('club_id', ['options' => $clubs, array('class' => 'form-control')]); ?>
+                
+                    <select name="club_id">
+                        <option value="<?php echo $user->club['id']?>">
+                            <?php echo $user->club['club_name']?>
+                        </option>
+                        
+                    </select>
+                    
                 </div>
             </div>
             <?php } else{?>

@@ -88,14 +88,14 @@
                         </tr>
 
 
-                        <tr>
+                       <!-- <tr>
                             <td style="font-weight:bold">
                                 <?= __('Username') ?>
                             </td>
                             <td>
                                 <?= h($user->username) ?>
                             </td>
-                        </tr>
+                        </tr>-->
 
                         <tr>
                             <td style="font-weight:bold">

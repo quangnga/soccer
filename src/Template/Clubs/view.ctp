@@ -13,7 +13,7 @@
 
     }
 </style><div class="page-title">
-    <h1>View <?= h($club->club_name) ?> <?= h($club->city['city_name']) ?></h1>
+    <h1>View <?= h($club->club_name) ?> <?= h($cty_name) ?></h1>
 
     <ol class="breadcrumb">
         <li class="active"><a href="<?php echo $this->Url->build(["controller" => "dashboard", "action" => "index"]) ?>"><i class="fa fa-dashboard"></i> Dashboard</a>
@@ -32,10 +32,10 @@
     <?php
     if ($is_admin == 1) {
         ?>
-        <a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "edit", $club->id]) ?>"><button type="button" class="btn btn-orange animated fadeInDown"><i class="fa fa-pencil"></i> Edit <strong><?= h($club['name']) ?> <?= h($club['city']) ?></strong></button></a>
+        <a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "edit", $club->id]) ?>"><button type="button" class="btn btn-orange animated fadeInDown"><i class="fa fa-pencil"></i> Edit <strong><?= h($club->club_name) ?> <?= h($club->city['city_name']) ?></strong></button></a>
 
         <a href="#logout">
-            <button type="button" class="btn btn-red animated slideInRight" data-toggle="modal" data-target="#standardModal"><i class="fa fa-remove"></i> Delete <strong><?= h($club->club_name) ?> <?= h($club->city) ?></strong></div></button>
+            <button type="button" class="btn btn-red animated slideInRight" data-toggle="modal" data-target="#standardModal"><i class="fa fa-remove"></i> Delete <strong><?= h($club->club_name) ?>  <?= h($club->city['city_name']) ?></strong></div></button>
 
         </a>
         <?php
@@ -51,7 +51,7 @@
     <div class="portlet portlet-blue">
         <div class="portlet-heading">
             <div class="portlet-title">
-                <h4><strong><?= h($club->club_name) ?> <?= h($club->city['city_name']) ?></strong> Details</h4>
+                <h4><strong><?= h($club->club_name) ?> <?= h($cty_name) ?></strong> Details</h4>
             </div>
             <div class="clearfix"></div>
         </div>
@@ -92,7 +92,7 @@
                                 <?= __('City') ?>
                             </td>
                             <td>
-                                <?= h($club->city['city_name']) ?>
+                                <?= h($cty_name) ?>
                             </td>
                         </tr>
 
