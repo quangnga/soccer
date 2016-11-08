@@ -367,7 +367,9 @@ class ClubsController extends AppController
         $this->set('is_closed',$is_closed);
         
         $time2 = new Time($club['training_time']);
+        
         $id_coming = $this->Auth->user('id');
+        //var_dump($id_coming);exit;
         $role = $this->Auth->user('role');        
        
         $dataComing = $this->Users->find('all', [

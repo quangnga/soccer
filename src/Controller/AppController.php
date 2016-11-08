@@ -129,7 +129,8 @@ class AppController extends Controller
             if(empty($data->coming_last_day)){
                 $articlesTable = TableRegistry::get('Users');
                 $data = $articlesTable->get($data['id']); // Return data with id 
-                 $data->coming_last_day = json_encode($temp_coming);
+                $data->coming_last_day = json_encode($temp_coming);
+                $data->week = $current_week;
                 $articlesTable->save($data);
                
             }
@@ -170,6 +171,11 @@ class AppController extends Controller
                               
                     }
                     
+                    $articlesTable->save($data);
+                }else{
+                    
+                    $temp = array('monday'=>0,'tuesday'=>0,'wednesday'=>0,'thursday'=>0,'friday'=>0,'saturday'=>0,'sunday'=>0);
+                    $data->coming_date = json_encode($temp) ;
                     $articlesTable->save($data);
                 }
         }
