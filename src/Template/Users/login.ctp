@@ -43,7 +43,7 @@ echo $this->Html->meta('favicon.ico','img/favicon.ico',array('type' => 'icon'));
                         <?= $this->Form->create() ?>
                             <fieldset>
                                 <div class="form-group">
-                                <?= $this->Form->input('username', ['type' => 'text','class' => 'form-control','placeholder' => 'Enter username or email or phone']) ?>
+                                <?= $this->Form->input('email', ['type' => 'text','class' => 'form-control','placeholder' => 'Enter username or email or phone']) ?>
                     
                                 </div>
                                 <div class="form-group">

@@ -248,37 +248,37 @@ class UsersController extends AppController
         if ($this->request->is(['patch', 'post', 'put']))  {
             
             
-                $user_m = $this->request->data['username'];
+                $user_m = $this->request->data['email'];
                 $username_s = '';
                 if(Validation::email($user_m)){
-                    $find_by_email = $this->Users->find('all',['conditions'=>['Users.email'=>$user_m],'fields'=>'username'] );
+                    $find_by_email = $this->Users->find('all',['conditions'=>['Users.email'=>$user_m],'fields'=>'email'] );
                         foreach($find_by_email as $db){
-                        $email = $db['username'];
+                        $email = $db['email'];
                     }
                     $username_s = $email;
                 }else{
-                    $find_by_phone = $this->Users->find('all',['conditions'=>['Users.phone_number'=>(int)$user_m],'fields'=>'username'] );
+                    $find_by_phone = $this->Users->find('all',['conditions'=>['Users.phone_number'=>(int)$user_m],'fields'=>'email'] );
                         foreach($find_by_phone as $dbs){
-                            $phone = $dbs['username'];
+                            $phone = $dbs['email'];
                         }
                     if(!empty($phone)){
                         
                         $username_s = $phone;
                         
                     }else{
-                        $find_by_name = $this->Users->find('all',['conditions'=>['Users.username'=>$user_m],'fields'=>'username'] );
+                        $find_by_name = $this->Users->find('all',['conditions'=>['Users.username'=>$user_m],'fields'=>'email'] );
                         foreach($find_by_name as $dbs){
-                            $name = $dbs['username'];
+                            $name = $dbs['email'];
                         }
                         $username_s = $name;
                     }         
                 }
                  
            
-            $this->request->data['username'] = $username_s;
+            $this->request->data['email'] = $username_s;
              
             $user = $this->Auth->identify();
-            //debug($user);exit;
+            //debug($this->request->data['email']);exit;
             
                if ($user && $user['status']== 1) {
                     $this->Auth->setUser($user);
