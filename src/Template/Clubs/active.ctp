@@ -33,9 +33,12 @@
                                             keeper
                                         </td>
                                         <td>
+                                        <a href="<?php echo $this->Url->build(["controller" => "Users", "action" => "View", $db['id']]) ?>">
                                             <button type="button" class="btn btn-orange animated fadeInDown">
                                                 Info
                                             </button>
+                                        </a>
+                                            
                                         </td>
                                         <td>
                                             <?= $this->Form->button(__('Send code active'),['class'=>'btn btn-green animated fadeInDown']) ?>
