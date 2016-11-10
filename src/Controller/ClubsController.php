@@ -220,104 +220,111 @@ class ClubsController extends AppController
         
         
         $this->loadModel('Users');
-        $club = $this->Clubs->get($id, [
-            'contain' => [ 'Users']
-        ]);
-       
-        $temp1 = $club['close_training'];
-        $temp2 = $club['open_training'];
-        $is_closed = $this->comingClose($temp1,$temp2);
-        $this->set('is_closed',$is_closed);
+        $id_coming = $this->Auth->user('id'); 
+        if(!empty($id_coming)){
+            $club = $this->Clubs->get($id, [
+                'contain' => [ 'Users']
+            ]);
+           
+            $temp1 = $club['close_training'];
+            $temp2 = $club['open_training'];
+            $is_closed = $this->comingClose($temp1,$temp2);
+            $this->set('is_closed',$is_closed);
+                
+            $id_user = $this->Auth->user('role');
+            $club_user = $this->Auth->user('club_id');
+            if($club_user==$club->id){
+                $advanced = 1;
+            }else{
+                $advanced = 0;
+            }  
+            $this->set('advanced',$advanced);
             
-        $id_user = $this->Auth->user('role');
-        $club_user = $this->Auth->user('club_id');
-        if($club_user==$club->id){
-            $advanced = 1;
-        }else{
-            $advanced = 0;
-        }  
-        $this->set('advanced',$advanced);
-        
-
-        $register_time = date("Y-m-d H:i:s");
-        $time2 = new Time($club->training_time);
-        $id_coming = $this->Auth->user('id');   
-         
-        $user = $this->Users->get($id_coming, ['condition' => ['Users.id' => $id_coming]]);
-            $date_data = $user['coming_date'];          
-            if(empty($date_data)){
-                $get_comings = array('monday'=>0,'tuesday'=>0,'wednesday'=>0,'thursday'=>0,'friday'=>0,'saturday'=>0,'sunday'=>0);
+    
+            $register_time = date("Y-m-d H:i:s");
+            $time2 = new Time($club->training_time);
+              
+             
+            $user = $this->Users->get($id_coming, ['condition' => ['Users.id' => $id_coming]]);
+                $date_data = $user['coming_date'];          
+                if(empty($date_data)){
+                    $get_comings = array('monday'=>0,'tuesday'=>0,'wednesday'=>0,'thursday'=>0,'friday'=>0,'saturday'=>0,'sunday'=>0);
+                }else{
+                    $get_comings = json_decode($date_data);                
+                }
+            if ($this->request->is(['patch', 'post', 'put'])) {
+                $save_comings = array('monday'=>0,'tuesday'=>0,'wednesday'=>0,'thursday'=>0,'friday'=>0,'saturday'=>0,'sunday'=>0);
+                foreach($get_comings as $key => $get_coming){                
+                     if($this->request->data[$key] == 1){
+                            $save_comings[$key] = 1;                        
+                        }
+                }
+                $save_coming_data = json_encode($save_comings);
+                $dataComing = $this->Users->find('all', [
+                    'conditions'=>['Users.id '=>$id_coming]
+                ]);            
+                foreach($dataComing as $data){
+                    $articlesTable = TableRegistry::get('Users');
+                    
+                    $data = $articlesTable->get($data['id']); 
+                    $data->coming_date = $save_coming_data;
+                    $data->register_time = $register_time;
+                    
+                    $articlesTable->save($data);
+                }
+             $user = $this->Users->patchEntity($user, $this->request->data);
+                if ($this->Users->save($user)) {
+                    $this->Flash->success(__($user->first_name . ' ' . $user->last_name . ' has been added.'));              
+                } else {
+                    $this->Flash->error(__('The user could not be added. Please, try again.'));
+                } 
+                                 
+            }
+            
+            $date_data = $user['coming_date'];
+                if(empty($date_data)){
+                    $get_comings = array('monday'=>0,'tuesday'=>0,'wednesday'=>0,'thursday'=>0,'friday'=>0,'saturday'=>0,'sunday'=>0);
+                }else{
+                    $get_comings = json_decode($date_data);
+                    
+                }
+            $this->set('club', $club);
+            $this->set('time2', $time2);
+            $this->set('get_comings', $get_comings);
+    
+            $club_id = $user['club_id'];
+            
+            $query= $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id,'Users.coming'=>1,'Users.block'=>0]]);        
+            $number = $query->count();
+            $this->set('number',$number);
+            
+            $query2 = $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id]]);
+            $num_all=   $query2->count();
+            $this->set('num_all',$num_all);
+            
+            $block=$user['block'];
+            $this->set('block',$block);
+            
+            $this->set('id',$id);
+            $this->set('users', $this->paginate($this->Users));
+            
+            $max_users = $club['number_of_users'];
+            $number_playing = $club['number_of_playing'];
+    
+            
+            if($number >= $max_users){
+                $is_full = true;
             }else{
-                $get_comings = json_decode($date_data);                
+                $is_full = false;
             }
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $save_comings = array('monday'=>0,'tuesday'=>0,'wednesday'=>0,'thursday'=>0,'friday'=>0,'saturday'=>0,'sunday'=>0);
-            foreach($get_comings as $key => $get_coming){                
-                 if($this->request->data[$key] == 1){
-                        $save_comings[$key] = 1;                        
-                    }
-            }
-            $save_coming_data = json_encode($save_comings);
-            $dataComing = $this->Users->find('all', [
-                'conditions'=>['Users.id '=>$id_coming]
-            ]);            
-            foreach($dataComing as $data){
-                $articlesTable = TableRegistry::get('Users');
-                
-                $data = $articlesTable->get($data['id']); 
-                $data->coming_date = $save_coming_data;
-                $data->register_time = $register_time;
-                
-                $articlesTable->save($data);
-            }
-         $user = $this->Users->patchEntity($user, $this->request->data);
-            if ($this->Users->save($user)) {
-                $this->Flash->success(__($user->first_name . ' ' . $user->last_name . ' has been added.'));              
-            } else {
-                $this->Flash->error(__('The user could not be added. Please, try again.'));
-            } 
-                             
+            $this->set('max_users',$max_users);
+            $this->set('is_full', $is_full);
+            $this->set('number_playing', $number_playing);
+            
+        }else{
+             return $this->redirect(['controller' => 'Users', 'action' => 'login', '']);
         }
         
-        $date_data = $user['coming_date'];
-            if(empty($date_data)){
-                $get_comings = array('monday'=>0,'tuesday'=>0,'wednesday'=>0,'thursday'=>0,'friday'=>0,'saturday'=>0,'sunday'=>0);
-            }else{
-                $get_comings = json_decode($date_data);
-                
-            }
-        $this->set('club', $club);
-        $this->set('time2', $time2);
-        $this->set('get_comings', $get_comings);
-
-        $club_id = $user['club_id'];
-        
-        $query= $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id,'Users.coming'=>1,'Users.block'=>0]]);        
-        $number = $query->count();
-        $this->set('number',$number);
-        
-        $query2 = $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id]]);
-        $num_all=   $query2->count();
-        $this->set('num_all',$num_all);
-        
-        $block=$user['block'];
-        $this->set('block',$block);
-        
-        $this->set('id',$id);
-        $this->set('users', $this->paginate($this->Users));
-        
-        $max_users = $club['number_of_users'];
-        $number_playing = $club['number_of_playing'];
-
-        
-        if($number >= $max_users){
-            $is_full = true;
-        }else{
-            $is_full = false;
-        }
-        $this->set('max_users',$max_users);
-        $this->set('is_full', $is_full);
-        $this->set('number_playing', $number_playing);
             
             
     }
@@ -355,8 +362,11 @@ class ClubsController extends AppController
     
     public function detail($id= null){
         
+        
         $this->loadModel('Users');
-        $club = $this->Clubs->get($id, [
+        $id_coming = $this->Auth->user('id');
+        if(!empty($id_coming)){
+            $club = $this->Clubs->get($id, [
             'contain' => [ 'Users']
         ]);     
         
@@ -368,7 +378,7 @@ class ClubsController extends AppController
         
         $time2 = new Time($club['training_time']);
         
-        $id_coming = $this->Auth->user('id');
+        
         //var_dump($id_coming);exit;
         $role = $this->Auth->user('role');        
        
@@ -550,6 +560,10 @@ class ClubsController extends AppController
         $this->set('db_wting',$db_wting);
         $this->set('db_play',$db_play);
         $this->set('total',$total);
+        }else{
+             return $this->redirect(['controller' => 'Users', 'action' => 'login', '']);
+        }
+        
         
         
          
@@ -598,18 +612,25 @@ class ClubsController extends AppController
     
     public function unlock($id=null){
         $this->loadModel('Users');
-        $condition = array('Users.block'=>1, 'Users.club_id'=>$id);
-        $data_block = $this->Users->getDataWhere($condition,'Users');
-        $this->set('data_block',$data_block);
         
-        if($this->request->is('post')){
+        if(!empty($this->Auth->user('id'))){
             
-            $id_unlock = $this->request->data['id'];
-            $articlesTable = TableRegistry::get('Users');
-            $data = $articlesTable->get($id_unlock);
-            //var_dump($data);exit;
-            $data->block = 0;
-            $articlesTable->save($data);
+            $condition = array('Users.block'=>1, 'Users.club_id'=>$id);
+            $data_block = $this->Users->getDataWhere($condition,'Users');
+            $this->set('data_block',$data_block);
+            
+            if($this->request->is('post')){
+                
+                $id_unlock = $this->request->data['id'];
+                $articlesTable = TableRegistry::get('Users');
+                $data = $articlesTable->get($id_unlock);
+                //var_dump($data);exit;
+                $data->block = 0;
+                $articlesTable->save($data); 
+            }
+        }else{
+             return $this->redirect(['controller' => 'Users', 'action' => 'login', '']);
+        
             
             
         }

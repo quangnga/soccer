@@ -26,11 +26,11 @@ class UsersController extends AppController
                 $this->Auth->allow();
                 
             }else if($this->isAuthorizedAdmin()==2){
-                $this->Auth->allow(['view','index','logout','edit','index','getclubs','getregions','logout','edit','view','resetPassword','register','forgotpassword','resetPasswordSent','changePassword','sendCodeActive']);
+                $this->Auth->allow(['view','index','logout','edit','index','getclubs','getregions','logout','edit','view','resetPassword','unlock','register','forgotpassword','login','resetPasswordSent','changePassword','sendCodeActive']);
                 
             }
             else{
-                $this->Auth->allow(['index','getclubs','getregions','logout','edit','view','resetPassword','register','forgotpassword','resetPasswordSent','changePassword','sendCodeActive']);
+                $this->Auth->allow(['index','getclubs','getregions','logout','login','edit','view','resetPassword','register','forgotpassword','resetPasswordSent','changePassword','sendCodeActive']);
             }
             $this->Auth->allow(['register']);
             
@@ -85,7 +85,7 @@ class UsersController extends AppController
         $user = $this->Users->get($id, [
                                   'contain' => ['Clubs'],
                                   ]);
-        $user = $this->Users->get($id, ['contain'=>['acls'],'condition'=> ['user_id'=>$id]]);
+        //var_dump($user);exit;
         
         $this->set('user', $user);
         $this->set('_serialize', ['user']);
@@ -461,6 +461,7 @@ class UsersController extends AppController
                 $this->set('_serialize', ['user']);
             }else{
                 return $this->redirect(['controller' => 'Users', 'action' => 'logout', '']);
+                 
             }
             //$user = $this->Users->newEntity();
 //        if ($this->request->is('post')) {

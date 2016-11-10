@@ -88,21 +88,63 @@
                         </tr>
 
 
-                       <!-- <tr>
+                       <tr>
                             <td style="font-weight:bold">
-                                <?= __('Username') ?>
+                                <?= __('Age') ?>
+                            </td>
+                            <?php if(empty($user->age)){?>
+                            <td>
+                                <?= __('unknow') ?>
+                            </td>
+                            <?php }else{ ?>
+                                <?= h($user->age) ?>
+                                
+                            <?php }?>
+                        </tr>
+                        <tr>
+                        
+                            <td style="font-weight:bold">
+                                <?= __('Position') ?>
                             </td>
                             <td>
-                                <?= h($user->username) ?>
+                                <?php switch ($user->position){
+                                     
+                                    case 'Deffender':
+                                        echo 'دفاع';
+                                        break;
+                                    case 'Deffender-left':
+                                        echo ' دفاع - أيسر';
+                                        break;
+                                    case 'Deffender-right':
+                                        echo ' دفاع - أيمن';
+                                        break;
+                                    case 'center':
+                                        echo  'محور';
+                                        break;
+                                    case 'middle':
+                                        echo 'وسط';
+                                        break;
+                                    case 'Forward':
+                                        echo 'هجوم';
+                                        break;
+                                    case 'Keeper':
+                                        echo 'Keeper';
+                                        break;
+                                    default:
+                                        echo '...';
+                                        
+                                }?>
                             </td>
-                        </tr>-->
+                        
+                        </tr>
+                        
 
                         <tr>
                             <td style="font-weight:bold">
                                 <?= __('Club belong to') ?>
                             </td>
                             <td>
-                                <?= h($user->club_id) ?>
+                                <?= h($user->club['club_name']) ?>
                             </td>
                         </tr>
 

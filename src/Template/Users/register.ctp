@@ -98,16 +98,16 @@
                     </div>
 
                     <div class="row">
-                       <!-- <div class="form-group col-md-6"   id="club">
+                       <div class="form-group col-md-6">
                             <div class="form-group">
-                                <?php echo $this->Form->input('username', array('class' => 'form-control', 'placeholder' => 'Enter username', 'maxlength' => '45', 'label' => 'User name *', 'autocapitalize' => 'words')); ?>
+                                <?php echo $this->Form->input('age', array('class' => 'form-control', 'placeholder' => 'Enter age', 'maxlength' => '3', 'label' => 'Age *', 'autocapitalize' => 'words')); ?>
                             </div>
-                        </div>-->
-                        <!--<div class="form-group col-md-6">
+                        </div>
+                        <div class="form-group col-md-6">
                             <div class="form-group">
-                                <?php echo $this->Form->input('مركز اللاعب *', array('options' => array('Keeper' => 'Keeper','Deffender' => 'دفاع','Deffender-left' => ' دفاع - أيسر','Deffender-right' => ' دفاع - أيمن','center' => 'محور','middle' => 'وسط', 'Forward' => 'هجوم'))); ?>
+                                <?php echo $this->Form->input('position ', array('options' => array('Keeper' => 'Keeper','Deffender' => 'دفاع','Deffender-left' => ' دفاع - أيسر','Deffender-right' => ' دفاع - أيمن','center' => 'محور','middle' => 'وسط', 'Forward' => 'هجوم'))); ?>
                             </div>
-                        </div>-->
+                        </div>
                         
                     </div>
 

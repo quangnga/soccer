@@ -95,6 +95,17 @@ if(($is_admin == 0 && $user->id == $id ) || $is_admin == 1|| ($is_admin == 2 && 
                     <?php echo $this->Form->input('phone_number', array('class' => 'form-control', 'placeholder' => 'Enter phone number', 'maxlength' => '20', 'label' => ' Phone number *')); ?>
                 </div>
             </div>
+            
+            <div class="form-group col-md-6">
+                <div class="form-group">
+                    <?php echo $this->Form->input('position ', array('options' => array('Keeper' => 'Keeper','Deffender' => 'دفاع','Deffender-left' => ' دفاع - أيسر','Deffender-right' => ' دفاع - أيمن','center' => 'محور','middle' => 'وسط', 'Forward' => 'هجوم'))); ?>
+                </div>
+            </div>
+            <div class="form-group col-md-6">
+                <div class="form-group">
+                    <?php echo $this->Form->input('age', array('class' => 'form-control', 'placeholder' => 'Enter age', 'maxlength' => '3', 'label' => ' Age *')); ?>
+                </div>
+            </div>
             <?php
             }
             ?>

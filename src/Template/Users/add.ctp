@@ -61,7 +61,7 @@
                     <div class="row">
                         <div class="form-group col-md-6">
                             <div class="form-group">
-                                <?php echo $this->Form->input('lasst_name', array('class' => 'form-control', 'placeholder' => 'Enter last Name', 'maxlength' => '45', 'label' => 'last Name', 'autocapitalize' => 'words')); ?>
+                                <?php echo $this->Form->input('last_name', array('class' => 'form-control', 'placeholder' => 'Enter last Name', 'maxlength' => '45', 'label' => 'last Name', 'autocapitalize' => 'words')); ?>
                             </div>
                         </div>
                         <div class="form-group col-md-6">
@@ -75,7 +75,7 @@
                     <div class="row">
                         <div class="form-group col-md-6">
                             <div class="form-group">
-                                <?php echo $this->Form->input('username', array('class' => 'form-control', 'placeholder' => 'Enter username', 'maxlength' => '20')); ?>
+                                <?php echo $this->Form->input('age', array('class' => 'form-control', 'placeholder' => 'Enter age', 'maxlength' => '3')); ?>
                             </div>
                         </div>
                         <div class="form-group col-md-6">
@@ -87,12 +87,17 @@
 
                     </div>
                     <div class="form-group">
+                                <?php echo $this->Form->input('position ', array('label' => ' Position ','options' => array('Keeper' => 'Keeper','Deffender' => 'دفاع','Deffender-left' => ' دفاع - أيسر','Deffender-right' => ' دفاع - أيمن','center' => 'محور','middle' => 'وسط', 'Forward' => 'هجوم'))); ?>
+                    </div>
+                    <div class="form-group">
                         <?php echo $this->Form->input('password', array('class' => 'form-control', 'placeholder' => 'Enter Password', 'maxlength' => '20', 'label' => ' Password')); ?>
                     </div>
 
                     <div class="form-group">
                         <?php echo $this->Form->password('confirm_password', array('class' => 'form-control', 'placeholder' => 'Confirm Password', 'maxlength' => '20', 'label' => 'Confirm Password')); ?>
                     </div>
+                    
+                    
 
                     
                 </fieldset>
