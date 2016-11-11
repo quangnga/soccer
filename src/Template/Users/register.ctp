@@ -105,7 +105,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <div class="form-group">
-                                <?php echo $this->Form->input('position ', array('options' => array('Keeper' => 'Keeper','Deffender' => 'دفاع','Deffender-left' => ' دفاع - أيسر','Deffender-right' => ' دفاع - أيمن','center' => 'محور','middle' => 'وسط', 'Forward' => 'هجوم'))); ?>
+                                <?php echo $this->Form->input('position', array('options' => array('Keeper' => 'Keeper','Deffender' => 'دفاع','Deffender-left' => ' دفاع - أيسر','Deffender-right' => ' دفاع - أيمن','center' => 'محور','middle' => 'وسط', 'Forward' => 'هجوم'))); ?>
                             </div>
                         </div>
                         

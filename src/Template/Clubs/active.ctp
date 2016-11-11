@@ -30,7 +30,33 @@
                                             <?php echo $db['first_name'].' '. $db['last_name'] ?>
                                         </td>
                                         <td>
-                                            keeper
+                                            <?php switch ($db['position']){
+                                     
+                                                case 'Deffender':
+                                                    echo 'دفاع';
+                                                    break;
+                                                case 'Deffender-left':
+                                                    echo ' دفاع - أيسر';
+                                                    break;
+                                                case 'Deffender-right':
+                                                    echo ' دفاع - أيمن';
+                                                    break;
+                                                case 'center':
+                                                    echo  'محور';
+                                                    break;
+                                                case 'middle':
+                                                    echo 'وسط';
+                                                    break;
+                                                case 'Forward':
+                                                    echo 'هجوم';
+                                                    break;
+                                                case 'Keeper':
+                                                    echo 'Keeper';
+                                                    break;
+                                                default:
+                                                    echo '...';
+                                                    
+                                            }?>
                                         </td>
                                         <td>
                                         <a href="<?php echo $this->Url->build(["controller" => "Users", "action" => "View", $db['id']]) ?>">
