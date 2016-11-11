@@ -97,7 +97,10 @@
                                 <?= __('unknow') ?>
                             </td>
                             <?php }else{ ?>
-                                <?= h($user->age) ?>
+                            <td>
+                                 <?= h($user->age) ?>
+                            </td>
+                               
                                 
                             <?php }?>
                         </tr>
