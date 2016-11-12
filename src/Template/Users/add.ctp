@@ -61,12 +61,12 @@
                     <div class="row">
                         <div class="form-group col-md-6">
                             <div class="form-group">
-                                <?php echo $this->Form->input('last_name', array('class' => 'form-control', 'placeholder' => 'Enter last Name', 'maxlength' => '45', 'label' => 'last Name', 'autocapitalize' => 'words')); ?>
+                                <?php echo $this->Form->input('last_name', array('class' => 'form-control', 'placeholder' => 'Enter last Name', 'maxlength' => '45', 'label' => 'Last Name', 'autocapitalize' => 'words')); ?>
                             </div>
                         </div>
                         <div class="form-group col-md-6">
                             <div class="form-group">
-                                <?php echo $this->Form->input('email', array('class' => 'form-control', 'placeholder' => 'Enter email ', 'maxlength' => '45', 'label' => 'email')); ?>
+                                <?php echo $this->Form->input('email', array('class' => 'form-control', 'placeholder' => 'Enter email ', 'maxlength' => '45', 'label' => 'Email')); ?>
                             </div>
                         </div>
                     </div>
@@ -80,7 +80,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <div class="form-group">
-                                <?php echo $this->Form->input('phone_number', array('class' => 'form-control', 'placeholder' => 'Enter Phone number', 'maxlength' => '50', 'label' => ' phone number')); ?>
+                                <?php echo $this->Form->input('phone_number', array('class' => 'form-control', 'placeholder' => 'Enter Phone number', 'maxlength' => '50', 'label' => ' Phone number')); ?>
                             </div>
                         </div>
 

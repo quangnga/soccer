@@ -7,7 +7,7 @@
         <li class="active animated slideInRight"><i class="fa fa-dashboard animated slideInRight"></i> Users</li>
     </ol>
 </div>
-<div class="col-md-12 col-lg-6 col-lg-offset-3">
+<div class="col-md-12 col-xs-12 col-lg-6 col-lg-offset-3 col-xs-offset-0">
     <div class="portlet portlet-default">
         <div class="portlet-heading">
             <div class="portlet-title">
@@ -17,14 +17,14 @@
         </div>
         <div id="basicFormExample" class="panel-collapse collapse in">
             <div class="portlet-body">
-                <h3><?= __('Users') ?></h3>
+                
                 <table class="table table-hover table-striped">
                     <thead>
                         <tr>
-                            <th><?= $this->Paginator->sort('first_name') ?></th>
-                            <th><?= $this->Paginator->sort('last_name') ?></th>
+                            <th><?= $this->Paginator->sort('Name') ?></th>
+                            
                             <th><?= $this->Paginator->sort('club') ?></th>
-                            <th><?= $this->Paginator->sort('coming') ?></th>
+                            <th class="coming-res"><?= $this->Paginator->sort('coming') ?></th>
                            
                            <th class="actions"><?= __('Actions') ?></th>
                              
@@ -39,19 +39,19 @@
                                 
                         ?>
                                 <tr>
-                                    <td><?= h($user->first_name) ?></td>
-                                    <td><?= h($user->last_name) ?></td>
+                                    <td><?= h($user->first_name) ?><?= h($user->last_name) ?></td>
+                                    
                                     <td><?= h($user->club->club_name) ?></td>
 
 
-                                    <td><?= $this->Number->format($user->coming) ?></td>
+                                    <td class="coming-res"><?= $this->Number->format($user->coming) ?></td>
 
-                                    <td class="actions">
+                                    <td class="actions user_action">
                                 <?php
                                     if ($is_admin >= 0) {
                                  ?>
                                             <a href="<?php echo $this->Url->build(["controller" => "Users", "action" => "View", $user->id]) ?>">
-                                                <button type="button" class="btn btn-success">view<i class="fa fa-search"></i></button>
+                                                <button type="button" class="btn btn-success"> View <i class="fa fa-search"></i></button>
                                             </a>
                                 <?php
                                     }
@@ -62,7 +62,7 @@
                                     if ($is_admin == 1||$user->id == $id) {
                                 ?>
                                             <a href="<?php echo $this->Url->build(["controller" => "Users", "action" => "Edit", $user->id]) ?>">
-                                                <button type="button" class="btn btn-orange">edit <i class="fa fa-pencil"></i></button>
+                                                <button type="button" class="btn btn-orange"> Edit <i class="fa fa-pencil"></i> </button>
                                             </a>
                                 <?php
                                     }
@@ -70,7 +70,7 @@
                                 <?php
                                     if ($is_admin == 1) {
                                 ?>
-                                            <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $user->id], ['confirm' => __('Are you sure you want to delete # {0}?', $user->id)]) ?>
+                                            <button class="btn btn-brow"><?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $user->id], ['confirm' => __('Are you sure you want to delete # {0}?', $user->id)]) ?> <i class="fa fa-minus-circle" aria-hidden="true"></i></button>
                                 <?php
                                     }
                                 ?>

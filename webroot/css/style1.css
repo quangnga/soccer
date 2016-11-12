@@ -153,13 +153,13 @@ a:focus{
 
 .menu .social-icons{
 	margin-top: 50px;
-	width: 80%;
+	width: 100%;
 	margin-right: auto;
 	margin-left: auto;
 }
 
 .menu .social-icons li{
-	margin-right: 10px;
+	margin-right: 0px;
 	float: none;
 	display: inline-block;
 }
@@ -382,6 +382,30 @@ PORTFOLIO
 	border-color: #fe4a46;
 }
 
+.btn-login{
+    background: rgba(255, 255, 255, 0.5);
+      -moz-border-radius: 6px;
+      -webkit-border-radius: 6px;
+      border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    padding: 5px 10px;
+    font-size: 1.5em;
+}
+.btn-login:focus {
+  outline: none;
+}
+a:hover{
+    text-decoration: none;
+}
+.btn-login:hover {
+    
+  color: white;
+  border: 1px solid white;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+
+
 
 /*******************************
 FORMS
@@ -396,7 +420,7 @@ form{
 	text-transform: uppercase;
 }
 .form-control{
-	padding: 17px 25px;
+	padding: 15px 25px;
 	font-size: 15px;
 	height: auto;
 	border-radius: 0;
@@ -416,7 +440,7 @@ form{
 }
 
 footer{
-	padding: 75px 0;
+	padding: 30px 0;
 	background-color: #333;
 	color: #fff;
 }
@@ -428,11 +452,16 @@ footer p{
 ul.social-icons{
 	list-style: none;
 	padding: 0;
+    width: 260px;
+    margin: 0 auto;
 }
-
+.fix-ul li{
+	float: left;
+    padding: 10px!important;
+}
 ul.social-icons > li{
 	float: left;
-	margin-right: 25px;
+    padding: 10px 12px;
 }
 
 ul.social-icons > li > a{
@@ -445,12 +474,29 @@ ul.social-icons > li > a{
 	display: block;
 	text-align: center;
 }
+.actions{
+    text-align: center;
+}
 
-
+.footer-res{
+    text-align: center;
+}
+.footer-res .social-icons{
+    overflow: hidden;
+}
 @media screen and (min-width: 768px){
 
 	.jumbotron h1, 
 	.jumbotron .h1 {
 		font-size: 75px;
 	}
+    
+    .form-group .btn{
+        width: 30%;
+    }
+    .sub-res{
+        text-align: center;
+    }
 }
+
+

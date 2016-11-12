@@ -7,7 +7,6 @@ text-align: center;
 if(($is_admin == 0 && $user->id == $id ) || $is_admin == 1|| ($is_admin == 2 && $user->club_id == $club_id )){
 ?>
 </style><div class="page-title">
-    <h1>Edit <?= h($user->first_name) ?> <?= h($user->last_name) ?></h1>
     <ol class="breadcrumb">
         <li class="active"><a href="<?php echo $this->Url->build(["controller" => "dashboard", "action" => "index"]) ?>"><i class="fa fa-dashboard"></i> Dashboard</a>
     </li>

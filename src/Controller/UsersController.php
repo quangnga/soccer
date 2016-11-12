@@ -32,7 +32,7 @@ class UsersController extends AppController
             else{
                 $this->Auth->allow(['index','getclubs','getregions','logout','login','edit','view','resetPassword','register','forgotpassword','resetPasswordSent','changePassword','sendCodeActive']);
             }
-            $this->Auth->allow(['register']);
+            $this->Auth->allow(['register','forgotpassword','resetPasswordSent']);
             
     
             
@@ -250,6 +250,8 @@ class UsersController extends AppController
             
                 $user_m = $this->request->data['email'];
                 $username_s = '';
+                $phone = '';
+                $name = '';
                 if(Validation::email($user_m)){
                     $find_by_email = $this->Users->find('all',['conditions'=>['Users.email'=>$user_m],'fields'=>'email'] );
                         foreach($find_by_email as $db){

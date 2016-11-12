@@ -14,7 +14,7 @@
 
     }
 </style><div class="page-title">
-    <h1>View <?= h($user->first_name) ?> <?= h($user->last_name) ?></h1>
+    <p>View <?= h($user->first_name) ?> <?= h($user->last_name) ?></p>
 
     <ol class="breadcrumb">
         <li class="active"><a href="<?php echo $this->Url->build(["controller" => "dashboard", "action" => "index"]) ?>"><i class="fa fa-dashboard"></i> Dashboard</a>

@@ -57,7 +57,7 @@ $this->layout = false;
 			</ul>
 
 
-			<ul class="social-icons">
+			<ul class="social-icons fix-ul">
 				<li><a href=""><i class="fa fa-facebook"></i></a></li>
 				<li><a href=""><i class="fa fa-twitter"></i></a></li>
 				<li><a href=""><i class="fa fa-dribbble"></i></a></li>
@@ -70,7 +70,7 @@ $this->layout = false;
 				<h1>كورة تايم</h1>
 				<p>تحضير تمارين كورة القدم
 				</p>
-				<a href="Users/login" class="btn btn-primary">حضر نفسك من هنا</a>
+				<a href="Users/login" class="btn-login">حضر نفسك من هنا</a>
 			</div>
 		</div>
 	</div>
@@ -132,7 +132,7 @@ $this->layout = false;
 			</header>
                     </div>
 			<div id="single-project"></div>
-			<div class="row">
+			<div class="row" style="margin-right: 0px; margin-left: 0px;">
 				<figure class="portfolio-item col-md-4 col-sm-6" >
 					<img class="img-responsive" src="img/homepagephotos/1.jpg" alt="Adena icons pack" />
 					<figcaption class="mask">
@@ -216,7 +216,7 @@ $this->layout = false;
 						<div class="form-group col-md-12">
 <textarea class="form-control" id="message" name="message" placeholder="Enter your message here" rows="7"></textarea>
 						</div>
-						<div class="form-group col-md-12">
+						<div class="form-group sub-res col-md-12">
 <button type="submit" class="btn btn-primary btn-lg">Submit</button>
 						</div>
 					</form>
@@ -245,20 +245,23 @@ $this->layout = false;
 	<!-- Footer start -->
 	<footer>
 		<div class="container">
-			<div class="row">
-				<div class="col-md-8">
-<p>&copy; 2016 by <a  target="_blank">Majed Almutairi</a></p>
-				</div>
-				<div class="col-md-4">
-					<ul class="social-icons">
-<span>تواصل معنا</span>
+			<div class="row footer-res">
+                <p>&copy; 2016 by <a  target="_blank">Majed Almutairi</a></p>
+				<span>تواصل معنا</span>
+				
+			</div>
+            <div class="row footer-res">
+                
+                
+                <ul class="social-icons">
+                        
 						<li><a href=""><i class="fa fa-facebook"></i></a></li>
 						<li><a href="https://twitter.com/Ass3bGr7" target="_blank"><i class="fa fa-twitter"></i></a></li>
 						<li><a href=""><i class="fa fa-dribbble"></i></a></li>
 						<li><a href=""><i class="fa fa-behance"></i></a></li>
-					</ul>
-				</div>
-			</div>
+			     </ul>
+                 
+            </div>
 		</div>
 	</footer>
 	<!-- Footer end  -->
