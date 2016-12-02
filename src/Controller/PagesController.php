@@ -18,6 +18,17 @@ use Cake\Core\Configure;
 use Cake\Network\Exception\NotFoundException;
 use Cake\View\Exception\MissingTemplateException;
 
+
+
+use App\Controller\AppController;
+use Cake\Event\Event;
+use Cake\ORM\TableRegistry;
+use Cake\Routing\Router;
+use Cake\Auth\DefaultPasswordHasher;
+use Cake\Validation\Validation;
+use Cake\Mailer\Email;
+use Cake\I18n\Time;
+
 /**
  * Static content controller
  *
@@ -37,8 +48,10 @@ class PagesController extends AppController
      */
     public function display()
     {
+        
+        $notiny='';
         $path = func_get_args();
-
+        
         $count = count($path);
         if (!$count) {
             return $this->redirect('/');
@@ -61,5 +74,8 @@ class PagesController extends AppController
             }
             throw new NotFoundException();
         }
+        $this->set('notiny',$notiny);
     }
+   
+        
 }

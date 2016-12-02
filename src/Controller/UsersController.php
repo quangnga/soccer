@@ -17,7 +17,13 @@ use Cake\I18n\Time;
  * @property \App\Model\Table\UsersTable $Users
  */
 class UsersController extends AppController
-{
+{   
+    
+    public function initialize()
+    {
+        parent::initialize();
+        $this->loadComponent('RequestHandler');
+    }
     public function beforeFilter(Event $event){
             
             parent::beforeFilter($event);
@@ -244,14 +250,14 @@ class UsersController extends AppController
 
      public function login()
         {    
-        
+         $notiny='';
         if ($this->request->is(['patch', 'post', 'put']))  {
-            
-            
+        //if($this->request->is('ajax')) {    
                 $user_m = $this->request->data['email'];
                 $username_s = '';
                 $phone = '';
                 $name = '';
+                $email='';
                 if(Validation::email($user_m)){
                     $find_by_email = $this->Users->find('all',['conditions'=>['Users.email'=>$user_m],'fields'=>'email'] );
                         foreach($find_by_email as $db){
@@ -278,7 +284,7 @@ class UsersController extends AppController
                  
            
             $this->request->data['email'] = $username_s;
-             
+            
             $user = $this->Auth->identify();
             //debug($this->request->data['email']);exit;
             
@@ -287,13 +293,20 @@ class UsersController extends AppController
                         return $this->redirect("/clubs/index");
                 } elseif($user && $user['status']== 0) {
                     $this->Flash->error('Please check email to active account.');
+                    
                 }else{
-                    $this->Flash->error('Your username or password is incorrect.');
+                     
+                    $notiny = 2;
+                    //$this->Flash->error('Your username or password is incorrect.');
+                    $this->redirect("/");
+                    
+                    
                 }
-            
-            
+                
+                
+           
         }
-        
+         $this->set('notiny',$notiny);
     }
     
        public function users()
@@ -339,7 +352,7 @@ class UsersController extends AppController
     {
         $this->Flash->success('You are now logged out!');
         $this->Auth->Logout();
-        return $this->redirect('/Users/login');
+        return $this->redirect('/');
     }
     
     
@@ -451,7 +464,7 @@ class UsersController extends AppController
                 //var_dump($user);exit;
                 if ($this->Users->save($user)) {
                     $this->Flash->success(__('Register Success! Please waiting admin send code active.'));
-                    return $this->redirect(['action' => 'login']);
+                    return $this->redirect("/");
                 } else {
                     $this->Flash->error(__('The user could not be registered. Email or username invalid. Please, try again.'));
                 }
@@ -465,51 +478,51 @@ class UsersController extends AppController
                 return $this->redirect(['controller' => 'Users', 'action' => 'logout', '']);
                  
             }
-            //$user = $this->Users->newEntity();
-//        if ($this->request->is('post')) {
-//                //var_dump($this->request->data);exit;
-//                $this->request->data['club_id'] = $this->request->data['nameclub'];
-//                
-//                $user = $this->Users->patchEntity($user, $this->request->data);  
-//                debug($user);exit;    
-//                $res = $this->Users->find('all',  [
-//                'conditions'=>['Users.email '=>$user->email]])->count();
-//                if($res == 0 && !empty($user->email) &&($this->Users->save($user))){
-//                    $code = $user->activation = md5($user->email.time());
-//                    //var_dump($code);exit;              
-//                    
-//                    
-//                     //Email::configTransport('gmail', [
-////                    'host' => 'smtp.gmail.com',
-////                    'port' => 587,
-////                    'username' => 'epsminhtri@gmail.com',
-////                    'password' => 'qekuiwbzfwdfvdsx',
-////                    'className' => 'Smtp',
-////                    'tls' => true, // <------ there it is
-////                    ]);
-////                    $email = new email();
-////                    $email->transport('gmail');
-////                    $email->to($user->email);
-////                    $email->from('epsminhtri@gmail.com');
-////                    $email->subject('Verify account'); 
-////                    $link = Router::Url([
-////                                        "controller" => "Users",
-////                                        "action" => "sendCodeActive",
-////                                        ], true);
-////                                        
-////                    $email->send('Hello ' . $user->username .  "\nClick this link  " .$link.'/'.$code." for complete register ");
-//                    $this->Flash->success(__('Register Success! Please waiting admin send code active'));
-//
-//                    return $this->redirect("/Users/login");
-//                    
-//                    
-//                    //return $this->redirect("/Users/sendCodeActive/".$code);
-//                
-//                }else {
-//                    $this->Flash->error(__('The user could not be registered. Email or username invalid. Please, try again.'));
-//                }
-//    
-//        }
+            $user = $this->Users->newEntity();
+        if ($this->request->is('post')) {
+                //var_dump($this->request->data);exit;
+                $this->request->data['club_id'] = $this->request->data['nameclub'];
+                
+                $user = $this->Users->patchEntity($user, $this->request->data);  
+                //debug($user);exit;    
+                $res = $this->Users->find('all',  [
+                'conditions'=>['Users.email '=>$user->email]])->count();
+                if($res == 0 && !empty($user->email) &&($this->Users->save($user))){
+                    $code = $user->activation = md5($user->email.time());
+                    //var_dump($code);exit;              
+                    
+                    
+                     Email::configTransport('gmail', [
+                    'host' => 'smtp.gmail.com',
+                    'port' => 587,
+                    'username' => 'epsminhtri@gmail.com',
+                    'password' => 'qekuiwbzfwdfvdsx',
+                    'className' => 'Smtp',
+                    'tls' => true, 
+                    ]);
+                    $email = new email();
+                    $email->transport('gmail');
+                    $email->to($user->email);
+                    $email->from('epsminhtri@gmail.com');
+                    $email->subject('Verify account'); 
+                    $link = Router::Url([
+                                        "controller" => "Users",
+                                        "action" => "sendCodeActive",
+                                        ], true);
+                                        
+                    $email->send('Hello ' . $user->username .  "\nClick this link  " .$link.'/'.$code." for complete register ");
+                    $this->Flash->success(__('Register Success! Please waiting admin send code active'));
+
+                    return $this->redirect("/");
+                    
+                    
+                    return $this->redirect("/Users/sendCodeActive/".$code);
+                
+                }else {
+                    $this->Flash->error(__('The user could not be registered. Email or username invalid. Please, try again.'));
+                }
+    
+        }
         
         
     }

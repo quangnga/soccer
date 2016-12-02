@@ -16,14 +16,18 @@ echo $this->Html->meta('favicon.ico','img/favicon.ico',array('type' => 'icon'));
     echo $this->Html->css('plugins.css');
     echo $this->Html->css('style.css');
     echo $this->Html->css('/font-awesome/css/font-awesome.min.css');
-    
+    echo $this->Html->css('notiny.min.css');
     echo $this->Html->css('animate.css');
-    echo $this->Html->script('http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js');
+    //echo $this->Html->script('http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js');
+    
+    
    ?>
+   
     </head>
 
     <body class="login">
      <div class="container">
+        
         <div class="row">
             <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1">
                <?= $this->Flash->render(); ?>
@@ -70,13 +74,41 @@ echo $this->Html->meta('favicon.ico','img/favicon.ico',array('type' => 'icon'));
             </div>
         </div>
     </div>
+ <?php
 
-           <?php
-
-    echo $this->Html->script('http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js');
+    //echo $this->Html->script('http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js');
+    echo $this->Html->script('https://code.jquery.com/jquery-2.1.3.min.js');
+    echo $this->Html->script('notiny.min.js');
     echo $this->Html->script('bootstrap.min.js');
     echo $this->Html->script('jquery.slimscroll.min.js');
     echo $this->Html->script('hisrc.js');
     echo $this->Html->script('flex.js');
-?>
+   
+?> 
+<?php if($notiny == 2){?>
+<script  type="text/javascript">
+                            
+                            $(document).ready( function() {
+                                var i = 0;
+                              
+                                $.notiny({ text: 'Your username or password is incorrect!', image: 'https://octodex.github.com/images/privateinvestocat.jpg' });
+                                i++;
+                              });</script>
+
+<?php }?>
+
+<?php if($notiny == 1){?>
+<script  type="text/javascript">
+                            
+                            $(document).ready( function() {
+                                var i = 0;
+                              
+                                $.notiny({ text: 'Please check email to active account!', image: 'https://octodex.github.com/images/privateinvestocat.jpg' });
+                                i++;
+                              });</script>
+
+<?php }?>
  </body>
+
+
+ 

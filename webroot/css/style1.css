@@ -484,6 +484,61 @@ ul.social-icons > li > a{
 .footer-res .social-icons{
     overflow: hidden;
 }
+.home-fix-col .form-control{
+    
+    background-color: #3b4148;
+    color: #fff;
+    border-radius: 6px; 
+}
+.home-fix-col .btn-block{
+    border-radius: 6px;
+    margin-top: 20px;
+    background-color: #b5cd60;
+    border-color: #b5cd60;
+    
+}
+.home-fix-col .btn-block:hover, .home-fix-col .btn-block:focus {
+    background: #fff;
+    color: #fa5c58;
+    border-color: #b5cd60;
+}
+.home-fix-col{
+    opacity:0.9;
+    border-radius: 6px;
+    border-top: 5px solid #9d9d9d;
+    border-bottom: 5px solid #9d9d9d;    
+    padding: 15px 30px;
+    background-color: #282e33;
+    
+}
+.home-fix-col i{
+    width: 5%;
+    position: absolute;
+    left: 0;
+    margin-left: 48px;
+    margin-top: 38px;
+    border: none;
+    font-size: 18px;
+}
+.home-fix-col p{
+    margin-top: 10px;
+    color:  #fff;
+    font-size: 16px;
+    text-align: left;
+    margin-right: 15px;
+}
+.home-fix-col p a{
+    color: #fff;   
+}
+.home-fix-col p a:hover{
+    color: #fc5a5d;
+    
+    
+}
+.home-fix-col p a:focus{
+    text-decoration: none;
+}
+
 @media screen and (min-width: 768px){
 
 	.jumbotron h1, 

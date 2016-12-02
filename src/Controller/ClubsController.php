@@ -110,7 +110,7 @@ class ClubsController extends AppController
         $club = $this->Clubs->newEntity();
        if ($this->request->is('post')) {
             $club = $this->Clubs->patchEntity($club, $this->request->data);
-            var_dump($club);exit;
+            //var_dump($club);exit;
             if ($this->Clubs->save($club)) {
                 $this->Flash->success(__('The training has been saved.'));
                 return $this->redirect(['action' => 'index']);
