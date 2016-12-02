@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <!--
  * A Design by GraphBerry
@@ -28,7 +27,7 @@
 <a href="#" class="logo">
 			<img src="img/logoo.png" alt="Majed Almutairi">
 		</a>
-<a href="http://localhost:8888/soccertest" class="En">العربية</a>
+<a href="ksa-soccer.com" class="En">العربية</a>
 
 		<a href="" class="menu-toggle" id="nav-expander"><i class="fa fa-bars"></i></a>
 		<!-- Offsite navigation -->

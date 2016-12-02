@@ -141,6 +141,7 @@
         }
 </style>
 <?php echo $this->Html->css('detail')?>
+<?php echo $this->Html->css('notiny.min.css');?>
 <?php
 
 if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 && $club_id == $club->id)){
@@ -488,10 +489,10 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                             ?>
                                 
                                 <?php if($is_closed){?>
-                                     <a onclick="close()"><?= $this->Form->button(__('Submit'))  ?></a>
+                                     <a ><?= $this->Form->button(__('Submit'),['id'=>'close'])  ?></a>
                                 <?php }else{ ?>
                                     <?php if($is_full){?>
-                                        <a onclick="full()"><?= $this->Form->button(__('Submit'))  ?></a>
+                                        <a ><?= $this->Form->button(__('Submit'),['id'=>'full'])  ?></a>
                                     <?php }else{ ?>
                                         <?php if($users['coming'] == 0){?>
                                             <div class="coming">
@@ -627,26 +628,28 @@ background: rgba(22, 160, 133, 0.31);
 
 <script>
 $(document).ready( function() {
-    //$("#block").click(function(){
-    $.notiny({ text: 'Your username or password is incorrect!', image: 'https://octodex.github.com/images/privateinvestocat.jpg' });
-  //});
+    $("#block").click(function(){
+        
+        
+    $.notiny({ text: 'You cannot enter because you blocked from Dashboard!', image: 'https://octodex.github.com/images/privateinvestocat.jpg' });
+    return false;
+  });
+  $("#close").click(function(){
+        
+        
+    $.notiny({ text: 'Training Closed, Try attend for tomorrow!', image: 'https://octodex.github.com/images/privateinvestocat.jpg' });
+    return false;
+  });
+  $("#full").click(function(){
+        
+        
+    $.notiny({ text: 'Training Full!', image: 'https://octodex.github.com/images/privateinvestocat.jpg' });
+    return false;
+  });
+  
+  
     
   
-}
-    //function close(){
-//       $(document).ready( function() {
-//                                var i = 0;
-//                              
-//                                $.notiny({ text: 'Your username or password is incorrect!', image: 'https://octodex.github.com/images/privateinvestocat.jpg' });
-//                                i++;
-//                              })
-//    }
-//    function full(){
-//       $(document).ready( function() {
-//                                var i = 0;
-//                              
-//                                $.notiny({ text: 'Your username or password is incorrect!', image: 'https://octodex.github.com/images/privateinvestocat.jpg' });
-//                                i++;
-//                              })
-//    }
+});
+
 </script>

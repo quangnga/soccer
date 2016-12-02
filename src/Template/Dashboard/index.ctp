@@ -51,13 +51,13 @@
                 $today = strtolower(date("l")); //var_dump($club[$today]);exit; 
             ?>
             <?php if($is_block){?>
-                <a onclick="alert('You cannot enter because you blocked from Dashboard');return false;" href="<?php echo $this->Url->build(["controller" => "clubs", "action" => "detail",$clubByuser=>$club_id])?>">
+                <a onclick="block()" href="javascript:void(0)">
                         <div class="circle-tile-heading dark-blue">
                             <i class="fa fa-futbol-o fa-fw fa-3x animated zoomIn"></i> 
                         </div>
                 </a>
                     
-                   <a onclick="alert('You cannot enter because you blocked from Dashboard');return false;" href="<?php echo $this->Url->build(["controller" => "clubs", "action" => "detail",$clubByuser=>$club_id])?>">
+                   <a onclick="block()" href="javascript:void(0)">
         
                         <div class="circle-tile-content green">
                             <div class="circle-tile-description text-faded">
@@ -74,13 +74,13 @@
             <?php if($is_closed){            
                 
             ?>
-                <a onclick="alert('Training closed, Try attend for tomorrow');return false;" href="<?php echo $this->Url->build(["controller" => "clubs", "action" => "detail",$clubByuser=>$club_id])?>">
+                <a onclick="close()" href="javascript:void(0)">
                         <div class="circle-tile-heading dark-blue">
                             <i class="fa fa-futbol-o fa-fw fa-3x animated zoomIn"></i> 
                         </div>
                 </a>
                     
-                   <a onclick="alert('Training closed, Try attend for tomorrow');return false;" href="<?php echo $this->Url->build(["controller" => "clubs", "action" => "detail",$clubByuser=>$club_id])?>">
+                   <a onclick="close()" href="javascript:void(0)">
         
                         <div class="circle-tile-content green">
                             <div class="circle-tile-description text-faded">
@@ -123,13 +123,13 @@
                     <?php
                         }elseif($is_full==true && $coming_user == 0){
                     ?> 
-                    <a onclick="alert('Training Full...');return false;" href="<?php echo $this->Url->build(["controller" => "clubs", "action" => "detail",$clubByuser=>$club_id])?>">
+                    <a onclick="full()" href="javascript:void(0)">
                         <div class="circle-tile-heading dark-blue">
                             <i class="fa fa-futbol-o fa-fw fa-3x animated zoomIn"></i> 
                         </div>
                     </a>
                     
-                   <a onclick="alert('Training Full...');return false;" href="<?php echo $this->Url->build(["controller" => "clubs", "action" => "detail",$clubByuser=>$club_id])?>">
+                   <a onclick="full()" href="javascript:void(0)">
         
                         <div class="circle-tile-content green">
                             <div class="circle-tile-description text-faded">
@@ -172,12 +172,12 @@
                     
             <?php }else {?>
             
-                <a onclick="alert('No training today');return false;" href="<?php echo $this->Url->build(["controller" => "clubs", "action" => "detail",$clubByuser=>$club_id])?>">
+                <a onclick="notraining()" href="javascript:void(0)">
                     <div class="circle-tile-heading dark-blue">
                         <i class="fa fa-futbol-o fa-fw fa-3x animated zoomIn"></i> 
                     </div>
                  </a>
-                 <a onclick="alert('No training today');return false;" href="<?php echo $this->Url->build(["controller" => "clubs", "action" => "detail",$clubByuser=>$club_id])?>">
+                 <a onclick="notraining()" href="javascript:void(0)">
 
             <div class="circle-tile-content green">
                 <div class="circle-tile-description text-faded">
@@ -254,3 +254,41 @@ if($is_admin == 1)
 <?php
 }
 ?>
+<?php echo $this->Html->css('notiny.min.css');?>
+<?php 
+    
+    echo $this->Html->script('https://code.jquery.com/jquery-2.1.3.min.js');
+    echo $this->Html->script('notiny.min.js');
+?>
+
+<script>
+
+    
+    function block(){
+        
+        $.notiny({ text: 'You cannot enter because you blocked from Dashboard!', image: 'https://octodex.github.com/images/privateinvestocat.jpg' });
+            return false;
+        
+    }
+    function full(){
+        
+        $.notiny({ text: 'Training Full!', image: 'https://octodex.github.com/images/privateinvestocat.jpg' });
+            return false;
+        
+    }
+    function notraining(){
+        
+        $.notiny({ text: 'No training to day!', image: 'https://octodex.github.com/images/privateinvestocat.jpg' });
+            return false;
+        
+    }
+     function close(){
+        
+        $.notiny({ text: 'Training Closed, Try attend for tomorrow!', image: 'https://octodex.github.com/images/privateinvestocat.jpg' });
+            return false;
+        
+    }
+    
+  
+
+</script>

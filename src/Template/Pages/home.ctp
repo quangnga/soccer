@@ -84,8 +84,8 @@ $this->layout = false;
                     <div class="row">
                         
                             
-                            <div class="col-md-4"></div>
-                            <div class="form-group col-md-4 home-fix-col">
+                            <div class="col-md-4 col-sm-1 col-xs-0"></div>
+                            <div class="form-group col-md-4 col-sm-10 col-xs-12 home-fix-col">
                                 <i class="fa fa-user " aria-hidden="true"></i><?= $this->Form->input('email', ['type' => 'text', 'label'=>'','id'=>'email_log','class' => 'form-control','placeholder' => 'Enter Email or Phone number']) ?>
                                 <i class="fa fa-lock " aria-hidden="true"></i><?= $this->Form->input('password', ['type' => 'password', 'label'=>'','id'=>'pass_log','class' => 'form-control','placeholder' => 'Enter Password']) ?>
                                 <?= $this->Form->submit(__('Log In'), ['class' => 'btn btn-lg btn-primary btn-block']) ?>
@@ -100,7 +100,7 @@ $this->layout = false;
 ?>
                             </p>
                             </div>
-                            <div class="col-md-4"></div>
+                            <div class="col-md-4 col-sm-1 col-xs-0"></div>
                     </div>
                     
                 </div>

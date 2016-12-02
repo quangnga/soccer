@@ -85,29 +85,7 @@ echo $this->Html->meta('favicon.ico','img/favicon.ico',array('type' => 'icon'));
     echo $this->Html->script('flex.js');
    
 ?> 
-<?php if($notiny == 2){?>
-<script  type="text/javascript">
-                            
-                            $(document).ready( function() {
-                                var i = 0;
-                              
-                                $.notiny({ text: 'Your username or password is incorrect!', image: 'https://octodex.github.com/images/privateinvestocat.jpg' });
-                                i++;
-                              });</script>
 
-<?php }?>
-
-<?php if($notiny == 1){?>
-<script  type="text/javascript">
-                            
-                            $(document).ready( function() {
-                                var i = 0;
-                              
-                                $.notiny({ text: 'Please check email to active account!', image: 'https://octodex.github.com/images/privateinvestocat.jpg' });
-                                i++;
-                              });</script>
-
-<?php }?>
  </body>
 
 

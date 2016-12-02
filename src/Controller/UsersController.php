@@ -297,7 +297,7 @@ class UsersController extends AppController
                 }else{
                      
                     $notiny = 2;
-                    //$this->Flash->error('Your username or password is incorrect.');
+                    $this->Flash->error('Your username or password is incorrect.');
                     $this->redirect("/");
                     
                     
