@@ -67,15 +67,15 @@ class UsersTable extends Table
              ->integer('id')
               ->allowEmpty('id', 'create');
 
-         /**
- * $validator
- *               ->requirePresence('first_name', 'create')
- *               ->notEmpty('first_name');
+   
+  $validator
+                ->requirePresence('first_name', 'create')
+               ->notEmpty('first_name');
 
- *         $validator
- *               ->requirePresence('last_name', 'create')
- *               ->notEmpty('last_name');
- */
+         $validator
+               ->requirePresence('last_name', 'create')
+               ->notEmpty('last_name');
+ 
  
 
         $validator

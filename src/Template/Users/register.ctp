@@ -86,12 +86,12 @@
                     <div class="row">
                         <div class="form-group  col-md-6">
                             <div class="form-group">
-                                <?php echo $this->Form->input('first_name', array('class' => 'form-control', 'placeholder' => 'Enter first name', 'maxlength' => '20', 'label' => ' First name *', 'autocapitalize' => 'words')); ?>
+                                <?php echo $this->Form->input('first_name', array('class' => 'form-control','required', 'placeholder' => 'Enter first name', 'maxlength' => '20', 'label' => ' First name *', 'autocapitalize' => 'words')); ?>
                             </div>
                         </div>
                         <div class="form-group col-md-6">
                             <div class="form-group">
-                                <?php echo $this->Form->input('lasst_name', array('class' => 'form-control', 'placeholder' => 'Enter last Name', 'maxlength' => '45', 'label' => 'last Name *', 'autocapitalize' => 'words')); ?>
+                                <?php echo $this->Form->input('last_name', array('class' => 'form-control', 'required','placeholder' => 'Enter last Name', 'maxlength' => '45', 'label' => 'last Name *', 'autocapitalize' => 'words')); ?>
                             </div>
                         </div>
                         
