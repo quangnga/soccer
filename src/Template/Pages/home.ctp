@@ -88,7 +88,7 @@ $this->layout = false;
                             <div class="form-group col-md-4 col-sm-10 col-xs-12 home-fix-col">
                                 <i class="fa fa-user " aria-hidden="true"></i><?= $this->Form->input('email', ['type' => 'text', 'label'=>'','id'=>'email_log','class' => 'form-control','placeholder' => 'Enter Email or Phone number']) ?>
                                 <i class="fa fa-lock " aria-hidden="true"></i><?= $this->Form->input('password', ['type' => 'password', 'label'=>'','id'=>'pass_log','class' => 'form-control','placeholder' => 'Enter Password']) ?>
-                                <?= $this->Form->submit(__('Log In'), ['class' => 'btn btn-lg btn-primary btn-block']) ?>
+                                <?= $this->Form->submit(__('Log In'), ['class' => 'btn btn-lg btn-primary btn-block','onclick'=>'showsms()']) ?>
                                 <p class="small">
                                 <?php echo $this->Html->link('Forgot Password', ['controller'=>'Users','action' => 'resetPassword']);
 ?>
@@ -320,8 +320,36 @@ $this->layout = false;
 	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>-->
 
 	<!-- Load custom js for theme -->
+   
 	<script type="text/javascript" src="js/app.js"></script>
+    <?php echo $this->Html->css('notiny.min.css');?>
+
+    <?php 
     
+        echo $this->Html->script('https://code.jquery.com/jquery-2.1.3.min.js');
+        echo $this->Html->script('notiny.min.js');
+    ?>
+    <script>
+    
+    
+        
+        
+        function showsms(){
+        var mss = '<?php echo $path[0]; ?>';
+           if(mss=='home'){
+             $.notiny({ text: 'Your username or password is incorrect.', image: 'https:octodex.github.com/images/privateinvestocat.jpg' });
+           }
+        window.onload = function()
+        {   
+            showsms();
+            
+        };
+        
+        }
+            
+
+        
+    </script>
     
 </body>
 </html>

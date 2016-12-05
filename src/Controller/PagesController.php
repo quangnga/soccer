@@ -49,10 +49,12 @@ class PagesController extends AppController
     public function display()
     {
         
-        $notiny='';
+      
         $path = func_get_args();
         
         $count = count($path);
+        $this->set('path',$path);
+        
         if (!$count) {
             return $this->redirect('/');
         }
@@ -74,7 +76,10 @@ class PagesController extends AppController
             }
             throw new NotFoundException();
         }
-        $this->set('notiny',$notiny);
+       
+    }
+    public function home(){
+        var_dump(1);exit;
     }
    
         

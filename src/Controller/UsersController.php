@@ -252,12 +252,15 @@ class UsersController extends AppController
         {    
          $notiny='';
         if ($this->request->is(['patch', 'post', 'put']))  {
+            
         //if($this->request->is('ajax')) {    
-                $user_m = $this->request->data['email'];
-                $username_s = '';
-                $phone = '';
-                $name = '';
-                $email='';
+            $user_m = $this->request->data['email'];
+            $pass =  $this->request->data['password'];
+            $username_s = '';
+            $phone = '';
+            $name = '';
+            $email='';
+            if(!empty($user_m)&!empty($pass)){
                 if(Validation::email($user_m)){
                     $find_by_email = $this->Users->find('all',['conditions'=>['Users.email'=>$user_m],'fields'=>'email'] );
                         foreach($find_by_email as $db){
@@ -295,9 +298,13 @@ class UsersController extends AppController
                     $this->Flash->error('Please check email to active account.');
                     
                 }else{
-                     
-                    $notiny = 2;
-                    $this->Flash->error('Your username or password is incorrect.');
+                    
+                    
+                    //$this->redirect($this->here);
+                    echo "<script>alert('Your username or password is incorrect.')</script>"; 
+                    //exit;
+                    //$notiny = 2;
+                    //$this->Flash->error('Your username or password is incorrect.');
                     $this->redirect("/");
                     
                     
@@ -305,7 +312,10 @@ class UsersController extends AppController
                 
                 
            
+        }else{
+             $this->redirect("/");
         }
+     }
          $this->set('notiny',$notiny);
     }
     
