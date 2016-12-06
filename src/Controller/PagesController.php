@@ -17,9 +17,6 @@ namespace App\Controller;
 use Cake\Core\Configure;
 use Cake\Network\Exception\NotFoundException;
 use Cake\View\Exception\MissingTemplateException;
-
-
-
 use App\Controller\AppController;
 use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
@@ -36,9 +33,10 @@ use Cake\I18n\Time;
  *
  * @link http://book.cakephp.org/3.0/en/controllers/pages-controller.html
  */
+
 class PagesController extends AppController
 {
-
+    
     /**
      * Displays a view
      *
@@ -46,14 +44,17 @@ class PagesController extends AppController
      * @throws \Cake\Network\Exception\NotFoundException When the view file could not
      *   be found or \Cake\View\Exception\MissingTemplateException in debug mode.
      */
+     
+     
     public function display()
     {
         
-      
+        $this->Flash->error('Your username or password is incorrect.');
         $path = func_get_args();
         
         $count = count($path);
         $this->set('path',$path);
+        
         
         if (!$count) {
             return $this->redirect('/');
@@ -76,11 +77,82 @@ class PagesController extends AppController
             }
             throw new NotFoundException();
         }
+        $notiny = '';
+        if($this->request->is(['patch', 'post', 'put'])){
+            $user = $this->loadModel('Users');
+           
+               
+            $user_m = $this->request->data['email'];
+            $pass =  $this->request->data['password'];
+            $username_s = '';
+            $phone = '';
+            $name = '';
+            $email='';
+            
+            if(!empty($user_m)&!empty($pass)){
+                if(Validation::email($user_m)){
+                    $find_by_email = $this->Users->find('all',['conditions'=>['Users.email'=>$user_m],'fields'=>'email'] );
+                        foreach($find_by_email as $db){
+                        $email = $db['email'];
+                    }
+                    $username_s = $email;
+                }else{
+                    $find_by_phone = $this->Users->find('all',['conditions'=>['Users.phone_number'=>(int)$user_m],'fields'=>'email'] );
+                        foreach($find_by_phone as $dbs){
+                            $phone = $dbs['email'];
+                        }
+                    if(!empty($phone)){
+                        
+                        $username_s = $phone;
+                        
+                    }else{
+                        $find_by_name = $this->Users->find('all',['conditions'=>['Users.username'=>$user_m],'fields'=>'email'] );
+                        foreach($find_by_name as $dbs){
+                            $name = $dbs['email'];
+                        }
+                        $username_s = $name;
+                    }         
+                }
+                 
+           
+            $this->request->data['email'] = $username_s;
+            
+            $user = $this->Auth->identify();
+            
+               if ($user && $user['status']== 1) {
+                    $this->Auth->setUser($user);
+                        return $this->redirect("/clubs/index");
+                } elseif($user && $user['status']== 0) {
+                    $this->Flash->error('Please check email to active account.');
+                    
+                }else{
+                   
+                    //$this->redirect($this->here);
+                    echo "<script>alert('Your username or password is incorrect.');</script>"; 
+                    //exit;
+                    //
+                    //$this->setFlash('Some notification', self::NOTICE);
+                    //$this->Flash->error('Your username or password is incorrect.');
+                    //$this->redirect("/");
+                    
+                    
+                }
+                
+                
+           
+            }else{
+                 echo "<script>alert('Your username or password is incorrect.');</script>"; 
+                 //$this->Flash->error('Your username or password is incorrect.');
+                 //$this->setFlash('Some notification', self::NOTICE);
+            }
+            
+        }
+        $this->set('notiny',$notiny);
+        
+
        
     }
-    public function home(){
-        var_dump(1);exit;
-    }
+    
    
         
 }

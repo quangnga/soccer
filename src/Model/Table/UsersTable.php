@@ -48,6 +48,11 @@ class UsersTable extends Table
         return $this->find('all')
                 ->where($where);
     }
+    public function getDataWhereOrder($where,$table,$col){
+        return $this->find('all')
+                ->where($where)
+                ->order([$col => 'DESC']);
+    }
     public function getAll($table){
         return $this->find('all',['fields'=>['username','password','status','phone_number','email','club_id','role']]);
     }

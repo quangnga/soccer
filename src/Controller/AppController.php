@@ -73,6 +73,7 @@ class AppController extends Controller
 
     }
     
+    
     public function beforeFilter(Event $event)
     {
         
@@ -92,7 +93,8 @@ class AppController extends Controller
         //$this->set('username',$username);
         $time = Time::now();
         $this->set('time',$time->i18nFormat(\IntlDateFormatter::FULL));
-
+        $this->resetComment();
+        $this->resetCountComing();
        $this->resetComing();
        $this->getCity();
        $this->getComing();
@@ -100,6 +102,40 @@ class AppController extends Controller
        $clubByuser = $this->Auth->user('club_id');
        $this->set('clubByuser',$clubByuser); 
        
+    }
+    
+    const ERROR = 'error';
+    const NOTICE = 'notice';
+    const SUCCESS = 'success';
+
+    /**
+     * Array of allowed classes
+     * @var array
+     */
+    public static $flashClasses = array(
+        self::ERROR,
+        self::NOTICE,
+        self::SUCCESS
+    );
+
+    /**
+     * @param string $message
+     * @param null $type
+     */
+    public function setFlash($message, $type = null)
+    {
+        if (in_array($type, self::$flashClasses)) {
+            $class = $type;
+        } else {
+            $class = self::NOTICE;
+        }
+
+        $this->Flash->turboTribble($message, [
+            'key' => 'tribble',
+            'params' => [
+                'class' => 'tt-'. $class
+            ]
+        ]);
     }
     
     public function isAuthorizedAdmin()
@@ -322,7 +358,52 @@ class AppController extends Controller
         }
         
     }
+    
+    public function resetComment(){
+        $this->loadModel('Users');
+        $date_reset = strtotime(date("Y-m-d"));
+        $user = $this->Users->find('all', ['fields'=>['id','date_reset','comment']]);
+        foreach($user as $value){
+            //var_dump($value['comment']);
+            $date_user = strtotime($value['date_reset']);
+            if($date_reset > $date_user){
+                 $articlesTable = TableRegistry::get('Users');        
+                 $value = $articlesTable->get($value['id']);
+                 $value->comment = '';
+                 $articlesTable->save($value);
+            }
+            
+           
+        }
         
+        
+        
+    }
+    
+    public function resetCountComing(){
+        $this->loadModel('Users');
+        $month_now = date("m");
+        
+        
+        $user = $this->Users->find('all', ['fields'=>['id','date_reset','count_coming']]);
+        foreach($user as $value){
+            
+            $date_user = strtotime($value['date_reset']);
+            $time_save = date("m",$date_user);
+            //var_dump($time);exit;
+            if( $time_save < $month_now){
+                 $articlesTable = TableRegistry::get('Users');        
+                 $value = $articlesTable->get($value['id']);
+                 $value->count_coming = 0;
+                 $articlesTable->save($value);
+            }
+            
+           
+        }
+        
+        
+        
+    }
         
     
    

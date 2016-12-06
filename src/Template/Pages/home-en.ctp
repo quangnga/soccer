@@ -9,7 +9,7 @@ $this->layout = false;
  * Author URL: http://graphberry.com
  * License: http://graphberry.com/pages/license
 -->
-<html >
+<html dir="auto">
 <head>
    
 
@@ -27,11 +27,10 @@ $this->layout = false;
 	<link rel="stylesheet" type="text/css" href="css/font-awesome1.css" />
 	<link rel="stylesheet" type="text/css" href="css/style1.css" />
     <link rel="stylesheet" type="text/css" href="css/notiny.min.css" />
-    <link rel="stylesheet" type="text/css" href="css/turbo-tribble.css" />
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script type="text/javascript" src="js/turbo-tribble.js"></script>
 
 </head>
 <body>
@@ -75,12 +74,12 @@ $this->layout = false;
 		</nav>
 		<div class="container">
 			<div class="header-info">
-				<h1>كورة تايم</h1>
-				<p>تحضير تمارين كورة القدم
+				<h1>Football Training</h1>
+				<p>Simply, you an attend any training you want by sign up
 				</p>
                 <!--<button type="button" class="btn btn-info btn-lg btn-login" data-toggle="modal" data-target="#myModal"> حضر نفسك من هنا</button>-->
                 
-                <?= $this->Form->create() ?>
+                <?= $this->Form->create(null,['url' => ['controller' => 'Users', 'action' => 'login']]) ?>
                 <div class="form-boder">
                     <div class="row">
                         
@@ -89,7 +88,7 @@ $this->layout = false;
                             <div class="form-group col-md-4 col-sm-10 col-xs-12 home-fix-col">
                                 <i class="fa fa-user " aria-hidden="true"></i><?= $this->Form->input('email', ['type' => 'text', 'label'=>'','id'=>'email_log','class' => 'form-control','placeholder' => 'Enter Email or Phone number']) ?>
                                 <i class="fa fa-lock " aria-hidden="true"></i><?= $this->Form->input('password', ['type' => 'password', 'label'=>'','id'=>'pass_log','class' => 'form-control','placeholder' => 'Enter Password']) ?>
-                                <?= $this->Form->submit(__('Log In'), ['class' => 'btn btn-lg btn-primary btn-block','onclick'=>'showsms()']) ?>
+                                <?= $this->Form->submit(__('Log In'), ['class' => 'btn btn-lg btn-primary btn-block']) ?>
                                 <p class="small">
                                 <?php echo $this->Html->link('Forgot Password', ['controller'=>'Users','action' => 'resetPassword']);
 ?>
@@ -122,24 +121,24 @@ $this->layout = false;
 				<div class="col-md-4">
 					<div class="service-item">
 						<div class="icon"><i class="fa fa-diamond"></i></div>
-						<h3>ألية عمل الموقع</h3>
-						<p>ببساطة هذا الموقع يتيح لأي فريق أمكانية التحضير للاعبية لأوقات التمارين اليومية او البطولات
+						<h3>How it works</h3>
+						<p>Basically, this website allow any club to regiester by Free and make its players attending online before the training
 						</p>
 					</div>
 				</div>
 				<div class="col-md-4">
 					<div class="service-item">
 						<div class="icon"><i class="fa fa-gear"></i></div>
-						<h3>طريقة التسجيل</h3>
-<p>يمكنك طلب تسجيل فريقك بالموقع من خلال مراسلة هذا الإيميل: Majed90@msn.com وسنقوم بالرد عليك خلال ٤٨ ساعة
+						<h3>How to sign-up</h3>
+<p>If you are a club you have to contact us on this email: MAjed054000@gmail.com or from the form box down this page
 						</p>
 					</div>
 				</div>
 				<div class="col-md-4">
 					<div class="service-item">
 						<div class="icon"><i class="fa fa-life-ring"></i></div>
-						<h3>التسجيل بشكل مجاني</h3>
-						<p>التسجيل بشكل مجاني للاعبين وللأندية
+						<h3>Free sign up</h3>
+						<p>Any clubs or players can sign up and using this website by Free
 						</p>
 					</div>
 				</div>
@@ -153,23 +152,11 @@ $this->layout = false;
             <div class="tt">
 		<div class="transbox col-md-4 col-sm-6">
 			<header>
-                         
-<h3>ألية العمل ببساطة</h3>
-<h5>تسجيل ناديك من خلال مراسلتنا من خلال الضغط على
-<li><a data-scroll href="#contact">إتصل بنا</a></li>
-أو من أسفل الصفحة <br>
-نعطيك إسم مستخدم “كمدير” لناديك من خلاله تقدر تتحكم بناديك <br>
-مثل: <br>
-<br>
-- قيمة الإشتراك الشهري اللي تبغى تفرضها على اللاعبين <br>
-- مواعيد التمرين والأيام التي لا يتواجد فيها تمرين <br>
-- إدارة تحضير اللاعبين (مين راح يحضر ومن ماراح يحضر للتمرين) <br>
-- التواصل مع اللاعبين بسهولة تامة, وإبلاغهم بالتوقف وعودة التمارين <br>
-- زيادة عدد اللاعبين اذا اردت لاعبين أكثر, ونستطيع إيقاف هذه الخدمة عنك اذا لم ترغب بها <br>
-<br>
-كل لاعب يستطيع التسجيل من خلال الضغط على <a href=Users/login>( التسجيل )</a> من هنا أو من القوائم في أعلى الصفحة لتحضير نفسه
-</h5>
-
+				<h2>What is the purpose of this site?</h2>
+				<p>It allows any amauter clubs or Gym clubs provide attendance sheet to there players/customers in professional way.
+                </p>
+                <p>
+                that by adding there club into our website so players can find it and use the attendance sheet for that club				</p>
 			</header>
                     </div>
 			<div id="single-project"></div>
@@ -230,15 +217,15 @@ $this->layout = false;
 	<section id="contact">
 		<div class="container">
 			<header>
-				<h2>إتصل بنا</h2>
-				<p>سنقوم بالرد عليك في غضون ٤٨ ساعة
+				<h2>Contact us</h2>
+				<p>We going to reply t you within 48 hours
 				</p>
 			</header>
 			
 
 			<div class="row">
 				<div class="col-md-8">
-					<form class="row" method="post" action="users/register">
+					<form class="row" method="post">
 						<div class="form-group col-md-6">
                             <input id="fname" name="name" type="text" placeholder="First Name" class="form-control">
                             						</div>
@@ -264,10 +251,9 @@ $this->layout = false;
 				</div>
 				<div class="col-md-3 col-md-offset-1">
 					<address>
-						<span>تفضل لمراسلتنا</span>
+						<span>For suggestion or issues</span>
 						<p>
-							في حال لديك مشكلة أو إقتراح نسعد بمراسلتنا من خلال الإيميل او رقم الجوال الظاهر
-أو من خلال الصندوق
+							Please contact us on the email below or by using the contact form in the left side
 						</p>
 					</address>
 					<address>
@@ -306,7 +292,6 @@ $this->layout = false;
                  
             </div>
 		</div>
-       
         
 	</footer>
 	<!-- Footer end  -->
@@ -322,33 +307,8 @@ $this->layout = false;
 	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>-->
 
 	<!-- Load custom js for theme -->
-   
 	<script type="text/javascript" src="js/app.js"></script>
-   
-
-   
     
-    <script>
-    
-    
-        
-        
-        //function showsms(){
-//        var mss = '<?php echo $path[0]; ?>';
-//           if(mss=='home'){
-//             $.notiny({ text: 'Your username or password is incorrect.', image: 'https:octodex.github.com/images/privateinvestocat.jpg' });
-//           }
-//        window.onload = function()
-//        {   
-//            showsms();
-//            
-//        };
-//        
-//        }
-            
-
-        
-    </script>
     
 </body>
 </html>

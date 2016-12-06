@@ -245,7 +245,7 @@ class ClubsController extends AppController
             $time2 = new Time($club->training_time);
               
              
-            $user = $this->Users->get($id_coming, ['condition' => ['Users.id' => $id_coming]]);
+            $user = $this->Users->get($id_coming, ['conditions' => ['Users.id' => $id_coming]]);
                 $date_data = $user['coming_date'];          
                 if(empty($date_data)){
                     $get_comings = array('monday'=>0,'tuesday'=>0,'wednesday'=>0,'thursday'=>0,'friday'=>0,'saturday'=>0,'sunday'=>0);
@@ -385,7 +385,7 @@ class ClubsController extends AppController
         $dataComing = $this->Users->find('all', [
                 'conditions'=>['Users.id '=>$id_coming]
             ]);                    
-        $user = $this->Users->get($id_coming, ['condition' => ['Users.id' => $id_coming],]);             
+        $user = $this->Users->get($id_coming, ['conditions' => ['Users.id' => $id_coming],]);             
          
 
         $club_id = $club->id;
@@ -417,22 +417,30 @@ class ClubsController extends AppController
                 //code send coming and condition
                 $value_coming= (int)$this->request->data('coming');
                 //var_dump($value_coming);exit;
+                $count=0;
                 if(($value_coming==0)&&($is_full==true)){
                     $this->Users->save($user);
                     $this->Flash->success(__($user->first_name . ' ' . $user->last_name . ' has been added.'));
+                    $count=0;                                                            
                 }else{
                     if(($value_coming==1)&&($is_full==true)&&($user['coming']==0)&&($role==0)){
                         $this->Flash->error(__('Training full...'));
                         return $this->redirect(['action' => 'index']);
+                        
                     }elseif(($value_coming==1)&&($user['coming']==1)){
                         return $this->redirect($this->here);
+                        
+                        
                     }else{
-                       
+                        if($value_coming==1){
+                            $count=1;
+                        }
                         $this->Users->save($user);
                         $this->Flash->success(__($user->first_name . ' ' . $user->last_name . ' has been added.'));
                         //return $this->redirect($this->here);
                     }
                 }
+                //var_dump($count);exit;
                 foreach($dataComing as $data){
                     $articlesTable = TableRegistry::get('Users');
                     $data = $articlesTable->get($data['id']); 
@@ -448,6 +456,9 @@ class ClubsController extends AppController
                 $data->comment = $this->request->data['comment']; 
                 $data->coming_date = $temp2;
                 $data->register_time = date("Y-m-d H:i:s");
+                
+                $data->count_coming = (int)$data['count_coming'] + $count;
+                 
                 $articlesTable->save($data);
                 
                 
@@ -694,5 +705,48 @@ class ClubsController extends AppController
         {
             return 1 * strcmp($a['register_time'], $b['register_time']);
         }*/
+    //do code training counts
+    public function clubsManage(){
+        
+        $id = $this->Auth->user('id');
+        $club_id = $this->Auth->user('club_id');
+        if(empty($id)){
+              $this->redirect('/');  
+            } 
+        $this->paginate = [
+        'limit'=>10,
+        'contain' => ['Users']
+        ];
+        $role = $this->Auth->user('role');
+        if($role != 0){
+           $clubs = $this->paginate($this->Clubs); 
+        }
+                 
+        $this->set(compact('clubs'));
+        $this->set('_serialize', ['clubs']);
+    }
     
+     public function trainingCounts($id=null){
+        $this->loadModel('Users');
+        $this->paginate = [
+        'conditions'=>[ 'Users.club_id'=>$id,'Users.status'=>1],      
+       
+        'order'=>['count_coming' => 'DESC'],
+        'limit'=>10,
+        'fields'=>['first_name','last_name','count_coming','id']
+        ];
+         $data_users = $this->paginate($this->Users); 
+         
+        $condition = array('Users.status'=>1, 'Users.club_id'=>$id,);
+        $data_all = $this->Users->getDataWhereOrder($condition,'Users','count_coming')->count();
+        $list = array();
+        $i='';
+        for($i==1; $i<= $data_all; $i++){
+            $list[$i] = $i;
+        }
+        //var_dump($list);exit;
+        $this->set('data_users',$data_users);
+        $this->set('list',$list);
+        $this->set('data_all',$data_all);
+     }
 }

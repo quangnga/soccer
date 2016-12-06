@@ -220,6 +220,7 @@
                 <br>
                 <!--<a href="#" class="circle-tile-footer">More Info <i class="fa fa-chevron-circle-right"></i></a> -->
             </div>
+            </a>
         </div>
     </div>
 </div>
@@ -248,6 +249,31 @@ if($is_admin == 1)
                 </div>
                 <br>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-4 col-md-6">
+    <div class="classWithPad">
+        <div class="circle-tile animated fadeIn">
+            <a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "clubsManage"])?>">
+                <div class="circle-tile-heading red">
+                    <i class="fa fa-envelope fa-fw fa-3x animated zoomIn"></i>
+                </div>
+            </a>
+            
+            <a href="<?php echo $this->Url->build(["controller" => "clubs", "action" => "clubsManage"])?>">
+            <div class="circle-tile-content red">
+                <div class="circle-tile-description text-faded">
+                    <i class="fa fa-long-arrow-right animated slideInLeft"></i>   <i class="fa fa-long-arrow-left animated slideInRight"></i>
+                </div>
+                <div class="circle-tile-number text-faded">
+                    Clubs Manage
+                    <span id="sparklineC"></span>
+                </div>
+                <br>
+            </div>
+            </a>
         </div>
     </div>
 </div>

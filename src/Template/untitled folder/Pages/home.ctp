@@ -1,7 +1,6 @@
 <?php
 $this->layout = false;
 ?>
-
 <!DOCTYPE html>
 <!--
  * A Design by GraphBerry
@@ -9,7 +8,7 @@ $this->layout = false;
  * Author URL: http://graphberry.com
  * License: http://graphberry.com/pages/license
 -->
-<html >
+<html dir="auto">
 <head>
    
 
@@ -22,16 +21,9 @@ $this->layout = false;
 	<link href='http://fonts.googleapis.com/css?family=Lora' rel='stylesheet' type='text/css'>
 
 	<!-- Load css styles -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="css/bootstrap1.css" />
 	<link rel="stylesheet" type="text/css" href="css/font-awesome1.css" />
 	<link rel="stylesheet" type="text/css" href="css/style1.css" />
-    <link rel="stylesheet" type="text/css" href="css/notiny.min.css" />
-    <link rel="stylesheet" type="text/css" href="css/turbo-tribble.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script type="text/javascript" src="js/turbo-tribble.js"></script>
 
 </head>
 <body>
@@ -65,7 +57,7 @@ $this->layout = false;
 			</ul>
 
 
-			<ul class="social-icons fix-ul">
+			<ul class="social-icons">
 				<li><a href=""><i class="fa fa-facebook"></i></a></li>
 				<li><a href=""><i class="fa fa-twitter"></i></a></li>
 				<li><a href=""><i class="fa fa-dribbble"></i></a></li>
@@ -78,46 +70,13 @@ $this->layout = false;
 				<h1>كورة تايم</h1>
 				<p>تحضير تمارين كورة القدم
 				</p>
-                <!--<button type="button" class="btn btn-info btn-lg btn-login" data-toggle="modal" data-target="#myModal"> حضر نفسك من هنا</button>-->
-                
-                <?= $this->Form->create() ?>
-                <div class="form-boder">
-                    <div class="row">
-                        
-                            
-                            <div class="col-md-4 col-sm-1 col-xs-0"></div>
-                            <div class="form-group col-md-4 col-sm-10 col-xs-12 home-fix-col">
-                                <i class="fa fa-user " aria-hidden="true"></i><?= $this->Form->input('email', ['type' => 'text', 'label'=>'','id'=>'email_log','class' => 'form-control','placeholder' => 'Enter Email or Phone number']) ?>
-                                <i class="fa fa-lock " aria-hidden="true"></i><?= $this->Form->input('password', ['type' => 'password', 'label'=>'','id'=>'pass_log','class' => 'form-control','placeholder' => 'Enter Password']) ?>
-                                <?= $this->Form->submit(__('Log In'), ['class' => 'btn btn-lg btn-primary btn-block','onclick'=>'showsms()']) ?>
-                                <p class="small">
-                                <?php echo $this->Html->link('Forgot Password', ['controller'=>'Users','action' => 'resetPassword']);
-?>
-                                                  
-                            </p>
-                            <p class="small">
-                           
-                                <?php echo $this->Html->link('Register', ['controller'=>'Users','action' => 'register']);
-?>
-                            </p>
-                            </div>
-                            <div class="col-md-4 col-sm-1 col-xs-0"></div>
-                    </div>
-                    
-                </div>
-                       
-                        
-                     <?= $this->Form->end() ?>
-                    
-                
-                                                 
-				
+				<a href="Users/login" class="btn btn-primary">حضر نفسك من هنا</a>
 			</div>
 		</div>
 	</div>
 	<!-- Services section start -->
 	<section id="services">
-		<div class="container">                      
+		<div class="container">
 			<div class="row">
 				<div class="col-md-4">
 					<div class="service-item">
@@ -151,7 +110,7 @@ $this->layout = false;
 	<!-- Portfolio section start -->
 	<section id="portfolio"  class="darker">
             <div class="tt">
-		<div class="transbox col-md-4 col-sm-6">
+		<div class="transbox">
 			<header>
                          
 <h3>ألية العمل ببساطة</h3>
@@ -173,7 +132,7 @@ $this->layout = false;
 			</header>
                     </div>
 			<div id="single-project"></div>
-			<div class="row" style="margin-right: 0px; margin-left: 0px;">
+			<div class="row">
 				<figure class="portfolio-item col-md-4 col-sm-6" >
 					<img class="img-responsive" src="img/homepagephotos/1.jpg" alt="Adena icons pack" />
 					<figcaption class="mask">
@@ -238,27 +197,21 @@ $this->layout = false;
 
 			<div class="row">
 				<div class="col-md-8">
-					<form class="row" method="post" action="users/register">
+					<form class="row">
 						<div class="form-group col-md-6">
-                            <input id="fname" name="name" type="text" placeholder="First Name" class="form-control">
-                            						</div>
-                            <div class="form-group col-md-6">
-                            <input id="lname" name="name" type="text" placeholder="Last Name" class="form-control">
-                            </div>
-                            						<div class="form-group col-md-6">
-                            <input id="email" name="email" type="text" placeholder="Email Address" class="form-control">
-                            						</div>
-                            <div class="form-group col-md-6">
-                            <input id="phone" name="phone" type="text" placeholder="Phone" class="form-control">
-                            </div>
-                            						<div class="form-group col-md-12">
-                            <input id="subject" name="subject" type="text" placeholder="Subject" class="form-control">
-                            						</div>
-                            						<div class="form-group col-md-12">
-                            <textarea class="form-control" id="message" name="message" placeholder="Enter your message here" rows="7"></textarea>
-                            						</div>
-                            						<div class="form-group sub-res col-md-12">
-                            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+							<input name="name" type="text" placeholder="Your Name" class="form-control" />
+						</div>
+						<div class="form-group col-md-6">
+							<input name="mail" type="email" placeholder="Your Email" class="form-control" />
+						</div>
+						<div class="form-group col-md-12">
+							<input name="subject" type="options" placeholder="Your subject..." class="form-control" />
+						</div>
+						<div class="form-group col-md-12">
+							<textarea name="message" class="form-control" rows="10" placeholder="Message"></textarea>
+						</div>
+						<div class="form-group col-md-12">
+							<button class="btn btn-lg btn-primary">Send</button>
 						</div>
 					</form>
 				</div>
@@ -267,7 +220,7 @@ $this->layout = false;
 						<span>تفضل لمراسلتنا</span>
 						<p>
 							في حال لديك مشكلة أو إقتراح نسعد بمراسلتنا من خلال الإيميل او رقم الجوال الظاهر
-أو من خلال الصندوق
+أو من خلال الصندوق <
 						</p>
 					</address>
 					<address>
@@ -281,74 +234,40 @@ $this->layout = false;
 				</div>
 			</div>
 		</div>
-        
-          
 	</section>
 	<!-- Contact section end -->
 	<!-- Footer start -->
 	<footer>
 		<div class="container">
-			<div class="row footer-res">
-                <p>&copy; 2016 by <a  target="_blank">Majed Almutairi</a></p>
-				<span>تواصل معنا</span>
-				
-			</div>
-            <div class="row footer-res">
-                
-                
-                <ul class="social-icons">
-                        
+			<div class="row">
+				<div class="col-md-8">
+<p>&copy; 2016 by <a  target="_blank">Majed Almutairi</a></p>
+				</div>
+				<div class="col-md-4">
+					<ul class="social-icons">
+<span>تواصل معنا</span>
 						<li><a href=""><i class="fa fa-facebook"></i></a></li>
 						<li><a href="https://twitter.com/Ass3bGr7" target="_blank"><i class="fa fa-twitter"></i></a></li>
 						<li><a href=""><i class="fa fa-dribbble"></i></a></li>
 						<li><a href=""><i class="fa fa-behance"></i></a></li>
-			     </ul>
-                 
-            </div>
+					</ul>
+				</div>
+			</div>
 		</div>
-       
-        
 	</footer>
 	<!-- Footer end  -->
 
 	<!-- Load jQuery -->
-	<!--<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>-->
+	<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
 
 	<!-- Load Booststrap -->
-	<!--<script type="text/javascript" src="js/bootstrap.js"></script>
+	<script type="text/javascript" src="js/bootstrap.js"></script>
 
 	<script type="text/javascript" src="js/smooth-scroll.js"></script>
 
-	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>-->
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
 
 	<!-- Load custom js for theme -->
-   
 	<script type="text/javascript" src="js/app.js"></script>
-   
-
-   
-    
-    <script>
-    
-    
-        
-        
-        //function showsms(){
-//        var mss = '<?php echo $path[0]; ?>';
-//           if(mss=='home'){
-//             $.notiny({ text: 'Your username or password is incorrect.', image: 'https:octodex.github.com/images/privateinvestocat.jpg' });
-//           }
-//        window.onload = function()
-//        {   
-//            showsms();
-//            
-//        };
-//        
-//        }
-            
-
-        
-    </script>
-    
 </body>
 </html>
