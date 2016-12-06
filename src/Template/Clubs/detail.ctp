@@ -149,10 +149,10 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
 <!--<meta http-equiv="refresh" content="2" >-->
 <div class="page-title">
     <ol class="breadcrumb">
-        <li class="active"> <a href="<?php echo $this->Url->build(["controller" => "dashboard", "action" => "index"])?>"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-        <li class="active"> <a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "index"])?>"><i class="fa fa-building-o"></i> My Club</a></li>
+        <li class="active"> <a href="<?php echo $this->Url->build(["controller" => "dashboard", "action" => "index"])?>"><i class="fa fa-dashboard"></i> الصفحة الرئيسية</a></li>
+        <li class="active"> <a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "index"])?>"><i class="fa fa-building-o"></i> الفريق</a></li>
         
-        <li class="active animated slideInRight"><i class="fa fa-list-alt animated slideInRight"></i>  <?= h($club->club_name) ?>  attendance sheet</a></li>
+        <li class="active animated slideInRight"><i class="fa fa-list-alt animated slideInRight"></i>  <?= h($club->club_name) ?>  كشف الحضور</a></li>
     </ol>
 </div>
 <div class="col-lg-12 col-md-12" >
@@ -160,18 +160,18 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
         <div class="portlet-heading">
             <div class="portlet-title">
             </div>
-            <h4><?= h($club->club_name) ?> <?= h($time)?> daily training</h4>
+            <h4>  التحضير اليومي <?= h($club->club_name) ?> </h4>
             <h4><?php
             $today = strtolower(date("l"));
             ?>
 
             <?php if($club[$today] == 0){
             echo 'no training today';}
-            else {echo 'There will be a training today';}
+            else {echo 'سيكون هناك تمرين اليوم الساعة';}
             
-            ?>  - Training Time: <?= h($time2->format('H:i:s')) ?>
+                ?>  :  <?= h($time2->format('H:i')) ?>
             </h4>
-            <h4>Training days</h4>
+            <h4>أيام التمارين</h4>
             <td>
                 <?php if($club->monday==0){
                 
@@ -261,16 +261,16 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                 <?php
                     if($is_admin==1||$is_admin == 2){
                 ?>
-              <th scope="col"><?= __('Order') ?></th>
+              <th scope="col"><?= __('الترتيب') ?></th>
                 <?php }?>
-              <th scope="col"><?= __('Full name') ?></th>
-              <th scope="col"><?= __('Coming') ?></th>
-              <th scope="col"><?= __('Comments') ?></th>
-              <th scope="col"><?= __('Status') ?></th>
+              <th scope="col"><?= __('الأسم الكامل') ?></th>
+              <th scope="col"><?= __('هل ستحضر؟') ?></th>
+              <th scope="col"><?= __('إترك رسالة لمدير التمرين') ?></th>
+              <th scope="col"><?= __('الحالة') ?></th>
                <?php
                 if($is_admin==1||$is_admin == 2){
                ?>
-               <th scope="col"><?= __('Block') ?></th>
+               <th scope="col"><?= __('حضر اللاعب') ?></th>
                 
                <th scope="col"><?= __('Action') ?></th>            
                 <?php
@@ -283,7 +283,7 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
           <?php if(($is_admin == 2)||$is_admin == 1){?>
 						
             <tr>
-                <td colspan="2"><h4 style="color: #16A085;"> Playing Users</h4></td>
+                <td colspan="2"><h4 style="color: #16A085;"> الأساسيين</h4></td>
                
                     <td  class="de-res"></td>
                     <td  class="de-res"></td>
@@ -309,10 +309,10 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                 <td></td>
                         
                 <?php
-                    if(empty($users['comment'])){
+                    if(empty($users['التعليق'])){
                 ?>
                 <td data-label = "<?= __('Comments') ?>" style="color: #ccc;">
-                    <?= h(__('...No comment'))  ?>
+                    <?= h(__('...لا يوجد تعليق'))  ?>
                     
                 </td>
                 <?php
@@ -326,13 +326,13 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                 <?php
                 if(($key+1 <= $number_playing)){
                 ?>
-                <td data-label = "<?= __('Status') ?>"> <?= __('Playing')?> </td>
+                <td data-label = "<?= __('Status') ?>"> <?= __('أساسي')?> </td>
                 
                 <?php
                 }else{
                 ?>
                 <td data-label = "<?= __('Status') ?>">
-                    <?= __('Waiting')?>
+                    <?= __('إحتياطي')?>
                 </td>
                 <?php
                 }
@@ -358,7 +358,7 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
             <!-- section for waiting players-->
              <tr> 
                 
-                <td colspan='2'><h4 style="color: #cf850f;">Waiting Users</h4> </td>
+                <td colspan='2'><h4 style="color: #cf850f;">الإحتياط</h4> </td>
                 <td  class="de-res"></td>
                 <td  class="de-res"></td>
                 <td  class="de-res"></td>
@@ -404,7 +404,7 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                     <?php }?>
                     
                     <td data-label = "<?= __('Status') ?>">
-                        <?= __('Waiting')?>
+                        <?= __('إحتياطي')?>
                     </td>
                     <td data-label = "<?= __('Block') ?>"  style="overflow: hidden;">
                         
@@ -496,13 +496,13 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                                     <?php }else{ ?>
                                         <?php if($users['coming'] == 0){?>
                                             <div class="coming">
-                                                 <?= $this->Form->button(__('Coming'),['title'=>'Action']) ?>
+                                                 <?= $this->Form->button(__('سأحضر'),['title'=>'Action']) ?>
                                             </div>
                                            
                                         <?php }else{?>
                                         
                                            <div class="no-coming">
-                                                 <?= $this->Form->button(__('No coming' ),['title'=>'Action']) ?>
+                                                 <?= $this->Form->button(__('لن أحضر' ),['title'=>'Action']) ?>
                                             </div>
                                         <?php }?>
                                     <?php }?>
@@ -534,12 +534,12 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                          <?php if($users->coming){ ?>
                                <?php if(in_array($users->id, $db_wting)){?>
                                     
-                                 <td data-label = "<?= __('Status') ?>"> Waiting</td>
+                                 <td data-label = "<?= __('Status') ?>"> أحتياطي</td>
                                 
                                <?php }?>
                                <?php if(in_array($users->id, $db_play)){?>
                                     
-                                 <td data-label = "<?= __('Status') ?>"> Playing</td>
+                                 <td data-label = "<?= __('Status') ?>"> أساسي</td>
                                 
                                <?php }?>
                         <?php }else{?>

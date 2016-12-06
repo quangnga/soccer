@@ -102,19 +102,19 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                             <ul class="dropdown-menu dropdown-user">
                                 <li>
                                     <a href="<?php echo $this->Url->build(['controller' => 'pages', 'action' => 'index']) ?>" target="_blank">
-                                        <i class="fa fa-globe"></i> Visit Website
+                                        <i class="fa fa-globe"></i> زيارة الموقع
                                     </a>
                                 </li>
                                 <li class="divider"></li>
                                 <li>
                                     <a href="<?php echo $this->Url->build(['controller' => 'Users', 'action' => 'changepassword']) ?>">
-                                        <i class="fa fa-gear"></i> Reset Password
+                                        <i class="fa fa-gear"></i> إعادة ضبط كلمة المرور
                                     </a>
                                 </li>
 
                                 <li>
                                     <a class="logout_open" href="#logout">
-                                        <i class="fa fa-sign-out"></i> Logout
+                                        <i class="fa fa-sign-out"></i> تسجيل الخروج
                                         <strong><?= ($first_name) ?> <?= ($last_name) ?></strong>
                                     </a>
                                 </li>
@@ -141,7 +141,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                         <li class="side-user hidden-xs">
                             <img class="img-circle" src="<?php echo $this->request->webroot; ?>img/logoo.png" alt="">
                             <p class="welcome">
-                                <i class="fa fa-key"></i> Logged in as
+                                <i class="fa fa-key"></i> تسجيل الدخول بـ
                             </p>
                             <p class="name tooltip-sidebar-logout">
 <?= ($first_name) ?>
@@ -152,20 +152,20 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                         <!-- begin DASHBOARD LINK -->
                         <li>
                             <a href="<?php echo $this->Url->build(['controller' => 'dashboard', 'action' => 'index']) ?>">
-                                <i class="fa fa-dashboard"></i> Dashboard
+                                <i class="fa fa-dashboard"></i> الصفحة الرئيسية
                             </a>
                         </li>
 
                         <li>
                             <a href="<?php echo $this->Url->build(['controller' => 'pages', 'action' => 'index']) ?>" target="_blank">
-                                <i class="fa fa-globe"></i> Visit Website
+                                <i class="fa fa-globe"></i> زيارة الموقع
                             </a>
 
                         </li>
 
                         <li>
                             <a class="logout_open" href="#logout">
-                                <i class="fa fa-sign-out logout_open"></i> Logout
+                                <i class="fa fa-sign-out logout_open"></i> تسجيل الخروج
                             </a>
                         </li>
                         <!-- end PAGES DROPDOWN -->
@@ -210,11 +210,11 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                     <ul class="list-inline">
                         <li>
                             <a href="<?php echo $this->Url->build(['controller' => 'Users', 'action' => 'logout']) ?>" class="btn btn-green">
-                                <strong>Logout</strong>
+                                <strong>تسجيل الخروج</strong>
                             </a>
                         </li>
                         <li>
-                            <button class="logout_close btn btn-green">Cancel</button>
+                            <button class="logout_close btn btn-green">إلغاء</button>
                         </li>
                     </ul>
                 </div>
