@@ -10,7 +10,7 @@
         <div class="page-title">
 
             <ol class="breadcrumb">
-                <li class="active animated slideInRight"><i class="fa fa-dashboard animated slideInRight"></i> Dashboard</li>
+                <li class="active animated slideInRight"><i class="fa fa-dashboard animated slideInRight"></i> الصفحة الرئيسية</li>
             </ol>
         </div>
     </div>
@@ -35,7 +35,7 @@
                     <i class="fa fa-long-arrow-right animated slideInLeft"></i> <?php  if($is_admin == 1)  echo $countusers ?> <i class="fa fa-long-arrow-left animated slideInRight"></i>
                 </div>
                 <div class="circle-tile-number text-faded">
-                    Users
+                    اللاعبين
                     <span id="sparklineA"></span>
                 </div>
                 <br>
@@ -64,7 +64,7 @@
                                 <i class="fa fa-long-arrow-right animated slideInLeft"></i>   <i class="fa fa-long-arrow-left animated slideInRight"></i>
                             </div>
                             <div class="circle-tile-number text-faded">
-                                Attendance sheet
+                                ورقة التحضير
                                 <span id="sparklineC"></span>
                             </div>
                             <br>
@@ -87,7 +87,7 @@
                                 <i class="fa fa-long-arrow-right animated slideInLeft"></i>   <i class="fa fa-long-arrow-left animated slideInRight"></i>
                             </div>
                             <div class="circle-tile-number text-faded">
-                                Attendance sheet
+                                ورقة التحضير
                                 <span id="sparklineC"></span>
                             </div>
                             <br>
@@ -114,7 +114,7 @@
                                 <i class="fa fa-long-arrow-right animated slideInLeft"></i>   <i class="fa fa-long-arrow-left animated slideInRight"></i>
                             </div>
                             <div class="circle-tile-number text-faded">
-                                Attendance sheet
+                                ورقة التحضير
                                 <span id="sparklineC"></span>
                             </div>
                             <br>
@@ -136,7 +136,7 @@
                                 <i class="fa fa-long-arrow-right animated slideInLeft"></i>   <i class="fa fa-long-arrow-left animated slideInRight"></i>
                             </div>
                             <div class="circle-tile-number text-faded">
-                                Attendance sheet
+                                ورقة التحضير
                                 <span id="sparklineC"></span>
                             </div>
                             <br>
@@ -159,7 +159,7 @@
                                 <i class="fa fa-long-arrow-right animated slideInLeft"></i>   <i class="fa fa-long-arrow-left animated slideInRight"></i>
                             </div>
                             <div class="circle-tile-number text-faded">
-                                Attendance sheet
+                                ورقة التحضير
                                 <span id="sparklineC"></span>
                             </div>
                             <br>
@@ -184,7 +184,7 @@
                     <i class="fa fa-long-arrow-right animated slideInLeft"></i>   <i class="fa fa-long-arrow-left animated slideInRight"></i>
                 </div>
                 <div class="circle-tile-number text-faded">
-                    Attendance sheet
+                    ورقة التحضير
                     <span id="sparklineC"></span>
                 </div>
                 <br>
@@ -215,7 +215,7 @@
                     <br>
                 </div>
                 <div class="circle-tile-number text-faded">
-                    Clubs
+                    إدارة النادي
                 </div>
                 <br>
                 <!--<a href="#" class="circle-tile-footer">More Info <i class="fa fa-chevron-circle-right"></i></a> -->

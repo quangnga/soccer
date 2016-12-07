@@ -42,7 +42,7 @@
                         <?php
                         
                         foreach ($clubs as $club):
-                        //var_dump($club);exit;
+                        
                             if ($club->id == $club_id || $is_admin == 1) {
                                 ?>
                                 <tr>

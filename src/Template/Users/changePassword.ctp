@@ -4,18 +4,13 @@
 $id = $this->request->session()->read('Auth.User.id');?>
 
 <!-- show the current locaiton -->             
- <ol class="breadcrumb">
-<li><?php echo $this->Html->link( 'Home', '/', ['class' => 'button']);?></li>
-  <li ><?php echo $this->Html->link('My account',['controller'=> 'pages', 'action' =>  'Myaccount']); ?></li>
-  <li class="active"><?php echo $this->Html->link('Change my password',['controller'=> 'Users', 'action' =>  'changepassword']); ?></li>
 
-</ol>
 
 <!-- side bar-->
 <ul class="nav nav-pills nav-stacked col-sm-2">
-  <li role="presentation"  ><?php echo $this->Html->link('My home',['controller'=> 'pages', 'action' =>  'Myaccount']); ?></li>
-  <li role="presentation"  ><?php echo $this->Html->link('My profile', ['controller'=> 'Users','action' => 'edit',$id]); ?></li>
-  <li role="presentation" class="active"><?php echo $this->Html->link('Change my password', ['controller'=> 'Users','action' => 'changepassword']); ?></li>
+  <li role="presentation"  ><?php echo $this->Html->link('الصفحة الرئيسية',['controller'=> 'dashboard', 'action' =>  'index']); ?></li>
+  <li role="presentation"  ><?php echo $this->Html->link('بياناتي الشخصية', ['controller'=> 'Users','action' => 'edit',$id]); ?></li>
+  <li role="presentation" class="active"><?php echo $this->Html->link('تغيير كلمة المرور', ['controller'=> 'Users','action' => 'changepassword']); ?></li>
 
 <li role="presentation">
     <?php if ( $this->request->session()->read('Auth.User.email')==="majed054000@gmail.com") {
@@ -42,12 +37,7 @@ $id = $this->request->session()->read('Auth.User.id');?>
     
   </li>
 
-  <li role="presentation">
-    <?php  if ( $this->request->session()->read('Auth.User.email')==="majed054000@gmail.com") {
-      echo $this->Html->link('Manage sales', ['controller'=> 'Orders','action' => 'index']); }else{
-      echo $this->Html->link('Orders', ['controller'=> 'Orders','action' => 'index']);    }  
-    ?>   
-  </li>
+
   <li role="presentation">
     <?php if ( $this->request->session()->read('Auth.User.email')==="majed054000@gmail.com") {
       echo $this->Html->link('Manage shippingcost', ['controller'=> 'Shippingcosts','action' => 'index']);
@@ -71,22 +61,22 @@ $id = $this->request->session()->read('Auth.User.id');?>
 
            
             <div class="form-group">
-            <?= $this->Form->input('current_password', ['placeholder' => 'Please enter your old password','class'=>'form-control','type'=>'password',array('maxLength'=>'6')]);?>
+            <?= $this->Form->input('كلمة المرور القديمة', ['placeholder' => 'من فضلك أدخل كلمة المرور القديمة لك','class'=>'form-control','type'=>'password',array('maxLength'=>'6')]);?>
             <!--'type'=>'password' so this filed will be hashed-->
             </div>
             <div class="form-group">
-            <?= $this->Form->input('New_password', ['placeholder' => 'Please enter your new password (8-16 digits)','class'=>'form-control','type'=>'password',array('maxLength'=>'6')]);?>
+            <?= $this->Form->input('كلمة المرور الجديدة', ['placeholder' => 'من فضلك, ادخل كلمة المرور الجديدة (يجب ان تحتوي على حرف واحد وارقام على الاقل)','class'=>'form-control','type'=>'password',array('maxLength'=>'6')]);?>
             <!--'type'=>'password' so this filed will be hashed-->
             </div>
             <div class="form-group">
-            <?= $this->Form->input('Confirm_your_new_password',['class'=>'form-control','placeholder' => 'Please type your new password again','type'=>'password']);?>
+            <?= $this->Form->input('أعد كتابة كلمة المرور الجديدة',['class'=>'form-control','placeholder' => 'فضلاً أعد كاتبة كلمة المرور الجديدة هنا','type'=>'password']);?>
             </div>
             
             <div class="clearfix"></div>
      </fieldset>
     
-     <?=  $this->Html->link( 'Go back', '/pages/Myaccount',['class' => 'btn btn-default']); ?>
-    <?= $this->Form->button('Make Change',['class'=>'btn btn-default']) ?>
+     <?=  $this->Html->link( 'الرجوع', '/pages/Myaccount',['class' => 'btn btn-default']); ?>
+    <?= $this->Form->button('تأكيد التغيير',['class'=>'btn btn-default']) ?>
     
 
 
