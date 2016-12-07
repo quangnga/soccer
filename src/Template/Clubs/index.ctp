@@ -81,7 +81,9 @@
                                                 <a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "Edit", $club->id]) ?>">
                                                     <button type="button" class="btn btn-orange btn-res">Edit <i class="fa fa-pencil"></i></button>
                                                 </a>
-                                                    
+                                                <a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "trainingCounts", $club->id]) ?>">
+                                                        <button type="button" class="btn btn-info btn-res">Counts Training <i class="fa fa-calendar-check-o" aria-hidden="true"></i></button>
+                                                </a>
                                                 <?php
                                                 }
                                                 ?>
