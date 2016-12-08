@@ -53,6 +53,9 @@
                                             <a href="<?php echo $this->Url->build(["controller" => "Users", "action" => "View", $user->id]) ?>">
                                                 <button type="button" class="btn btn-success"> View <i class="fa fa-search"></i></button>
                                             </a>
+                                            <a href="<?php echo $this->Url->build(["controller" => "Users", "action" => "pay", $user->id]) ?>">
+                                                <button type="button" class="btn btn-danger"> Paid <i class="fa fa-search"></i></button>
+                                            </a>
                                 <?php
                                     }
                                 ?>

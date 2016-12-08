@@ -26,12 +26,12 @@ $this->layout = false;
 	<link rel="stylesheet" type="text/css" href="css/bootstrap1.css" />
 	<link rel="stylesheet" type="text/css" href="css/font-awesome1.css" />
 	<link rel="stylesheet" type="text/css" href="css/style1.css" />
-    <link rel="stylesheet" type="text/css" href="css/notiny.min.css" />
-    <link rel="stylesheet" type="text/css" href="css/turbo-tribble.css" />
+
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script type="text/javascript" src="js/turbo-tribble.js"></script>
+
 
 </head>
 <body>
@@ -89,7 +89,7 @@ $this->layout = false;
                             <div class="form-group col-md-4 col-sm-10 col-xs-12 home-fix-col">
                                 <i class="fa fa-user " aria-hidden="true"></i><?= $this->Form->input('email', ['type' => 'text', 'label'=>'','id'=>'email_log','class' => 'form-control','placeholder' => 'Enter Email or Phone number']) ?>
                                 <i class="fa fa-lock " aria-hidden="true"></i><?= $this->Form->input('password', ['type' => 'password', 'label'=>'','id'=>'pass_log','class' => 'form-control','placeholder' => 'Enter Password']) ?>
-                                <?= $this->Form->submit(__('Log In'), ['class' => 'btn btn-lg btn-primary btn-block','onclick'=>'showsms()']) ?>
+                                <?= $this->Form->submit(__('Log In'), ['class' => 'btn btn-lg btn-primary btn-block']) ?>
                                 <p class="small">
                                 <?php echo $this->Html->link('Forgot Password', ['controller'=>'Users','action' => 'resetPassword']);
 ?>
@@ -330,22 +330,6 @@ $this->layout = false;
     
     <script>
     
-    
-        
-        
-        //function showsms(){
-//        var mss = '<?php echo $path[0]; ?>';
-//           if(mss=='home'){
-//             $.notiny({ text: 'Your username or password is incorrect.', image: 'https:octodex.github.com/images/privateinvestocat.jpg' });
-//           }
-//        window.onload = function()
-//        {   
-//            showsms();
-//            
-//        };
-//        
-//        }
-            
 
         
     </script>

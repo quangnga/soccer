@@ -101,6 +101,7 @@ class AppController extends Controller
        $this->getComingYesterday();
        $clubByuser = $this->Auth->user('club_id');
        $this->set('clubByuser',$clubByuser); 
+        $this->resetPayment();
        
     }
     
@@ -403,6 +404,25 @@ class AppController extends Controller
         
         
         
+    }
+    public function resetPayment(){
+        $this->loadModel('Users');
+        $month_now = date("m");
+        $users = $this->Users->find('all', ['fields'=>['id','paid_stt','date_paid']]);
+        
+        foreach($users as $user){
+            
+            $month = date('m', strtotime($user['date_paid']));
+            $year = date('Y', strtotime($user['date_paid']));
+            
+            if($year==date('Y')&&($month<date('m'))){
+                $articlesTable = TableRegistry::get('Users');        
+                $value = $articlesTable->get($user['id']);
+                $value->paid_stt = 0;                
+                $value->date_paid = date('Y-m-d');   
+                $articlesTable->save($value); 
+            }
+        }
     }
         
     

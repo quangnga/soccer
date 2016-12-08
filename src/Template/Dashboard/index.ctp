@@ -196,8 +196,6 @@
         </div>
     </div>
 </div>
-
-
 <div class="col-lg-4 col-md-6">
     <div class="classWithPad">
         <div class="circle-tile animated fadeIn">
@@ -224,13 +222,39 @@
         </div>
     </div>
 </div>
+
+<div class="col-lg-4 col-md-6">
+    <div class="classWithPad">
+        <div class="circle-tile animated fadeIn">
+            <a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "reports"])?>">
+                <div class="circle-tile-heading red">
+                    <i class="fa fa-flag fa-fw fa-3x animated zoomIn" aria-hidden="true"></i>
+                </div>
+            </a>
+            
+            <a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "reports"])?>">
+            <div class="circle-tile-content red">
+                <div class="circle-tile-description text-faded">
+                    <i class="fa fa-long-arrow-right animated slideInLeft"></i>   <i class="fa fa-long-arrow-left animated slideInRight"></i>
+                </div>
+                <div class="circle-tile-number text-faded">
+                    Matches report
+                    <span id="sparklineC"></span>
+                </div>
+                <br>
+            </div>
+            </a>
+        </div>
+    </div>
 </div>
 
 
 <?php
-if($is_admin == 1)
+if($is_admin == 1||$is_admin == 2)
 {
 ?>
+
+<!--
 <div class="col-lg-4 col-md-6">
     <div class="classWithPad">
         <div class="circle-tile animated fadeIn">
@@ -252,23 +276,23 @@ if($is_admin == 1)
         </div>
     </div>
 </div>
-
+-->
 <div class="col-lg-4 col-md-6">
     <div class="classWithPad">
         <div class="circle-tile animated fadeIn">
-            <a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "clubsManage"])?>">
+            <a href="<?php echo $this->Url->build(["controller" => "Payments", "action" => "index"])?>">
                 <div class="circle-tile-heading red">
-                    <i class="fa fa-envelope fa-fw fa-3x animated zoomIn"></i>
+                    <i class="fa fa-money fa-fw fa-3x animated zoomIn" aria-hidden="true"></i>
                 </div>
             </a>
             
-            <a href="<?php echo $this->Url->build(["controller" => "clubs", "action" => "clubsManage"])?>">
+            <a href="<?php echo $this->Url->build(["controller" => "Payments", "action" => "index"])?>">
             <div class="circle-tile-content red">
                 <div class="circle-tile-description text-faded">
                     <i class="fa fa-long-arrow-right animated slideInLeft"></i>   <i class="fa fa-long-arrow-left animated slideInRight"></i>
                 </div>
                 <div class="circle-tile-number text-faded">
-                    Clubs Manage
+                    Payment
                     <span id="sparklineC"></span>
                 </div>
                 <br>
@@ -280,6 +304,11 @@ if($is_admin == 1)
 <?php
 }
 ?>
+
+</div>
+
+
+
 <?php echo $this->Html->css('notiny.min.css');?>
 <?php 
     

@@ -1,12 +1,10 @@
 <?php
 namespace App\Model\Table;
-
 use App\Model\Entity\Club;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-
 /**
  * Clubs Model
  *
@@ -15,7 +13,6 @@ use Cake\Validation\Validator;
  */
 class ClubsTable extends Table
 {
-
     /**
      * Initialize method
      *
@@ -25,11 +22,9 @@ class ClubsTable extends Table
     public function initialize(array $config)
     {
         parent::initialize($config);
-
         $this->table('clubs');
         $this->displayField('club_name');
         $this->primaryKey('id');
-
         $this->belongsTo('Cities', [
             'foreignKey' => 'city_id',
             'joinType' => 'INNER'
@@ -42,7 +37,6 @@ class ClubsTable extends Table
             'foreignKey' => 'club_id'
         ]);
     }
-
     /**
      * Default validation rules.
      *
@@ -54,30 +48,23 @@ class ClubsTable extends Table
         $validator
             ->integer('id')
             ->allowEmpty('id', 'create');
-
         $validator
             ->requirePresence('club_name', 'create')
             ->notEmpty('club_name');
-
         $validator
             ->integer('phone1')
             ->requirePresence('phone1', 'create')
             ->notEmpty('phone1');
-
         $validator
             ->integer('phone2')
             ->requirePresence('phone2', 'create')
             ->notEmpty('phone2');
-
         $validator
             ->requirePresence('address', 'create')
             ->notEmpty('address');
-
         
-
         return $validator;
     }
-
     /**
      * Returns a rules checker object that will be used for validating
      * application integrity.

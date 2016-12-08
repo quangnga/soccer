@@ -53,13 +53,16 @@ class UsersController extends AppController
         $user = $this->Auth->user();
         $club_id = $user['club_id'];
         $user_id = $id;
-
+        $this->loadModel('Pay_table');
+        
         if($this->isAuthorizedAdmin()==1){
+            
             $this->paginate = [
                 'contain' => ['Clubs'],
                 'order' => ['Users.coming'=>'desc']
                 ];
         }elseif($this->isAuthorizedAdmin()==2){
+            
             $this->paginate = [
                 'contain' => ['Clubs'],
                 'conditions' => ['club_id' => $club_id],
@@ -71,6 +74,10 @@ class UsersController extends AppController
                 ];
         }
         $users = $this->paginate($this->Users); 
+        //foreach($users as $db){
+//            debug($db);exit;
+//        }
+        
         $this->set(compact('users'));
         $this->set('_serialize', ['users']);
         $this->set('users',$users);
@@ -250,7 +257,7 @@ class UsersController extends AppController
 
      public function login()
         {    
-         $notiny='';
+        
         if ($this->request->is(['patch', 'post', 'put']))  {
             
         //if($this->request->is('ajax')) {    
@@ -316,7 +323,7 @@ class UsersController extends AppController
              $this->redirect("/");
         }
      }
-         $this->set('notiny',$notiny);
+        
     }
     
        public function users()
@@ -672,7 +679,63 @@ class UsersController extends AppController
         $this->set('user', $user);
     }
     
-    
+    public function pay($id){
+        $this->loadModel('ListPay');
+       
+        $in_users = $this->Users->find("all",['conditions' => ['Users.id' => $id]]);
+        
+        //var_dump($usertemp);exit;
+        foreach($in_users as $data){
+                $articlesTable = TableRegistry::get('Users');
+                $data = $articlesTable->get($data['id']); // Return data with id 
+                $data->paid_stt = 1;
+                $data->date_paid = date('Y-m-d');
+                $articlesTable->save($data);
+                $date_key = strtotime( date('Y-m-d'));
+                
+                
+                
+            }
+            $key_month =  date('m',$date_key);
+            $key_year =  date('y',$date_key);
+            
+            
+            $in_list = $this->ListPay->find("all",['conditions' => ['ListPay.user_id' => $id]]);
+            
+            foreach($in_list as $db_list){
+                $date_list = strtotime($db_list['created_paid']);
+                $key_list_m =  date('m',$date_list);
+                $key_list_y =  date('y',$date_list);
+                if(($key_month==$key_list_m)&&($key_year==$key_list_y)){
+                    $rels = $db_list['id'];
+                    break;
+                }
+                
+            }
+            $in_list_edit = $this->ListPay->find("all",['conditions' => ['ListPay.id' => $rels]]);
+            foreach($in_list_edit as $data){
+                $articlesTable = TableRegistry::get('ListPay');
+                $data = $articlesTable->get($data['id']); // Return data with id 
+                $data->paid_stt = 1;                
+                $articlesTable->save($data);
+                $id_back = $data['pay_table_id'];     
+            }
+            
+            
+            if($articlesTable->save($data)){
+                
+                $this->Flash->success('Paid successfully.');
+                
+            } else{
+                
+                $this->Flash->error('Error!.');
+            } 
+        
+        
+        return  $this->redirect('/payments/view/'.$id_back);
+        
+        
+    }
     
 
 

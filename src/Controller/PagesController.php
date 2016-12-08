@@ -49,7 +49,7 @@ class PagesController extends AppController
     public function display()
     {
         
-        $this->Flash->error('Your username or password is incorrect.');
+        
         $path = func_get_args();
         
         $count = count($path);

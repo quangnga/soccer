@@ -61,15 +61,15 @@ $id = $this->request->session()->read('Auth.User.id');?>
 
            
             <div class="form-group">
-            <?= $this->Form->input('كلمة المرور القديمة', ['placeholder' => 'من فضلك أدخل كلمة المرور القديمة لك','class'=>'form-control','type'=>'password',array('maxLength'=>'6')]);?>
+            <?= $this->Form->input('current_password', ['placeholder' => 'من فضلك أدخل كلمة المرور القديمة لك','label'=>'كلمة المرور القديمة','class'=>'form-control','type'=>'password',array('maxLength'=>'6')]);?>
             <!--'type'=>'password' so this filed will be hashed-->
             </div>
             <div class="form-group">
-            <?= $this->Form->input('كلمة المرور الجديدة', ['placeholder' => 'من فضلك, ادخل كلمة المرور الجديدة (يجب ان تحتوي على حرف واحد وارقام على الاقل)','class'=>'form-control','type'=>'password',array('maxLength'=>'6')]);?>
+            <?= $this->Form->input('New_password', ['placeholder' => 'من فضلك, ادخل كلمة المرور الجديدة (يجب ان تحتوي على حرف واحد وارقام على الاقل)','label'=>'كلمة المرور الجديدة','class'=>'form-control','type'=>'password',array('maxLength'=>'6')]);?>
             <!--'type'=>'password' so this filed will be hashed-->
             </div>
             <div class="form-group">
-            <?= $this->Form->input('أعد كتابة كلمة المرور الجديدة',['class'=>'form-control','placeholder' => 'فضلاً أعد كاتبة كلمة المرور الجديدة هنا','type'=>'password']);?>
+            <?= $this->Form->input('Confirm_your_new_password',['class'=>'form-control','placeholder' => 'فضلاً أعد كاتبة كلمة المرور الجديدة هنا','label'=>'أعد كتابة كلمة المرور الجديدة','type'=>'password']);?>
             </div>
             
             <div class="clearfix"></div>

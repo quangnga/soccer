@@ -34,8 +34,15 @@ class UsersTable extends Table
 
         $this->belongsTo('Clubs', [
             'foreignKey' => 'club_id',
+            'joinType' => 'INNER',
+            
+        ]);
+        $this->hasOne('Pay_table', [
+            'foreignKey' => 'user_id',
             'joinType' => 'INNER'
         ]);
+        
+        
     }
     public function getUsers(){
         return $this->find('all',

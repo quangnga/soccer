@@ -53,11 +53,11 @@ class ClubsController extends AppController
             $this->Auth->allow();
             
         }else if($this->isAuthorizedAdmin()==2){
-            $this->Auth->allow(['view','index','logout','detail','edit','advanced','unlock','active']);
+            $this->Auth->allow(['view','index','logout','detail','edit','advanced','unlock','active','reports','reportsAdd','reportsView']);
             
         }
         else{
-            $this->Auth->allow(['index','logout','detail','view','advanced']);
+            $this->Auth->allow(['index','logout','detail','view','advanced','reports','reportsView']);
         }
         
         
@@ -749,4 +749,55 @@ class ClubsController extends AppController
         $this->set('list',$list);
         $this->set('data_all',$data_all);
      }
+     
+     public function reports(){
+        $this->loadModel('Comments');
+        $club_user = $this->Auth->user('club_id');
+        if($this->isAuthorizedAdmin()==1){
+            $data_rep = $this->Comments->find('all');        
+        }else{
+            
+            $data_rep = $this->Comments->find('all',['conditions'=>['Comments.club_id'=>$club_user]]);
+        }
+        $this->set('data_rep',$data_rep);
+     }
+     public function reportsAdd(){
+        $this->loadModel('Comments');
+        $club_user = $this->Auth->user('club_id');
+        $id_user = $this->Auth->user('id');
+        $this->set('club_user',$club_user);
+        $this->set('id_user',$id_user);        
+        if($this->request->is('post')){
+            $entityTable = TableRegistry::get('Comments');
+            $entity = $entityTable->newEntity();
+            $entity->title = $this->request->data['title'];
+            $entity->content = $this->request->data['content'];
+            $entity->user_id = $id_user;
+            $entity->club_id = $club_user;
+            $entity->modify = date('Y-m-d');   
+            $entity->created = date('Y-m-d');                        
+            $entityTable->save($entity);
+            $this->Flash->success('Added successfully.');
+            $this->redirect('/Clubs/reports');
+        }
+     }
+     public function reportsView($id){
+        $this->loadModel('Comments');
+        $data_view = $this->Comments->find('all',['conditions'=>['Comments.id'=>$id]]); 
+        $this->set('data_view',$data_view);
+     }
+     public function reportsDelete($id = null)
+    {
+        $this->loadModel('Comments');
+        $this->request->allowMethod(['post', 'delete']);
+        $comments = $this->Comments->get($id);
+        if ($this->Comments->delete($comments)) {
+            $this->Flash->success(__('The comment has been deleted.'));
+        } else {
+            $this->Flash->error(__('The comment could not be deleted. Please, try again.'));
+        }
+
+        return $this->redirect(['action' => 'reports']);
+    }
+     
 }
