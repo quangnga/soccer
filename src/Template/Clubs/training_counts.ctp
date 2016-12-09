@@ -207,7 +207,7 @@
                     </tbody>
 
                 </table>
-
+                    
                  <?php if($is_admin != 0){ ?>
                     <div class="paginator">
                         <ul class="pagination">
@@ -218,6 +218,11 @@
                         <p><?= $this->Paginator->counter() ?></p>
                     </div>
                  <?php }?>
+            </div>
+            <div style="text-align: center;">
+                <a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "index"]) ?>">
+                    <button class="btn btn-primary"> Back <i class="fa fa-chevron-left" aria-hidden="true"></i></button>
+                </a>
             </div>
         </div>
     </div>

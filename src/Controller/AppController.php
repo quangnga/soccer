@@ -69,7 +69,8 @@ class AppController extends Controller
                 ]
             ]);
         
-        $this->Auth->allow(['display']);
+        $this->Auth->allow(['display',
+                'home']);
 
     }
     

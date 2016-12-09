@@ -35,6 +35,8 @@ $this->layout = false;
 
 </head>
 <body>
+
+<?php //var_dump($_SESSION);exit;?>
 	<div class="jumbotron home home-fullscreen" id="home">
 		<div class="mask"></div>
 		<a href="" class="logo">

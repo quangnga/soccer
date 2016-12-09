@@ -123,17 +123,23 @@ class PagesController extends AppController
                     $this->Auth->setUser($user);
                         return $this->redirect("/clubs/index");
                 } elseif($user && $user['status']== 0) {
-                    $this->Flash->error('Please check email to active account.');
+                    echo "<script>alert('Please check email to active account.');
+                   
+                        window.location.assign(''); 
+                        
+                    </script>"; 
+                    
                     
                 }else{
+                    
+                    
+                    
+                    echo "<script>alert('Your username or password is incorrect.');
                    
-                    //$this->redirect($this->here);
-                    echo "<script>alert('Your username or password is incorrect.');</script>"; 
-                    //exit;
-                    //
-                    //$this->setFlash('Some notification', self::NOTICE);
-                    //$this->Flash->error('Your username or password is incorrect.');
-                    //$this->redirect("/");
+                        window.location.assign(''); 
+                        
+                    </script>"; 
+                    
                     
                     
                 }
@@ -141,13 +147,16 @@ class PagesController extends AppController
                 
            
             }else{
-                 echo "<script>alert('Your username or password is incorrect.');</script>"; 
-                 //$this->Flash->error('Your username or password is incorrect.');
-                 //$this->setFlash('Some notification', self::NOTICE);
+                    echo "<script>alert('Your username or password is incorrect.');
+                   
+                        window.location.assign(''); 
+                        
+                    </script>"; 
+                 
             }
             
         }
-        $this->set('notiny',$notiny);
+        
         
 
        

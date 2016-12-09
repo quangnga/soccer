@@ -40,6 +40,11 @@
                 <div class="row" style="text-align: justify; padding: 20px; font-style: italic; color: #959595;">
                    Date posted :  <?= h($data->created)?>  
                 </div>
+                <div class="row" style="text-align: right; padding: 0px 20px; font-style: italic; ">
+                    <a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "reports"]) ?>">
+                        Back 
+                    </a>
+                </div>
                 <?php }?>
                 <!--               
                 <div class="paginator">
