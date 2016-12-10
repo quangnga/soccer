@@ -162,7 +162,7 @@
                     <tbody>
                             
                             <?php echo $this->Form->create(null, array('url' => array('controller' => 'Clubs', 'action' => 'getResetCount')));?>
-                                <div  class="form-group row">
+                                <div  class="form-group row" style="text-align: center;">
                                     <div class="form-group">
                                         <?php echo $this->Form->input('date_reset', array('class' => 'form-control', 'type'=>'date',  'label' => ' Date reset:  *')); ?>
                                     </div>
@@ -170,7 +170,7 @@
                                         <?php echo $this->Form->input('id_club', array('class' => 'form-control','value'=>$id_club , 'type'=>'hidden')); ?>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row" style="text-align: center; margin-bottom: 10px;">
                                     
                                         <button class="btn btn-danger" type="submit">Reset Counts  </button>
                                    
@@ -223,11 +223,7 @@
                 </table>
                     
                  <?php if($is_admin != 0){ ?>
-                    <div class="row">
-                        <a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "index"]) ?>">
-                            <button class="btn btn-primary">  <i class="fa fa-chevron-left" aria-hidden="true"></i></button>
-                        </a>
-                    </div>
+                    
                     <div class="paginator">
                         <ul class="pagination">
                             <?= $this->Paginator->prev('< ' . __('Previous')) ?>
