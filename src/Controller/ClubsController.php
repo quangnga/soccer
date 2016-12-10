@@ -53,7 +53,7 @@ class ClubsController extends AppController
             $this->Auth->allow();
             
         }else if($this->isAuthorizedAdmin()==2){
-            $this->Auth->allow(['view','index','logout','detail','edit','advanced','unlock','active','reports','reportsAdd','reportsView']);
+            $this->Auth->allow(['view','index','logout','detail','edit','advanced','unlock','active','trainingCounts','reports','reportsAdd','reportsView']);
             
         }
         else{
@@ -735,7 +735,7 @@ class ClubsController extends AppController
         'limit'=>10,
         'fields'=>['first_name','last_name','count_coming','id']
         ];
-         $data_users = $this->paginate($this->Users); 
+        $data_users = $this->paginate($this->Users); 
          
         $condition = array('Users.status'=>1, 'Users.club_id'=>$id,);
         $data_all = $this->Users->getDataWhereOrder($condition,'Users','count_coming')->count();
@@ -745,9 +745,11 @@ class ClubsController extends AppController
             $list[$i] = $i;
         }
         //var_dump($list);exit;
+        $id_club = $id;
         $this->set('data_users',$data_users);
         $this->set('list',$list);
         $this->set('data_all',$data_all);
+        $this->set('id_club',$id_club);
      }
      
      public function reports(){
@@ -799,5 +801,35 @@ class ClubsController extends AppController
 
         return $this->redirect(['action' => 'reports']);
     }
+    
+    public function getResetCount(){
+         if($this->request->is('post')){
+            $data_id = $this->request->data['id_club'];
+            
+            $articlesTable = TableRegistry::get('Clubs');
+            $data = $articlesTable->get($data_id);
+            
+            $data_temp1 = $this->request->data['date_reset'];
+            $data_date = $data_temp1['year'].'-'.$data_temp1['month'].'-'.$data_temp1['day'];   
+            $data->date_reset_count = date('Y-m-d',strtotime($data_date));
+            $articlesTable->save($data);
+            $this->Flash->success('Added successfully.');
+            $this->redirect('/Clubs/trainingCounts/'.$data_id);
+            //var_dump($data);exit;
+               // $entityTable = TableRegistry::get('Comments');
+//            $entity = $entityTable->newEntity();
+//            $entity->title = $this->request->data['title'];
+//            $entity->content = $this->request->data['content'];
+//            $entity->user_id = $id_user;
+//            $entity->club_id = $club_user;
+//            $entity->modify = date('Y-m-d');   
+//            $entity->created = date('Y-m-d');                        
+//            $entityTable->save($entity);
+//            $this->Flash->success('Added successfully.');
+//            $this->redirect('/Clubs/reports');
+        }
+    }
+    
+    
      
 }

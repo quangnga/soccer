@@ -85,6 +85,11 @@
                                 <?php echo $this->Form->input('close_training', array('type' => 'time','class' => 'form-control', 'placeholder' => 'Enter number of users', 'label' => ' Close time training *')); ?>
                             </div>
                         </div>
+                        <div class="form-group col-md-12">
+                            <div class="form-group">
+                                <?php echo $this->Form->input('time_reset', array('class' => 'form-control', 'type'=>'time', 'label' => 'Time reset coming')); ?>
+                            </div>
+                        </div>
                         
                         
                         <div  class="form-group col-md-6">
@@ -129,6 +134,7 @@
                                 <?php echo $this->Form->input('address', array('class' => 'form-control', 'placeholder' => 'Enter Address', 'maxlength' => '10', 'label' => 'Address *')); ?>
                             </div>
                         </div>
+                        
     
     
     

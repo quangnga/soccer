@@ -100,7 +100,11 @@
                             <?php echo $this->Form->input('close_training',array('type' => 'time','class' => 'form-control', 'label' => '  Time close training ')); ?>
                         </div>
                     </div>
-
+                    <div  class="form-group col-md-6">
+                        <div class="form-group">
+                            <?php echo $this->Form->input('time_reset',array('type' => 'time','class' => 'form-control', 'label' => '  Time reset coming ')); ?>
+                        </div>
+                    </div>
 
                     
 

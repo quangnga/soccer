@@ -6,7 +6,7 @@ use Cake\Event\Event;
 use Cake\I18n\Time;
 use Cake\ORM\TableRegistry;
 use Cake\Network\Exception\NotFoundException;
-
+use Cake\I18n\Number;
 use Cake\Network\Email\Email;
 use Cake\Routing\Router;
 

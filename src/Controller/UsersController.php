@@ -32,7 +32,7 @@ class UsersController extends AppController
                 $this->Auth->allow();
                 
             }else if($this->isAuthorizedAdmin()==2){
-                $this->Auth->allow(['view','index','logout','edit','index','getclubs','getregions','logout','edit','view','resetPassword','unlock','register','forgotpassword','login','resetPasswordSent','changePassword','sendCodeActive']);
+                $this->Auth->allow(['view','index','logout','edit','index','getclubs','pay','getregions','logout','edit','view','resetPassword','unlock','register','forgotpassword','login','resetPasswordSent','changePassword','sendCodeActive']);
                 
             }
             else{
@@ -685,6 +685,7 @@ class UsersController extends AppController
         $in_users = $this->Users->find("all",['conditions' => ['Users.id' => $id]]);
         
         //var_dump($usertemp);exit;
+        
         foreach($in_users as $data){
                 $articlesTable = TableRegistry::get('Users');
                 $data = $articlesTable->get($data['id']); // Return data with id 
@@ -716,7 +717,9 @@ class UsersController extends AppController
             foreach($in_list_edit as $data){
                 $articlesTable = TableRegistry::get('ListPay');
                 $data = $articlesTable->get($data['id']); // Return data with id 
-                $data->paid_stt = 1;                
+                $data->paid_stt = 1;
+                $paid_money = $this->request->data['paid_money'];
+                $data->paid_money =  $paid_money;             
                 $articlesTable->save($data);
                 $id_back = $data['pay_table_id'];     
             }
@@ -732,10 +735,15 @@ class UsersController extends AppController
             } 
         
         
+        
+        
+        //var_dump($paid_money);exit;
         return  $this->redirect('/payments/view/'.$id_back);
         
         
     }
+    
+    
     
 
 

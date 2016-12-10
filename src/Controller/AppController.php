@@ -246,15 +246,21 @@ class AppController extends Controller
     public function getComing(){
         $this->loadModel('Users');
         $date_data = date("Y-m-d");
-        $user = $this->Users->find('all');
+        
+        
         $today = strtolower(date("l"));
         
         $time_now = strtotime(date('H:i'));
         //var_dump(date('H:i'));exit;
-        $time_reset = strtotime("5:14");// change time here and change date_reset in table users < today
         
-        
-        foreach($user as $value){
+        $clubs = $this->Clubs->find('all',['fields'=>['id','time_reset']]);
+        foreach($clubs as $club){
+            $temp = strtotime($club['time_reset']);
+            $temp2 = date('H:i',$temp);
+            $time_reset = strtotime($temp2);// change time here and change date_reset in table users < today
+            $user = $this->Users->find('all',['conditions'=>['Users.club_id'=>$club['id']],'fields'=>['id','coming_date','coming','date_reset']]);
+            //var_dump($name2);exit;
+            foreach($user as $value){
             $articlesTable = TableRegistry::get('Users');        
             $value = $articlesTable->get($value['id']);
             if($value->coming_date!=NULL){
@@ -296,6 +302,9 @@ class AppController extends Controller
                 json_encode($get_comings);
         }
         }
+        }
+        
+        
         
         
     }
@@ -382,30 +391,7 @@ class AppController extends Controller
         
     }
     
-    public function resetCountComing(){
-        $this->loadModel('Users');
-        $month_now = date("m");
-        
-        
-        $user = $this->Users->find('all', ['fields'=>['id','date_reset','count_coming']]);
-        foreach($user as $value){
-            
-            $date_user = strtotime($value['date_reset']);
-            $time_save = date("m",$date_user);
-            //var_dump($time);exit;
-            if( $time_save < $month_now){
-                 $articlesTable = TableRegistry::get('Users');        
-                 $value = $articlesTable->get($value['id']);
-                 $value->count_coming = 0;
-                 $articlesTable->save($value);
-            }
-            
-           
-        }
-        
-        
-        
-    }
+    
     public function resetPayment(){
         $this->loadModel('Users');
         $month_now = date("m");
@@ -426,6 +412,36 @@ class AppController extends Controller
         }
     }
         
-    
+   public function resetCountComing(){
+        $this->loadModel('Users');
+        $this->loadModel('Clubs');
+
+        $clubs = $this->Clubs->find('all',['fields'=>['date_reset_count','id']]);
+        foreach($clubs as $club){
+            $date_reset = strtotime($club['date_reset_count']);
+            $date_now = strtotime(date("Y-m-d"));
+            
+            if( $date_reset == $date_now){
+                $users = $this->Users->find('all',['fields'=>['id','count_coming','club_id'],'condition'=>['Users.club_id'=>$club['id']]]);
+                 foreach($users as $value){
+                    //debug($value);exit;
+                    $articlesTable = TableRegistry::get('Users');        
+                     $value = $articlesTable->get($value['id']);
+                     $value->count_coming = 0;
+                     $articlesTable->save($value);
+                 }
+                 
+                $articlesTable = TableRegistry::get('Clubs');        
+                $value = $articlesTable->get($club['id']);
+                $value->date_reset_count = Null;
+                $articlesTable->save($value);  
+            }
+            
+           
+        }
+        
+        
+        
+    } 
    
 }
