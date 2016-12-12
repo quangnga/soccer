@@ -421,7 +421,7 @@ class ClubsController extends AppController
                 if(($value_coming==0)&&($is_full==true)){
                     $this->Users->save($user);
                     $this->Flash->success(__($user->first_name . ' ' . $user->last_name . ' has been added.'));
-                    $count=0;                                                            
+                    $count=-1;                                                            
                 }else{
                     if(($value_coming==1)&&($is_full==true)&&($user['coming']==0)&&($role==0)){
                         $this->Flash->error(__('Training full...'));
@@ -429,11 +429,13 @@ class ClubsController extends AppController
                         
                     }elseif(($value_coming==1)&&($user['coming']==1)){
                         return $this->redirect($this->here);
-                        
+                       
                         
                     }else{
                         if($value_coming==1){
-                            $count=1;
+                            $count = 1;
+                        }else{
+                            $count = -1;
                         }
                         $this->Users->save($user);
                         $this->Flash->success(__($user->first_name . ' ' . $user->last_name . ' has been added.'));
@@ -453,11 +455,14 @@ class ClubsController extends AppController
                         }
                     } 
                 $temp2=json_encode($array);
+                
                 $data->comment = $this->request->data['comment']; 
                 $data->coming_date = $temp2;
                 $data->register_time = date("Y-m-d H:i:s");
                 
                 $data->count_coming = (int)$data['count_coming'] + $count;
+                
+                
                  
                 $articlesTable->save($data);
                 
@@ -737,7 +742,7 @@ class ClubsController extends AppController
         ];
         $data_users = $this->paginate($this->Users); 
          
-        $condition = array('Users.status'=>1, 'Users.club_id'=>$id,);
+        $condition = array('Users.status'=>1, 'Users.club_id'=>$id);
         $data_all = $this->Users->getDataWhereOrder($condition,'Users','count_coming')->count();
         $list = array();
         $i='';
