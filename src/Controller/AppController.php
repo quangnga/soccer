@@ -313,11 +313,12 @@ class AppController extends Controller
     }
     
     public function resetForDate(){
+        //var_dump(date("H:i"));exit;
         $this->loadModel('Users');
         $this->loadModel('Clubs');
         $today = strtolower(date("l"));
          $clubs = $this->Clubs->find('all',['fields'=>['id','time_reset']]);
-         $day_now = strtotime(date('Y-m-d'));
+         $day_now = strtotime(date('Y-m-d H:i:s'));
          foreach($clubs as $club){
             $temp = strtotime($club['time_reset']);
             $temp2 = date('H:i',$temp);
@@ -326,11 +327,11 @@ class AppController extends Controller
             //var_dump($name2);exit;
             foreach($user as $value){
                
-                $date_user =  strtotime(date('Y-m-d',strtotime($value['time_reset_evr'])));
-                 if(($day_now==$date_user)&&($value['reset_everyday'])==$time_reset){
+                $date_user =  strtotime(date('Y-m-d H:i',strtotime($value['time_reset_evr'])));
+                 if(($day_now >= $date_user)&&(($value['reset_everyday'])==$time_reset)){
                         $articlesTable = TableRegistry::get('Users');        
                         $value = $articlesTable->get($value['id']);
-                        $value->time_reset_evr = date("Y-m-d", strtotime('tomorrow'));
+                        $value->time_reset_evr = date("Y-m-d", strtotime('tomorrow')).' '.date("H:i:s",$value['reset_everyday']);
                         $get_comings = json_decode($value->coming_date);
                         $array_comings =get_object_vars($get_comings); 
                         $value->coming = 0;

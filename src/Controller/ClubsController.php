@@ -169,9 +169,9 @@ class ClubsController extends AppController
                     
                     $data = $articlesTable->get($data['id']); 
                     $data->reset_everyday = strtotime($this->request->data['time_reset']['hour'].':'.$this->request->data['time_reset']['minute']);
-                    $data->time_reset_evr = date('Y-m-d');
-                    
-                    
+                    $h_reset = strtotime($this->request->data['time_reset']['hour'].':'.$this->request->data['time_reset']['minute']);
+                    $data->time_reset_evr = date("Y-m-d").' '.date('H:i:s',$h_reset);
+                    //var_dump(date('H:i:s',$h_reset));exit;                   
                     $articlesTable->save($data);
                 }
             
