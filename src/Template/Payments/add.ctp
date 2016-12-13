@@ -44,10 +44,16 @@
                                 
                             ];
                     ?>
+                    
                    <div class="row">
                         <div class="col-md-2"></div>
                         <div class="form-group col-md-5">
-                            <?php echo $this->Form->select('month', $options);?>
+                            <select name="month">
+                                <option value="<?php echo date('m');?>">
+                                    <?php echo $options[date('m')]?>
+                                </option>
+                            </select>
+                            
                         </div>
                         <div class="form-group col-md-3">
                             Month:

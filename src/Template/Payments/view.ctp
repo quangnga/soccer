@@ -80,7 +80,7 @@
                     </tbody>
                 </table>
                  
-                <!--               
+                             
                 <div class="paginator">
                     <ul class="pagination">
                         <?= $this->Paginator->prev(('previous').' >') ?>
@@ -90,7 +90,7 @@
                     <p><?= $this->Paginator->counter() ?></p>
 
 
-                </div>-->
+                </div>
                 
                 
             </div>

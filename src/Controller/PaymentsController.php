@@ -66,10 +66,20 @@ class PaymentsController extends AppController
         $club_user = $this->Auth->user('club_id');
         $payments = $this->Pay_table->find('all',['conditions'=>['Pay_table.id'=>$id],'fields'=>['month']]); 
         if($this->isAuthorizedAdmin()==1){
-          $data_users = $this->ListPay->find('all');        
+            $this->paginate = array(
+                                'limit' => 10,
+                                'conditions'=>array('ListPay.pay_table_id'=>$id),
+                             );
+          $data_users = $this->paginate('ListPay');        
         }
         if($this->isAuthorizedAdmin()==2){
-            $data_users = $this->ListPay->find('all',['conditions'=>['ListPay.club_id'=>$club_user]]);  
+            
+            $this->paginate = array(
+                                'limit' => 10,
+                                'conditions'=>array('ListPay.pay_table_id'=>$id,'ListPay.club_id'=>$club_user),
+                             );
+          $data_users = $this->paginate('ListPay');   
+            
         }
         foreach($payments as $payment){
             $this->set('payment', $payment);
