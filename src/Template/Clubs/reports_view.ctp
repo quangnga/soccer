@@ -34,6 +34,9 @@
                 <div class="row" style="text-align: center; font-weight: bold; margin: auto 10px; border-bottom: 1px dotted #dcdcdc;">
                     <h4><?= h($data->title)?></h4>
                 </div>
+                <div class="row" style="text-align: center; font-weight: bold; margin: auto 10px; border-bottom: 1px dotted #dcdcdc;">
+                    <h4 style="color: red;"><?= h($data->goals_team)?> - <?= h($data->goals_opponent)?></h4>
+                </div>
                 <div class="row" style="text-align: justify; padding: 20px;">
                     <?= h($data->content)?>
                 </div>

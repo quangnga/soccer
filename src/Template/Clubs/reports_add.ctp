@@ -7,6 +7,21 @@
     select, option{
         width: 100%;
     }
+    .fix-goal input{
+        width : 80%;
+        border: 3px solid #848484;
+        text-align: center;
+        font-weight: bold;
+        color: red;
+        
+    }
+    .fix-goal{
+        text-align: right;
+        margin-right: 20px;
+    }
+    .fix-tit-goal{
+        text-align: center;
+    }
 </style>
 <div class="page-title">
 
@@ -34,8 +49,27 @@
                             
                             <?php echo $this->Form->textarea('title', ['rows' => '1', 'cols' => '40']); ?>
                         </div>
+                        
                         <div class="col-md-3 form-group">
                             <strong>Subject: </strong>
+                        </div>
+                    </div>
+                    <div  class="form-group row">
+                    
+                        <div class=" col-md-3 fix-goal">
+                            
+                             <?php echo $this->Form->input('goal_team',['type'=>'number','label'=>'','title'=>'My team']); ?>
+                        </div>
+                        <div class="col-md-2">
+                             Vs
+                        </div>
+                        <div class=" col-md-3 fix-goal">
+                            
+                            <?php echo $this->Form->input('opponent',['type'=>'number','label'=>'','title'=>'Opponent']); ?>
+                            
+                        </div>
+                        <div class="col-md-3 fix-tit-goal ">
+                            <strong>Goals: </strong>
                         </div>
                     </div>
                     <div  class="form-group row">

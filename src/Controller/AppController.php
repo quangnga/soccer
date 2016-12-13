@@ -95,7 +95,7 @@ class AppController extends Controller
         $time = Time::now();
         $this->set('time',$time->i18nFormat(\IntlDateFormatter::FULL));
         $this->resetComment();
-        $this->resetCountComing();
+        
        $this->resetComing();
        $this->getCity();
        $this->getComing();
@@ -412,36 +412,6 @@ class AppController extends Controller
         }
     }
         
-   public function resetCountComing(){
-        $this->loadModel('Users');
-        $this->loadModel('Clubs');
-
-        $clubs = $this->Clubs->find('all',['fields'=>['date_reset_count','id']]);
-        foreach($clubs as $club){
-            $date_reset = strtotime($club['date_reset_count']);
-            $date_now = strtotime(date("Y-m-d"));
-            
-            if( $date_reset == $date_now){
-                $users = $this->Users->find('all',['fields'=>['id','count_coming','club_id'],'condition'=>['Users.club_id'=>$club['id']]]);
-                 foreach($users as $value){
-                    //debug($value);exit;
-                    $articlesTable = TableRegistry::get('Users');        
-                     $value = $articlesTable->get($value['id']);
-                     $value->count_coming = 0;
-                     $articlesTable->save($value);
-                 }
-                 
-                $articlesTable = TableRegistry::get('Clubs');        
-                $value = $articlesTable->get($club['id']);
-                $value->date_reset_count = Null;
-                $articlesTable->save($value);  
-            }
-            
-           
-        }
-        
-        
-        
-    } 
+    
    
 }

@@ -362,7 +362,7 @@ class ClubsController extends AppController
     
     public function detail($id= null){
         
-        
+        //var_dump($this->request->data['comment']);exit;
         $this->loadModel('Users');
         $id_coming = $this->Auth->user('id');
         if(!empty($id_coming)){
@@ -751,9 +751,11 @@ class ClubsController extends AppController
         }
         //var_dump($list);exit;
         $id_club = $id;
+        $data_time = $this->Clubs->find('all',['conditions'=>['Clubs.id'=>$id_club],'fields'=>['date_reset_count']]);
         $this->set('data_users',$data_users);
         $this->set('list',$list);
         $this->set('data_all',$data_all);
+        $this->set('data_time',$data_time);
         $this->set('id_club',$id_club);
      }
      
@@ -779,10 +781,12 @@ class ClubsController extends AppController
             $entity = $entityTable->newEntity();
             $entity->title = $this->request->data['title'];
             $entity->content = $this->request->data['content'];
+            $entity->goals_team = $this->request->data['goal_team'];
+            $entity->goals_opponent = $this->request->data['opponent'];
             $entity->user_id = $id_user;
             $entity->club_id = $club_user;
             $entity->modify = date('Y-m-d');   
-            $entity->created = date('Y-m-d');                        
+            $entity->created = date('Y-m-d H:i:s');                        
             $entityTable->save($entity);
             $this->Flash->success('Added successfully.');
             $this->redirect('/Clubs/reports');
@@ -806,34 +810,36 @@ class ClubsController extends AppController
 
         return $this->redirect(['action' => 'reports']);
     }
-    
-    public function getResetCount(){
-         if($this->request->is('post')){
+    public function resetCountComing(){
+        $this->loadModel('Users');
+        $this->loadModel('Clubs');
             $data_id = $this->request->data['id_club'];
+            if($this->request->is('post')){
+                $users = $this->Users->find('all',['fields'=>['id','count_coming','club_id'],'conditions'=>['Users.club_id'=>$data_id]]);
+                 foreach($users as $value){
+                    //debug($value);exit;
+                    $articlesTable = TableRegistry::get('Users');        
+                     $value = $articlesTable->get($value['id']);
+                     $value->count_coming = 0;
+                     $articlesTable->save($value);
+                 }
+                 
+                $articlesTable = TableRegistry::get('Clubs');        
+                $value = $articlesTable->get($data_id);
+                $value->date_reset_count = date("Y-m-d H:i:s a");
+                $articlesTable->save($value);  
+                $this->Flash->success('Added successfully.');
+                $this->redirect('/Clubs/trainingCounts/'.$data_id);
+            }
             
-            $articlesTable = TableRegistry::get('Clubs');
-            $data = $articlesTable->get($data_id);
-            
-            $data_temp1 = $this->request->data['date_reset'];
-            $data_date = $data_temp1['year'].'-'.$data_temp1['month'].'-'.$data_temp1['day'];   
-            $data->date_reset_count = date('Y-m-d',strtotime($data_date));
-            $articlesTable->save($data);
-            $this->Flash->success('Added successfully.');
-            $this->redirect('/Clubs/trainingCounts/'.$data_id);
-            //var_dump($data);exit;
-               // $entityTable = TableRegistry::get('Comments');
-//            $entity = $entityTable->newEntity();
-//            $entity->title = $this->request->data['title'];
-//            $entity->content = $this->request->data['content'];
-//            $entity->user_id = $id_user;
-//            $entity->club_id = $club_user;
-//            $entity->modify = date('Y-m-d');   
-//            $entity->created = date('Y-m-d');                        
-//            $entityTable->save($entity);
-//            $this->Flash->success('Added successfully.');
-//            $this->redirect('/Clubs/reports');
+           
         }
-    }
+    
+        
+        
+        
+    
+ 
     
     
      

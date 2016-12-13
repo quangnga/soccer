@@ -161,21 +161,27 @@
                     </thead>
                     <tbody>
                             
-                            <?php echo $this->Form->create(null, array('url' => array('controller' => 'Clubs', 'action' => 'getResetCount')));?>
+                            <?php if($is_admin!=0){?>
+                            <?php echo $this->Form->create(null, array('url' => array('controller' => 'Clubs', 'action' => 'resetCountComing')));?>
+                            
                                 <div  class="form-group row" style="text-align: center;">
-                                    <div class="form-group">
-                                        <?php echo $this->Form->input('date_reset', array('class' => 'form-control', 'type'=>'date',  'label' => ' Date reset:  *')); ?>
-                                    </div>
+                                    
                                     <div class="form-group">
                                         <?php echo $this->Form->input('id_club', array('class' => 'form-control','value'=>$id_club , 'type'=>'hidden')); ?>
                                     </div>
                                 </div>
+                                <div class="show_time">
+                                    <?php foreach($data_time as $data){?>
+                                        <p style="text-align: center; font-style: italic; color: #777"> <strong>Date reset:</strong> <?php echo $data['date_reset_count']?></p>
+                                    <?php }?>
+                                </div>
                                 <div class="row" style="text-align: center; margin-bottom: 10px;">
                                     
-                                        <button class="btn btn-danger" type="submit">Reset Counts  </button>
+                                        <button class="btn btn-danger" onclick="return confirm('Are you sure you want to Reset Counts?')" onload="get_time()" type="submit">Reset Counts  </button>
                                    
                                 </div>
                             <?php echo $this->Form->end(); ?>
+                            <?php }?>
                             <?php $k = 1;?>
                             <?php $i = $this->Paginator->params()['page'];?>
                                 <?php foreach($data_users as $key => $db){?>
@@ -241,8 +247,14 @@
             </div>
         </div>
     </div>
- 
-                   
+ <style>
+    
+ </style>
+<script>
+    function get_time(){
+        $(".show_time").css('display','block');
+    }
+</script>                   
                     
                     
                     

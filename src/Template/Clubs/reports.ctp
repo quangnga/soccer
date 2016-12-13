@@ -50,10 +50,10 @@
                                 
                                             <a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "reportsView",$data->id]) ?>">
                                                 <button type="button" class="btn btn-primary"> View <i class="fa fa-search"></i></button>
-                                            </a>
-                                            
-                                            <button class="btn btn-brow"><?= $this->Form->postLink(__('Delete'), ['action' => 'reportsDelete', $data->id], ['confirm' => __('Are you sure you want to delete # {0}?', $data->id)]) ?> <i class="fa fa-minus-circle" aria-hidden="true"></i> </button>
-                                            
+                                            </a> 
+                                            <?php if($is_admin!=0){?>
+                                                <button class="btn btn-brow"><?= $this->Form->postLink(__('Delete'), ['action' => 'reportsDelete', $data->id], ['confirm' => __('Are you sure you want to delete # {0}?', $data->id)]) ?> <i class="fa fa-minus-circle" aria-hidden="true"></i> </button>
+                                            <?php }?>
                                     </td>
                                 </tr>
                               <?php $k= $k+1; }?>  
@@ -72,7 +72,7 @@
 
 
                 </div>-->
-                <?php if($is_admin==2){?>
+                <?php if($is_admin==2||$is_admin==1){?>
                 <div style="text-align: center;">
                     <a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "reportsAdd"]) ?>">
                         <button type="button" class="btn btn-success"> Add a new reports <i class="fa fa-plus-circle" aria-hidden="true"></i></button>

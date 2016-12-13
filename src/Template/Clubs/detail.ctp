@@ -523,11 +523,11 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                                 echo $this->Form->textarea('comment', ['rows' => '1', 'cols' => '20']);
                            ?>
                         </div>
-                        <div class="text-res2">
+                        <!--<div class="text-res2">
                              <?php
                                 echo $this->Form->textarea('comment', ['rows' => '3', 'cols' => '5']);
                            ?>
-                        </div>
+                        </div>-->
                           
                             
                         </td>
