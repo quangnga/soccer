@@ -95,13 +95,14 @@ class AppController extends Controller
         $time = Time::now();
         $this->set('time',$time->i18nFormat(\IntlDateFormatter::FULL));
         $this->resetComment();
+        $this->resetForDate();
         
-       $this->resetComing();
-       $this->getCity();
-       $this->getComing();
-       $this->getComingYesterday();
-       $clubByuser = $this->Auth->user('club_id');
-       $this->set('clubByuser',$clubByuser); 
+        $this->resetComing();
+        $this->getCity();
+        $this->getComing();
+        $this->getComingYesterday();
+        $clubByuser = $this->Auth->user('club_id');
+        $this->set('clubByuser',$clubByuser); 
         $this->resetPayment();
        
     }
@@ -251,7 +252,7 @@ class AppController extends Controller
         $today = strtolower(date("l"));
         
         $time_now = strtotime(date('H:i'));
-        //var_dump(date('H:i'));exit;
+       
         
         $clubs = $this->Clubs->find('all',['fields'=>['id','time_reset']]);
         foreach($clubs as $club){
@@ -261,52 +262,92 @@ class AppController extends Controller
             $user = $this->Users->find('all',['conditions'=>['Users.club_id'=>$club['id']],'fields'=>['id','coming_date','coming','date_reset']]);
             //var_dump($name2);exit;
             foreach($user as $value){
-            $articlesTable = TableRegistry::get('Users');        
-            $value = $articlesTable->get($value['id']);
-            if($value->coming_date!=NULL){
-                $get_comings = json_decode($value->coming_date);
-                $array_comings =get_object_vars($get_comings); 
-                
-                if(($time_now >= $time_reset)&&(strtotime($date_data)>strtotime($value->date_reset))){
-                
-                    $value->coming = 0;
-                    foreach($array_comings as $key => $get_coming){               
+                $articlesTable = TableRegistry::get('Users');        
+                $value = $articlesTable->get($value['id']);
+                if($value->coming_date!=NULL){
+                    //var_dump($time_now);exit;
+                    $get_comings = json_decode($value->coming_date);
+                    $array_comings =get_object_vars($get_comings); 
                     
-                        if($key==$today ){
-                            $array_comings["$key"] = 0;                     
-                        }                   
-                    }
-                    $temp_coming= json_encode($array_comings);
-                    $value->coming_date = $temp_coming;
-                    $articlesTable->save($value);
+                    if((strtotime($date_data)>strtotime($value->date_reset))){
                     
-                }// reset comings by time;
-                $get_coming_new = json_decode($value->coming_date);
-                if(!empty($get_coming_new)){ 
+                        $value->coming = 0;
+                        $value->reset_everyday = 0;
+                        foreach($array_comings as $key => $get_coming){               
+                        
+                            if($key==$today ){
+                                $array_comings["$key"] = 0;                     
+                            }                   
+                        }
+                        $temp_coming= json_encode($array_comings);
+                        $value->coming_date = $temp_coming;
+                        $articlesTable->save($value);
+                        
+                    }// reset comings by time;
+                    $get_coming_new = json_decode($value->coming_date);
+                    if(!empty($get_coming_new)){ 
+                        
+                        $coming = $value->coming;
+                        foreach($get_coming_new as $key => $get_coming){               
+                            if($key==$today ){
+                                $data_coming = $get_coming; 
+                                $value->coming = $data_coming;
+                                $value->date_reset = $date_data;
+                                $articlesTable->save($value);                        
+                            }                   
+                        }
                     
-                    $coming = $value->coming;
-                    foreach($get_coming_new as $key => $get_coming){               
-                        if($key==$today ){
-                            $data_coming = $get_coming; 
-                            $value->coming = $data_coming;
-                            $value->date_reset = $date_data;
-                            $articlesTable->save($value);                        
-                        }                   
-                    }
-                
-                }else{
-                    $temp = array('monday'=>0,'tuesday'=>0,'wednesday'=>0,'thursday'=>0,'friday'=>0,'saturday'=>0,'sunday'=>0);
-                    $value->coming_date = json_encode($temp);
-                    $articlesTable->save($value);
-                }// get coming from coming_date;
-                json_encode($get_comings);
+                    }else{
+                        $temp = array('monday'=>0,'tuesday'=>0,'wednesday'=>0,'thursday'=>0,'friday'=>0,'saturday'=>0,'sunday'=>0);
+                        $value->coming_date = json_encode($temp);
+                        $articlesTable->save($value);
+                    }// get coming from coming_date;
+                    json_encode($get_comings);
+                }
         }
         }
-        }
         
         
         
         
+    }
+    
+    public function resetForDate(){
+        $this->loadModel('Users');
+        $this->loadModel('Clubs');
+        $today = strtolower(date("l"));
+         $clubs = $this->Clubs->find('all',['fields'=>['id','time_reset']]);
+         $day_now = strtotime(date('Y-m-d'));
+         foreach($clubs as $club){
+            $temp = strtotime($club['time_reset']);
+            $temp2 = date('H:i',$temp);
+            $time_reset = strtotime($temp2);// change time here and change date_reset in table users < today
+            $user = $this->Users->find('all',['conditions'=>['Users.club_id'=>$club['id']],'fields'=>['id','register_time','reset_everyday','coming_date','time_reset_evr','coming','date_reset']]);
+            //var_dump($name2);exit;
+            foreach($user as $value){
+               
+                $date_user =  strtotime(date('Y-m-d',strtotime($value['time_reset_evr'])));
+                 if(($day_now==$date_user)&&($value['reset_everyday'])==$time_reset){
+                        $articlesTable = TableRegistry::get('Users');        
+                        $value = $articlesTable->get($value['id']);
+                        $value->time_reset_evr = date("Y-m-d", strtotime('tomorrow'));
+                        $get_comings = json_decode($value->coming_date);
+                        $array_comings =get_object_vars($get_comings); 
+                        $value->coming = 0;
+                        foreach($array_comings as $key => $get_coming){               
+                        
+                            if($key==$today ){
+                                $array_comings["$key"] = 0;                     
+                            }                   
+                        }
+                        $temp_coming= json_encode($array_comings);
+                        $value->coming_date = $temp_coming;
+                        $articlesTable->save($value);
+                        
+                 }
+
+            }
+         }
     }
     
     

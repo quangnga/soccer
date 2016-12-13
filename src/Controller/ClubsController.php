@@ -159,6 +159,22 @@ class ClubsController extends AppController
                 $articlesTable->save($value);
                 
             }
+            $this->loadModel('Users');
+            $datacc = $this->Users->find('all', [
+                    'conditions'=>['Users.Club_id '=>$id]
+                ]);  
+                         
+                foreach($datacc as $data){
+                    $articlesTable = TableRegistry::get('Users');
+                    
+                    $data = $articlesTable->get($data['id']); 
+                    $data->reset_everyday = strtotime($this->request->data['time_reset']['hour'].':'.$this->request->data['time_reset']['minute']);
+                    $data->time_reset_evr = date('Y-m-d');
+                    
+                    
+                    $articlesTable->save($data);
+                }
+            
             
             
             if ($this->Clubs->save($club)) {
@@ -826,7 +842,7 @@ class ClubsController extends AppController
                  
                 $articlesTable = TableRegistry::get('Clubs');        
                 $value = $articlesTable->get($data_id);
-                $value->date_reset_count = date("Y-m-d H:i:s a");
+                $value->date_reset_count = date("Y-m-d H:i:s");
                 $articlesTable->save($value);  
                 $this->Flash->success('Added successfully.');
                 $this->redirect('/Clubs/trainingCounts/'.$data_id);
