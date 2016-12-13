@@ -53,7 +53,7 @@ class ClubsController extends AppController
             $this->Auth->allow();
             
         }else if($this->isAuthorizedAdmin()==2){
-            $this->Auth->allow(['view','index','logout','detail','edit','advanced','unlock','active','trainingCounts','reports','reportsAdd','reportsView']);
+            $this->Auth->allow(['view','index','logout','detail','edit','advanced','unlock','active','reportsDelete','resetCountComing','trainingCounts','reports','reportsAdd','reportsView']);
             
         }
         else{

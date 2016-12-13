@@ -17,10 +17,11 @@
     }
     .fix-goal{
         text-align: right;
-        margin-right: 20px;
+        margin-right: 15px;
     }
     .fix-tit-goal{
         text-align: center;
+        padding: 0;
     }
 </style>
 <div class="page-title">
