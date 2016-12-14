@@ -39,6 +39,7 @@
                                 
                         ?>
                                 <tr>
+                                    
                                     <td><?= h($user->first_name) ?><?= h($user->last_name) ?></td>
                                     
                                     <td><?= h($user->club->club_name) ?></td>
@@ -53,13 +54,17 @@
                                             <a href="<?php echo $this->Url->build(["controller" => "Users", "action" => "View", $user->id]) ?>">
                                                 <button type="button" class="btn btn-success"> View <i class="fa fa-search"></i></button>
                                             </a>
-                                            <a href="<?php echo $this->Url->build(["controller" => "Users", "action" => "pay", $user->id]) ?>">
-                                                <button type="button" class="btn btn-danger"> Paid <i class="fa fa-search"></i></button>
-                                            </a>
+                                           
                                 <?php
                                     }
                                 ?>
-                                
+                                <?php
+                                    if ($is_admin > 0) {
+                                 ?>
+                                            <a href="<?php echo $this->Url->build(["controller" => "Users", "action" => "pay", $user->id]) ?>">
+                                                <button type="button" class="btn btn-danger"> Paid <i class="fa fa-search"></i></button>
+                                            </a>
+                                 <?php }?>
                                 
                                 <?php
                                     if ($is_admin == 1||$user->id == $id) {

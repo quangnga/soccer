@@ -56,6 +56,25 @@
                                                 <?php 
                                                     $today = strtolower(date("l")); //var_dump($club[$today]);exit; 
                                                 ?>
+                                                
+        
+                                                
+                                                    
+                                                <a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "View", $club->id]) ?>">
+                                                    <button type="button" class="btn btn-primary btn-res">View <i class="fa fa-search"></i></button>
+                                                </a>
+                                                 <!--<a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "advanced", $club->id]) ?>">
+                                                    <button type="button" class="btn btn-brown btn-res">Advanced <i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+                                                </a>-->
+                                                <?php
+                                                if ($is_admin == 1||$is_admin == 2) {
+                                                ?>
+                                                <a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "Edit", $club->id]) ?>">
+                                                    <button type="button" class="btn btn-orange btn-res">Edit <i class="fa fa-pencil"></i></button>
+                                                </a>
+                                                <a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "trainingCounts", $club->id]) ?>">
+                                                        <button type="button" class="btn btn-info btn-res">Counts Training <i class="fa fa-calendar-check-o" aria-hidden="true"></i></button>
+                                                </a>
                                                 <?php if($club[$today] == 1){?>
                                                 <a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "detail", $club->id]) ?>">
                                                         <button type="button" class="btn btn-success btn-res">Detail <i class="fa fa-info-circle" aria-hidden="true"></i></i></button>
@@ -66,24 +85,6 @@
                                                         <button type="button" class="btn btn-success btn-res">Detail <i class="fa fa-info-circle" aria-hidden="true"></i></i></button>
                                                 </a>
                                                 <?php }?> 
-        
-                                                
-                                                    
-                                                <a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "View", $club->id]) ?>">
-                                                    <button type="button" class="btn btn-primary btn-res">View <i class="fa fa-search"></i></button>
-                                                </a>
-                                                 <a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "advanced", $club->id]) ?>">
-                                                    <button type="button" class="btn btn-brown btn-res">Advanced <i class="fa fa-plus-circle" aria-hidden="true"></i></button>
-                                                </a>
-                                                <?php
-                                                if ($is_admin == 1||$is_admin == 2) {
-                                                ?>
-                                                <a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "Edit", $club->id]) ?>">
-                                                    <button type="button" class="btn btn-orange btn-res">Edit <i class="fa fa-pencil"></i></button>
-                                                </a>
-                                                <a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "trainingCounts", $club->id]) ?>">
-                                                        <button type="button" class="btn btn-info btn-res">Counts Training <i class="fa fa-calendar-check-o" aria-hidden="true"></i></button>
-                                                </a>
                                                 <?php
                                                 }
                                                 ?>

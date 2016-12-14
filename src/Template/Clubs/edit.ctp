@@ -70,6 +70,7 @@
                             <?php echo $this->Form->input('training_time', array('type' => 'time','class' => 'form-control', 'placeholder' => 'Enter number of users', 'label' => ' Training time *')); ?>
                         </div>
                     </div>
+                    <!--
                     <div  class="form-group col-md-6">
                         <div class="form-group">
                             <?php echo $this->Form->input('start_date', array('type' => 'date','class' => 'form-control', 'placeholder' => 'Enter start day', 'label' => ' Start day *')); ?>
@@ -79,7 +80,7 @@
                         <div class="form-group">
                             <?php echo $this->Form->input('end_date', array('type' => 'date','class' => 'form-control', 'placeholder' => 'Enter end day', 'label' => ' End day *')); ?>
                         </div>
-                    </div>
+                    </div>-->
                     <div  class="form-group col-md-6">
                         <div class="form-group">
                             <?php echo $this->Form->input('number_of_users', array('type' => 'number','class' => 'form-control', 'placeholder' => 'Enter number of users', 'label' => ' Number of users *')); ?>

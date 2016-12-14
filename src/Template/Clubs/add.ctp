@@ -60,6 +60,7 @@
                                 <?php echo $this->Form->input('club_name', array('class' => 'form-control', 'placeholder' => 'Enter First club name', 'maxlength' => '45', 'label' => ' Club Name *')); ?>
                             </div>
                         </div>
+                        <!--
                         <div  class="form-group col-md-12">
                             <div class="form-group">
                                 <?php echo $this->Form->input('start_date', array('type' => 'date','class' => 'form-control', 'placeholder' => 'Enter start day', 'label' => ' Start day *')); ?>
@@ -69,7 +70,7 @@
                             <div class="form-group">
                                 <?php echo $this->Form->input('end_date', array('type' => 'date','class' => 'form-control', 'placeholder' => 'Enter end day', 'label' => ' End day *')); ?>
                             </div>
-                        </div>
+                        </div>-->
                         <div  class="form-group col-md-12">
                             <div class="form-group">
                                 <?php echo $this->Form->input('training_time', array('type' => 'time','class' => 'form-control', 'placeholder' => 'Enter number of users', 'label' => ' Training time *')); ?>

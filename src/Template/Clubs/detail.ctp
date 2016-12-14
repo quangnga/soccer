@@ -304,15 +304,15 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
               <tr>
               
                 <td scope="row" data-label="<?= __('Order') ?>"> <?= h($key+1)?> </td>
-                <td data-label = "<?= __('Full name') ?>"> <?= h($users['first_name'])  ?> <?= h($users['last_name'])  ?></td>
+                <td data-label = "<?= __('Full name') ?>"> <strong style="font-size: 1.5em;"><?= h($users['first_name'])  ?> <?= h($users['last_name'])  ?></strong></td>
                             
                 <td></td>
                         
                 <?php
                     if(empty($users['التعليق'])){
                 ?>
-                <td data-label = "<?= __('Comments') ?>" style="color: #ccc;">
-                    <?= h(__('...لا يوجد تعليق'))  ?>
+                <td data-label = "<?= __('Comments') ?>" >
+                    <span style="color: #ccc;"><?= h(__('...لا يوجد تعليق'))  ?></span>
                     
                 </td>
                 <?php
@@ -356,7 +356,7 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
             <?php } ?> 
             
             <!-- section for waiting players-->
-             <tr> 
+             <tr style="border-bottom: 1px solid #16a085;"> 
                 
                 <td colspan='2'><h4 style="color: #cf850f;">الإحتياط</h4> </td>
                 <td  class="de-res"></td>
@@ -383,7 +383,7 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                         <td data-label = "<?= __('Order') ?>"> <?= h($total+ $num +1 )?> </td>
                     <?php }?>
                     
-                    <td data-label = "<?= __('Full name') ?>"> <?= h($users['first_name'])  ?> <?= h($users['last_name'])  ?></td>
+                    <td data-label = "<?= __('Full name') ?>"> <strong style="font-size: 1.5em;"><?= h($users['first_name'])  ?> <?= h($users['last_name'])  ?></strong></td>
                     
                     <td></td>
                     
@@ -391,8 +391,8 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                     <?php
                         if(empty($users['comment'])){
                     ?>
-                    <td data-label = "<?= __('Comments') ?>" style="color: #ccc;">
-                        <?= h(__('...No comment'))  ?>
+                    <td data-label = "<?= __('Comments') ?>">
+                        <span style="color: #ccc;"><?= h(__('...لا يوجد تعليق'))  ?></span>
                         
                     </td>
                     <?php
@@ -424,19 +424,37 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                 </tbody>
                 
                 <!--  session users...-->
+                
+                <tbody>
                 <?php
                 foreach ($club->users as $users ){
                 
                     
                 if($users['id']==$id){
                 ?>
+                <tr style="background:#ecf0f1 ; height: 30px; border-bottom: 1px solid #16a085; border-top: 1px solid #16a085; border-right: 3px double #ecf0f1; border-left: 3px  double #ecf0f1">
+                    <td> </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    
+                    
+                    <td colspan='7' style="text-align: center;"><h4 style="font-weight: bold;">Your details</h4> </td>
+                    
+                    
+                </tr>
                 <tr >
                     <?php if(!empty($is_admin)){?>
                     <td></td>
                     <?php }else{?>
                     
                     <?php }?>
-                    <td data-label = "<?= __('Fullname') ?>"> <?= h($users->first_name)  ?> <?= h($users->last_name)  ?></td>
+                    <td data-label = "<?= __('Fullname') ?>"> <strong style="font-size: 1.5em;"><?= h($users->first_name)  ?> <?= h($users->last_name)  ?></strong> </td>
   
                         <?= $this->Form->create($users) ?>
                            

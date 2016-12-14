@@ -145,15 +145,15 @@ class ClubsController extends AppController
             $data = $this->Clubs->find('all', [
                 'conditions'=>['Clubs.id '=>$club->id]
             ]);
-            $date_temp1 = $this->request->data['start_date'];
-            $start_day = $date_temp1['year'].'-'.$date_temp1['month'].'-'.$date_temp1['day'];    
-            $date_temp2 = $this->request->data['end_date'];
-            $end_day = $date_temp2['year'].'-'.$date_temp2['month'].'-'.$date_temp2['day'];           
+            //$date_temp1 = $this->request->data['start_date'];
+            //$start_day = $date_temp1['year'].'-'.$date_temp1['month'].'-'.$date_temp1['day'];    
+            //$date_temp2 = $this->request->data['end_date'];
+            //$end_day = $date_temp2['year'].'-'.$date_temp2['month'].'-'.$date_temp2['day'];           
             foreach($data as $value){
                 $articlesTable = TableRegistry::get('Clubs');
                 $value = $articlesTable->get($value['id']); 
-                $value->start_date =$start_day;                
-                $value->end_date = $end_day;
+                //$value->start_date =$start_day;                
+                //$value->end_date = $end_day;
                 $value->number_of_users = (int)$this->request->data['number_of_users'];
                 $value->number_of_playing = (int)$this->request->data['number_of_playing'];
                 $articlesTable->save($value);
