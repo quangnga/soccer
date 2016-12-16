@@ -239,6 +239,7 @@ $this->layout = false;
 			
 
 			<div class="row">
+                <div class="col-md-2"></div>
 				<div class="col-md-8">
 					<form class="row" method="post" action="users/register">
 						<div class="form-group col-md-6">
@@ -264,28 +265,36 @@ $this->layout = false;
 						</div>
 					</form>
 				</div>
-				<div class="col-md-3 col-md-offset-1">
-					<address>
-						<span>تفضل لمراسلتنا</span>
-						<p>
-							في حال لديك مشكلة أو إقتراح نسعد بمراسلتنا من خلال الإيميل او رقم الجوال الظاهر
-أو من خلال الصندوق
-						</p>
-					</address>
-					<address>
-						<span>Email</span>
-						<p>majed05400@gmail.com</p>
-					</address>
-					<address>
-						<span>Phone</span>
-						<p><a href="tel:0459909544">Click Here To Call Support 0459909544</a></p>
-					</address>
-				</div>
+                <div class="col-md-2"></div>
+				
 			</div>
+            
 		</div>
         
           
 	</section>
+    <section class="home-call">
+                
+    		<address class="home-title">
+    			<span>تفضل لمراسلتنا</span>
+    			<p>
+    				في حال لديك مشكلة أو إقتراح نسعد بمراسلتنا من خلال الإيميل او رقم الجوال الظاهر
+    أو من خلال الصندوق
+    			</p>
+    		</address>
+            <div class="home-center">
+                <address class="home-email">
+    				<span>Email</span>
+    				<p>majed05400@gmail.com</p>
+    			</address>
+    			<address class="home-phone">
+    				<span>Phone</span>
+    				<p><a href="tel:0459909544">Click Here To Call Support 0459909544</a></p>
+    			</address>
+            </div>
+    		
+    
+    </section>
 	<!-- Contact section end -->
 	<!-- Footer start -->
 	<footer>

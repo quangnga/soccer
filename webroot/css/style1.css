@@ -62,16 +62,31 @@ p{
 }
 
 address{
-	margin-bottom: 50px;
+	
 }
-
+.home-title{
+    margin-bottom: 20px;
+    text-align: center;
+}
+.home-email{
+    
+}
+.home-center{
+    text-align: center;
+}
 address span{
 	margin-top:0;
 	margin-bottom: 25px;
 	font-size: 20px;
 	display: block;
 }
-
+.home-call {
+    padding-top:20px;
+    background: #f1f4f7;
+}
+#contact{
+    padding: 40px 0;
+}
 a{
 	color: #fa694e;
 }
