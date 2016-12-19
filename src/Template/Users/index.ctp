@@ -61,7 +61,7 @@
                                 <?php
                                     if ($is_admin > 0) {
                                  ?>
-                                            <a href="<?php echo $this->Url->build(["controller" => "Users", "action" => "pay", $user->id]) ?>">
+                                            <a href="<?php echo $this->Url->build(["controller" => "Payments", "action" => "index"]) ?>">
                                                 <button type="button" class="btn btn-danger"> Paid <i class="fa fa-search"></i></button>
                                             </a>
                                  <?php }?>
