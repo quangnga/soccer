@@ -254,7 +254,7 @@ if($is_admin == 1||$is_admin == 2)
 {
 ?>
 
-<!--
+
 <div class="col-lg-4 col-md-6">
     <div class="classWithPad">
         <div class="circle-tile animated fadeIn">
@@ -276,7 +276,7 @@ if($is_admin == 1||$is_admin == 2)
         </div>
     </div>
 </div>
--->
+
 <div class="col-lg-4 col-md-6">
     <div class="classWithPad">
         <div class="circle-tile animated fadeIn">
