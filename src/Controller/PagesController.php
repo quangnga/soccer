@@ -45,6 +45,16 @@ class PagesController extends AppController
      *   be found or \Cake\View\Exception\MissingTemplateException in debug mode.
      */
      
+     public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        // Allow users to register and logout.
+        // You should not add the "login" action to allow list. Doing so would
+        // cause problems with normal functioning of AuthComponent.
+        
+            $this->Auth->allow();
+    }
+     
      
     public function display()
     {
@@ -160,6 +170,36 @@ class PagesController extends AppController
         
 
        
+    }
+    public function addsms(){
+        //
+        $this->loadModel('ContactForms');
+        if($this->request->is('post')){
+            //var_dump(111);exit;
+            $user = $this->ContactForms->newEntity();
+            if($this->request->data['phone_number']==''and $this->request->data['email']=='' ){
+                 echo "<script>alert('Please enter a phone number or email.');
+                  </script>"; 
+                //$this->Flash->error(__('Please enter a phone number or email'));
+                 //return $this->redirect("/");
+            }else {
+                $user = $this->ContactForms->patchEntity($user, $this->request->data);
+                if ($this->ContactForms->save($user)) {
+                    echo "<script>alert('Contact form submitted!');
+                 </script>";
+                 exit;
+                    //$this->Flash->success(__('Contact form submitted!.'));
+                    //return $this->redirect("/");
+                } else {
+                    echo "<script>alert('The contact form could not be submitted. Please, try again.');
+                    
+                    </script>";
+                    // return $this->redirect("/");
+                    //$this->Flash->error(__('The contact form could not be submitted. Please, try again.'));
+                }
+            }
+            return $this->redirect("/");
+        }
     }
     
    

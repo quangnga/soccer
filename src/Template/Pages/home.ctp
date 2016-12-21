@@ -241,24 +241,24 @@ $this->layout = false;
 			<div class="row">
                 <div class="col-md-2"></div>
 				<div class="col-md-8">
-					<form class="row" method="post" action="users/register">
+					<form class="row" method="post" action="Pages/addsms">
 						<div class="form-group col-md-6">
-                            <input id="fname" name="name" type="text" placeholder="First Name" class="form-control">
+                            <input id="fname" name="first_name" type="text" placeholder="First Name" class="form-control">
                             						</div>
                             <div class="form-group col-md-6">
-                            <input id="lname" name="name" type="text" placeholder="Last Name" class="form-control">
+                            <input id="lname" name="last_name" type="text" placeholder="Last Name" class="form-control">
                             </div>
                             						<div class="form-group col-md-6">
-                            <input id="email" name="email" type="text" placeholder="Email Address" class="form-control">
+                            <input id="email" required='true' name="email" type="text" placeholder="Email Address" class="form-control">
                             						</div>
                             <div class="form-group col-md-6">
-                            <input id="phone" name="phone" type="text" placeholder="Phone" class="form-control">
+                            <input id="phone" required='true' name="phone_number" type="text" placeholder="Phone" class="form-control">
                             </div>
                             						<div class="form-group col-md-12">
                             <input id="subject" name="subject" type="text" placeholder="Subject" class="form-control">
                             						</div>
                             						<div class="form-group col-md-12">
-                            <textarea class="form-control" id="message" name="message" placeholder="Enter your message here" rows="7"></textarea>
+                            <textarea required='true' class="form-control" id="message" name="content" placeholder="Enter your message here" rows="7"></textarea>
                             						</div>
                             						<div class="form-group sub-res col-md-12">
                             <button type="submit" class="btn btn-primary btn-lg">Submit</button>
