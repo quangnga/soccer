@@ -247,6 +247,30 @@
         </div>
     </div>
 </div>
+<div class="col-lg-4 col-md-6">
+    <div class="classWithPad">
+        <div class="circle-tile animated fadeIn">
+            <a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "best_player",$clubByuser=>$club_id])?>">
+                <div class="circle-tile-heading red">
+                    <i class="fa fa-flag fa-fw fa-3x animated zoomIn" aria-hidden="true"></i>
+                </div>
+            </a>
+            
+            <a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "best_player",$clubByuser=>$club_id])?>">
+            <div class="circle-tile-content red">
+                <div class="circle-tile-description text-faded">
+                    <i class="fa fa-long-arrow-right animated slideInLeft"></i>   <i class="fa fa-long-arrow-left animated slideInRight"></i>
+                </div>
+                <div class="circle-tile-number text-faded">
+                    Best Players
+                    <span id="sparklineC"></span>
+                </div>
+                <br>
+            </div>
+            </a>
+        </div>
+    </div>
+</div>
 
 
 <?php

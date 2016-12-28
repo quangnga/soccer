@@ -53,11 +53,11 @@ class ClubsController extends AppController
             $this->Auth->allow();
             
         }else if($this->isAuthorizedAdmin()==2){
-            $this->Auth->allow(['view','index','logout','detail','edit','advanced','unlock','active','reportsDelete','resetCountComing','trainingCounts','reports','reportsAdd','reportsView']);
+            $this->Auth->allow(['view','index','logout','detail','edit','advanced','unlock','active','reportsDelete','resetCountComing','trainingCounts','reports','reportsAdd','reportsView','resetVote','bestPlayer']);
             
         }
         else{
-            $this->Auth->allow(['index','logout','detail','view','advanced','reports','reportsView']);
+            $this->Auth->allow(['index','logout','detail','view','advanced','reports','reportsView','bestPlayer']);
         }
         
         
@@ -809,9 +809,32 @@ class ClubsController extends AppController
         }
      }
      public function reportsView($id){
+        //var_dump($id);exit;
         $this->loadModel('Comments');
-        $data_view = $this->Comments->find('all',['conditions'=>['Comments.id'=>$id]]); 
+        $this->loadModel('Users');
+        $this->loadModel('Players');
+        $data_view = $this->Comments->find('all',['conditions'=>['Comments.id'=>$id]]);
+        foreach ($data_view as $key => $value) {
+            $id_club = $value['club_id'];
+
+        }
+        $db_player = $this->Users->find('all',['conditions'=>['Users.club_id'=>$id_club,'Users.block'=>'0','Users.status'=>'1'],'fields'=>['first_name', 'last_name','id','vote_number']]);
+        //var_dump($db_player);exit;
         $this->set('data_view',$data_view);
+        $this->set('db_player',$db_player);
+        //do code vote best player
+        if($this->request->is('post')){
+            //var_dump($this->request->data['vote']);exit;
+            $user_id = $this->request->data['vote'];
+            $articlesTable = TableRegistry::get('Users');
+            $data = $articlesTable->get($user_id);
+            $count = 'count_vote'.$user_id;
+            $data->vote_number = $this->request->data[$count]+1;
+            $data->vote_reset = date('Y-m-d H:i:s');
+            $articlesTable->save($data);
+            $this->Flash->success('Vote successfully.');
+        }
+
      }
      public function reportsDelete($id = null)
     {
@@ -850,6 +873,45 @@ class ClubsController extends AppController
             
            
         }
+    public function resetVote(){
+        $this->loadModel('Users');
+        $this->loadModel('Clubs');
+            $data_id = $this->request->data['id_club'];
+            if($this->request->is('post')){
+                $users = $this->Users->find('all',['fields'=>['id','vote_number','club_id'],'conditions'=>['Users.club_id'=>$data_id]]);
+                 foreach($users as $value){
+                    //debug($value);exit;
+                    $articlesTable = TableRegistry::get('Users');        
+                     $value = $articlesTable->get($value['id']);
+                     $value->vote_number = 0;
+                     $articlesTable->save($value);
+                 }
+                 
+                $articlesTable = TableRegistry::get('Clubs');        
+                $value = $articlesTable->get($data_id);
+                $value->vote_reset = date("Y-m-d H:i:s");
+                $articlesTable->save($value);  
+                $this->Flash->success('Reset successfully.');
+                $this->redirect('/Clubs/best-player/'.$data_id);
+            }
+            
+           
+        }
+    public function bestPlayer($id){
+        $id_club = $id;
+        $this->loadModel('Users');
+        $this->paginate = [
+        'conditions'=>[ 'Users.club_id'=>$id_club,'Users.status'=>1,'Users.block'=>0],        
+        'order'=>['vote_number' => 'DESC'],
+        'limit'=>10,
+        'fields'=>['first_name','last_name','vote_number','id']
+        ];
+        $data_rest = $this->Clubs->find('all',['conditions'=>['Clubs.id'=>$id_club],'fields'=>['vote_reset']]);
+        $data_users = $this->paginate($this->Users);
+        $this->set('data_users',$data_users);
+        $this->set('data_rest',$data_rest);
+        $this->set('id_club',$id_club);
+    }
     
         
         

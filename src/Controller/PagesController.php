@@ -167,7 +167,7 @@ class PagesController extends AppController
             
         }
         
-        
+
 
        
     }
@@ -180,20 +180,22 @@ class PagesController extends AppController
             if($this->request->data['phone_number']==''and $this->request->data['email']=='' ){
                  echo "<script>alert('Please enter a phone number or email.');
                   </script>"; 
+                
                 //$this->Flash->error(__('Please enter a phone number or email'));
                  //return $this->redirect("/");
             }else {
                 $user = $this->ContactForms->patchEntity($user, $this->request->data);
                 if ($this->ContactForms->save($user)) {
-                    echo "<script>alert('Contact form submitted!');
-                 </script>";
-                 exit;
+                    echo "<script> alert('Contact form submitted!');
+                        window.location.assign(''); 
+                        
+                    </script>"; 
                     //$this->Flash->success(__('Contact form submitted!.'));
-                    //return $this->redirect("/");
+
                 } else {
-                    echo "<script>alert('The contact form could not be submitted. Please, try again.');
-                    
+                    echo "<script>alert('The contact form could not be submitted. Please, try again.');       
                     </script>";
+                
                     // return $this->redirect("/");
                     //$this->Flash->error(__('The contact form could not be submitted. Please, try again.'));
                 }

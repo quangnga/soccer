@@ -32,13 +32,13 @@ class UsersController extends AppController
                 $this->Auth->allow();
                 
             }else if($this->isAuthorizedAdmin()==2){
-                $this->Auth->allow(['view','index','logout','edit','index','getclubs','pay','getregions','logout','edit','view','resetPassword','unlock','register','forgotpassword','login','resetPasswordSent','changePassword','sendCodeActive']);
+                $this->Auth->allow(['view','index','logout','edit','index','getclubs','pay','getregions','logout','edit','view','resetPassword','unlock','register','forgotpassword','login','resetPasswordSent','changePassword','sendCodeActive','getinforclubs']);
                 
             }
             else{
-                $this->Auth->allow(['index','getclubs','getregions','logout','login','edit','view','resetPassword','register','forgotpassword','resetPasswordSent','changePassword','sendCodeActive']);
+                $this->Auth->allow(['index','getclubs','getregions','logout','login','edit','view','resetPassword','register','forgotpassword','resetPasswordSent','changePassword','sendCodeActive','getinforclubs']);
             }
-            $this->Auth->allow(['register','forgotpassword','resetPasswordSent']);
+            $this->Auth->allow(['register','forgotpassword','resetPasswordSent','getinforclubs']);
             
     
             
@@ -445,7 +445,7 @@ class UsersController extends AppController
             $this->loadModel('Cities');
             $region_id = $this->request->data['region_id'];
  
-            $clubs = $this->Clubs->find('all',['conditions'=>['Clubs.region_id'=>$region_id]]);
+            $clubs = $this->Clubs->find('all',['conditions'=>['Clubs.region_id'=>$region_id],'fields'=>['id','club_name']]);
             $results = array();
             
             
@@ -466,13 +466,38 @@ class UsersController extends AppController
             echo json_encode($html);exit;
         }
     }
+    public function getinforclubs(){
+
+       // if ($this->request->is('post')){
+            $this->loadModel('Clubs');
+            //$club_id = 3;
+            $club_id = $this->request->data['club_id'];
+            $clubs = $this->Clubs->getDatawhere($club_id,'Clubs','id');
+            //$ouput = array();
+            // $rel=array();
+            // foreach ($clubs as $key => $value) {
+            //     $rel[]=array(
+            //             'id'=>$value['id'],
+            //             'add'=>$value['address'],
+            //             'phone1'=>$value['phone1'],
+            //             'phone2'=>$value['phone2'],
+
+            //         );
+                
+            // }
+            
+            echo json_encode($clubs); 
+            die;
+            //$results = array();
+      //  }
+       // echo 'dfdf';
+      //  exit;
+    }
     
     
     public function register()
     {  
-        
-         
-            
+
         if(empty($user=$this->Auth->user())){
             
             $user = $this->Users->newEntity();

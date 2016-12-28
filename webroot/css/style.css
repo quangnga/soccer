@@ -2127,3 +2127,55 @@ input[type="checkbox"]:checked::after,
     }
     
 }
+
+#show_info {
+    margin: 0;
+    margin-bottom: 15px;
+}
+.reg-subtitle{
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+.reg-title{
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+.back_rp{
+    border-bottom: 1px solid #999;
+}
+.vote_btn{
+    background: #79b949;
+    color: #fff;
+    font-weight: bold;
+    font-size: 15px;
+    padding: 5px 10px;
+    margin-top: 15px;
+
+
+}
+.vote_btn:hover .vote_btn:focus {
+    color: #fff!important;
+}
+.list_player{
+    margin-right: 20px;
+    color: #34495e;
+    font-size: 18px;
+    font-weight: 600;
+    padding-right: 10px;
+
+}
+.vote h3{
+    text-align: center;
+    color: #34495e;
+    margin-bottom: 35px;
+}
+.vote input[type="radio"]{
+    border: 1px solid #34495e!important;
+}
+.vote input[type="radio"]:checked::after{
+    background: #79b949!important;
+    width: 15px!important;
+    height: 15px!important;
+    top:-1px!important;
+    left: 1px!important;
+}

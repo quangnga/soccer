@@ -28,7 +28,7 @@
         </div>
         <div id="basicFormExample" class="panel-collapse collapse in">
             <div class="portlet-body">
-            <?= $this->Form->create($user) ?>
+           
                 <fieldset style="border:0px; ">
                 
                     <div class=" row form-group "  align="center">
@@ -36,22 +36,11 @@
                             * Indicates required field
                         </div>
                     </div>
-                        <div class="box-ajax" style="border-bottom: 2px solid #dcdcdc; margin-bottom:5px;">
-                            <div  class="form-group row" style="margin-top: 30px;" >
-                                
-                                
-                                <div class="showhide1">  
-                    
-                                    <div class="form-group col-md-6">
-                                            
-                                            <div class="form-group showregion " style="margin-bottom: 10px!important;">
-                                                
-                                            </div>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
+                        <div class="box-ajax" style="border-bottom: 2px solid #dcdcdc;">
+                            <div  class="row" style="margin-bottom: 0;" >   
+                                <div class="form-group col-md-12">
                                     <label>City</label>
-                                    <select name="" onchange="getregion($(this))" class="showcity form-group col-md-9">
+                                    <select name="" onchange="getregion($(this))" class="showcity form-group ">
                                         <option value="0">---select city---</option>
                                         <?php foreach($cities as $city){ ?>
                                             
@@ -59,20 +48,36 @@
                                         <?php } ?>
                                     </select>
                                 </div>
+                                <div class="error1">waiting...</div>
+                                <div class="showhide1 form-group col-md-12">  
+                                            
+                                    <div class="form-group showregion " style="margin-bottom: 10px!important;">
+                                        
+                                    </div>
+                                   
+                                </div>
                                 
                                 
                                 
                             </div>
                             <?= $this->Form->create($user) ?>
+                            <div class="row error2">
+                                    waiting...
+                            </div>
                             <div class="showhide2 row">
-                                <div class="col-md-3"></div>
+                                
+                               <div class="col-md-6"></div>
                                 <div class="col-md-6">
                                     
                                     <div class="form-group showclub ">
                                         
                                     </div>
                                 </div>
-                                <div class="col-md-3"></div>
+                                
+                            </div>
+                            <div class="row error3">waiting...</div>
+                            <div class="row" id="show_info">
+                                
                             </div>
                         </div>
                          
@@ -83,6 +88,7 @@
                 
                 
                 <div class="showhide3">
+                    
                     <div class="row">
                         <div class="form-group  col-md-6">
                             <div class="form-group">
@@ -160,6 +166,13 @@
 .showhide, .showhide2,.showhide3{
     display: none;
 }
+.error1,.error2,.error3{
+    display: none;
+    color: red;
+    margin-right: 15px;
+    font-style: italic;
+
+}
 
 </style>
 <script type="text/javascript">
@@ -167,13 +180,16 @@ function getregion(o){
     var city = o.val();
     
     $(".test ").css('display','none');
+    
         
     if(city == 0){
         
         $(".showhide1 ").css('display','none');
-        
+        $(".error1 ").css('display','none');
         $(".showregion").html('');
+        $('#show_info').css('display','none');
     }else{
+        $(".error1 ").css('display','block');
         $.ajax({
             url:'<?php echo $this->Url->build(["controller" => "Users", "action" => "getregions", ""]);?>',
             data: {city_id: city},
@@ -181,23 +197,26 @@ function getregion(o){
             dataType:'json',
             
             success: function(data){
+                $(".error1 ").css('display','none');
                 $(".showregion").html(data);
-                
+                $(".showhide1").css('display','block');
+                $(".test ").css('display','block');
                 
             }
         });
-        $(".showhide1").css('display','block');
-        $(".test ").css('display','block');
+        
        
     }
 }
 function getclub(o){
     var region = o.val();
+    
    if(region == 0){
-        
+        $('#show_info').css('display','none');
         $(".showclub").html('');
+        $(".error2 ").css('display','none');
     }else{
-        
+        $(".error2 ").css('display','block');
         $.ajax({
             url:'<?php echo $this->Url->build(["controller" => "Users", "action" => "getclubs", ""]);?>',
             data: { region_id: region},
@@ -205,15 +224,77 @@ function getclub(o){
             dataType:'json',
             success: function(data){
                 $(".showclub").html(data);
+                $(".error2 ").css('display','none');
+                $(".showhide2").css('display','block');
                 
             }
         });
-        $(".showhide2").css('display','block');
+        
         
    }    
 }
 function showinput(o){
-    $(".showhide3").css('display','block');
+   
+    var info = o.val();
+
+    if(info==0){
+        $("#show_info").html('');
+        $(".showhide3").css('display','none');
+        $(".error3 ").css('display','none');
+        $('#show_info').css('display','none');
+
+    }else{
+        $(".error3 ").css('display','block');
+        $.ajax({
+            url :'<?php echo $this->Url->build(["controller" => "Users", "action" => "getinforclubs"]);?>',
+            type: 'post',
+            data: {"club_id": info},
+            dataType: 'json',
+            success: function(data){
+                var html='';
+                //console.log(data);
+                $.each(data, function( key, values ){
+                   
+                   html+='<div class="row">';
+                        html+='<div class="col-md-7 reg-title">';
+                             html+= values.phone1;
+                        html+='</div>'; 
+                        html+='<div class="col-md-5 reg-subtitle">';
+                             html+='Club phone 1 number:';
+                        html+='</div>';
+                             
+                   html+='</div>';
+                   html+='<div class="row">';
+                        html+='<div class="col-md-7 reg-title">';
+                             html+= values.phone2;
+                        html+='</div>';
+                        html+='<div class="col-md-5 reg-subtitle">';
+                             html+='Club phone 2 number:';
+                        html+='</div>';
+                              
+                   html+='</div>';
+                   html+='<div class="row">';
+                        html+='<div class="col-md-7 reg-title">';
+                             html+= values.address;
+                        html+='</div>'; 
+                        html+='<div class="col-md-5 reg-subtitle">';
+                             html+='Club address:';
+                        html+='</div>';
+                             
+                   html+='</div>';
+                });
+                $("#show_info").html(html);
+                $(".showhide3").css('display','block');
+                $(".error3 ").css('display','none');
+            }
+
+        });
+
+        }
+
+        
+    
+    
 }
     
 </script>

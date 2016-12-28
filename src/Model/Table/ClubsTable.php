@@ -65,6 +65,10 @@ class ClubsTable extends Table
         
         return $validator;
     }
+    public function getDatawhere($condition, $tables,$field)
+    {
+        return $this->find('all', ['conditions'=>[$field=>$condition], 'fields'=>['id','phone1','phone2','address']])->toArray();
+    }
     /**
      * Returns a rules checker object that will be used for validating
      * application integrity.

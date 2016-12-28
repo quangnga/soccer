@@ -43,24 +43,34 @@
                 <div class="row" style="text-align: justify; padding: 20px; font-style: italic; color: #959595;">
                    Date posted :  <?= h($data->created)?>  
                 </div>
-                <div class="row" style="text-align: right; padding: 0px 20px; font-style: italic; ">
+                <div class="row back_rp" style="text-align: right; padding: 0px 20px; font-style: italic; ">
                     <a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "reports"]) ?>">
                         Back 
                     </a>
                 </div>
                 <?php }?>
-                <!--               
-                <div class="paginator">
-                    <ul class="pagination">
-                        <?= $this->Paginator->prev(('previous').' >') ?>
-                        <?= $this->Paginator->numbers() ?>
-                        <?= $this->Paginator->next('< '.__('next') ) ?>
-                    </ul>
-                    <p><?= $this->Paginator->counter() ?></p>
+                <?= $this->Form->create() ?>
+                <div class="vote row">
+                    <h3>Vote for best players of the match</h3>
+                    <?php foreach($db_player as $value){?>
 
+                        <div class="col-md-5 list_player">
+                            <input type="radio" name="vote" value="<?php echo $value['id'];?>"> <?php echo $value['first_name'];?> <?php echo  $value['last_name'];?> <br>
+                            <input type="hidden" name="count_vote<?php echo $value['id']?>" value="<?php echo $value['vote_number'];?>">
+                            
+                        </div>
+                    <?php }?>
+                    
+                </div>
+                <div class="row" align="center">
+        
+                        
+    
+                        <?= $this->Form->button(__('Vote'), array('class' => 'btn vote_btn')) ?>
+                        
 
-                </div>-->
-                
+                </div>
+                <?= $this->Form->end() ?>
                 
             </div>
         </div>
