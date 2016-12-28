@@ -809,7 +809,10 @@ class ClubsController extends AppController
         }
      }
      public function reportsView($id){
+
         //var_dump($id);exit;
+        //
+        $id_user = $this->Auth->user('id');
         $this->loadModel('Comments');
         $this->loadModel('Users');
         $this->loadModel('Players');
@@ -818,23 +821,37 @@ class ClubsController extends AppController
             $id_club = $value['club_id'];
 
         }
-        $db_player = $this->Users->find('all',['conditions'=>['Users.club_id'=>$id_club,'Users.block'=>'0','Users.status'=>'1'],'fields'=>['first_name', 'last_name','id','vote_number']]);
+        $db_player = $this->Users->find('all',['conditions'=>['Users.club_id'=>$id_club,'Users.id !='=>$id_user,'Users.block'=>'0','Users.status'=>'1'],'fields'=>['first_name', 'last_name','id','vote_number','id_like','id_comment']]);
         //var_dump($db_player);exit;
+        $db_like = $this->Users->find('all',['conditions'=>['Users.id'=>$id_user],'fields'=>['id_like','id_comment']]);
         $this->set('data_view',$data_view);
         $this->set('db_player',$db_player);
         //do code vote best player
         if($this->request->is('post')){
-            //var_dump($this->request->data['vote']);exit;
-            $user_id = $this->request->data['vote'];
-            $articlesTable = TableRegistry::get('Users');
-            $data = $articlesTable->get($user_id);
-            $count = 'count_vote'.$user_id;
-            $data->vote_number = $this->request->data[$count]+1;
-            $data->vote_reset = date('Y-m-d H:i:s');
-            $articlesTable->save($data);
-            $this->Flash->success('Vote successfully.');
-        }
+            
+            if(!empty($this->request->data['vote'])){
+                $user_id = $this->request->data['vote'];
+                $articlesTable = TableRegistry::get('Users');
+                $data = $articlesTable->get($user_id);
+                $count = 'count_vote'.$user_id;
+                $data->vote_number = $this->request->data[$count]+1;
+                $data->vote_reset = date('Y-m-d H:i:s');
+                $articlesTable->save($data);
 
+                $articlesTable2 = TableRegistry::get('Users');
+                $data2 = $articlesTable2->get($id_user);
+                $data2->id_like = $user_id;
+                $data2->id_comment = $id;
+                $articlesTable2->save($data2);
+                
+                $this->Flash->success('Vote successfully.');
+            }
+            
+            
+        }
+        $this->set('id_comment',$id);
+        //var_dump($id);exit;
+        $this->set('db_like',$db_like);   
      }
      public function reportsDelete($id = null)
     {

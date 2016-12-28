@@ -53,21 +53,41 @@
                 <div class="vote row">
                     <h3>Vote for best players of the match</h3>
                     <?php foreach($db_player as $value){?>
-
+                        
                         <div class="col-md-5 list_player">
-                            <input type="radio" name="vote" value="<?php echo $value['id'];?>"> <?php echo $value['first_name'];?> <?php echo  $value['last_name'];?> <br>
-                            <input type="hidden" name="count_vote<?php echo $value['id']?>" value="<?php echo $value['vote_number'];?>">
-                            
+                        <?php if(!empty($db_like)){ ?>
+                            <?php foreach($db_like as $db){?>
+                                <?php if($db['id_like']==$value["id"]){ ?>
+                                    <input type="radio" checked="checked" name="vote" value="<?php echo $value['id'];?>"> <?php echo $value['first_name'];?> <?php echo  $value['last_name'];?> <br>
+                                <?php }else{ ?>
+                                    <input type="radio" name="vote" value="<?php echo $value['id'];?>"> <?php echo $value['first_name'];?> <?php echo  $value['last_name'];?> <br>
+                                <?php } ?>
+                                
+                                <input type="hidden" name="count_vote<?php echo $value['id']?>" value="<?php echo $value['vote_number'];?>">
+                            <?php }?>
+                        <?php }else{ ?>
+                          
+                                
+                                    <input type="radio" name="vote" value="<?php echo $value['id'];?>"> <?php echo $value['first_name'];?> <?php echo  $value['last_name'];?> <br>
+                                
+                                
+                                <input type="hidden" name="count_vote<?php echo $value['id']?>" value="<?php echo $value['vote_number'];?>">
+                           
+                        <?php }?>
                         </div>
                     <?php }?>
                     
                 </div>
                 <div class="row" align="center">
-        
-                        
+
+                    <?php foreach($db_like as $dbb){ ?>
+                        <?php if($id_comment == $dbb['id_comment']){?>
     
-                        <?= $this->Form->button(__('Vote'), array('class' => 'btn vote_btn')) ?>
-                        
+                        <?= $this->Form->button(__('Vote'), array('class' => 'btn vote_btn','id'=>'btn_like','type'=>'button')) ?>
+                        <?php }else{?>
+                            <?= $this->Form->button(__('Vote'), array('class' => 'btn vote_btn','id'=>'btn_like','type'=>'submit')) ?>
+                        <?php }?> 
+                    <?php }?> 
 
                 </div>
                 <?= $this->Form->end() ?>
@@ -76,3 +96,7 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+
+
+</script>
