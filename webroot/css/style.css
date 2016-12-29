@@ -2162,7 +2162,21 @@ input[type="checkbox"]:checked::after,
     font-size: 18px;
     font-weight: 600;
     padding-right: 10px;
+    border: 1px solid #9E9E9E;
+    margin-left: 20px;
+    margin-bottom: 10px;
+    border-radius: 50px;
 
+}
+.list_player i{
+    opacity: 0.5;
+}
+.list_player:hover{
+    background: #dcdcdc;
+
+}
+.list_player:hover i{
+    opacity: 1.5;
 }
 .vote h3{
     text-align: center;
