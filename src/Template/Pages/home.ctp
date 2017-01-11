@@ -9,13 +9,13 @@ $this->layout = false;
  * Author URL: http://graphberry.com
  * License: http://graphberry.com/pages/license
 -->
-<html >
+<html lang="ar">
 <head>
    
 
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>كورة تايم Football</title>
+	<title>العب كورة</title>
 
 	<!-- Load fonts -->
 	<link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
@@ -147,30 +147,34 @@ $this->layout = false;
 				</div>
 			</div>
 		</div>
-          
+
 	</section>
 	<!-- Services section end -->
 	<!-- Portfolio section start -->
-	<section id="portfolio"  class="darker">
+	<section id="portfolio"  class="darker" >
             <div class="tt">
-		<div class="transbox col-md-4 col-sm-6">
+		<div class="transbox col-md-auto col-sm-auto">
 			<header>
-                         
-<h3>ألية العمل ببساطة</h3>
-<h5>تسجيل ناديك من خلال مراسلتنا من خلال الضغط على
-<li><a data-scroll href="#contact">إتصل بنا</a></li>
+
+
+
+
+<h2>طريقة التسجيل</h2>
+<p> تستطيع تسجيل ناديك من خلال الضغط على
+<a data-scroll href="#contact">إتصل بنا</a>
 أو من أسفل الصفحة <br>
-نعطيك إسم مستخدم “كمدير” لناديك من خلاله تقدر تتحكم بناديك <br>
-مثل: <br>
+نقوم بإعطائك إسم مستخدم “كمشرف” لناديك من خلاله تستطيع التحكم بناديك <br>
+:مثل <br>
+<ul style="list-style-type:none" >
+<li> قيمة الإشتراك الشهري اللي تبغى تفرضها على اللاعبين </li>
+<li> مواعيد التمرين والأيام التي لا يتواجد فيها تمرين </li>
+<li> إدارة تحضير اللاعبين مين راح يحضر ومن ماراح يحضر للتمرين </li>
+<li> التواصل مع اللاعبين بسهولة تامة, وإبلاغهم بالتوقف وعودة التمارين </li>
+<li> زيادة عدد اللاعبين اذا اردت لاعبين أكثر, ونستطيع إيقاف هذه الخدمة عنك اذا لم ترغب بها </li>
+</ul>
 <br>
-- قيمة الإشتراك الشهري اللي تبغى تفرضها على اللاعبين <br>
-- مواعيد التمرين والأيام التي لا يتواجد فيها تمرين <br>
-- إدارة تحضير اللاعبين (مين راح يحضر ومن ماراح يحضر للتمرين) <br>
-- التواصل مع اللاعبين بسهولة تامة, وإبلاغهم بالتوقف وعودة التمارين <br>
-- زيادة عدد اللاعبين اذا اردت لاعبين أكثر, ونستطيع إيقاف هذه الخدمة عنك اذا لم ترغب بها <br>
-<br>
-كل لاعب يستطيع التسجيل من خلال الضغط على <a href=Users/login>( التسجيل )</a> من هنا أو من القوائم في أعلى الصفحة لتحضير نفسه
-</h5>
+كل لاعب يستطيع التسجيل من خلال الضغط على <a href=Users/register>( التسجيل )</a> من هنا أو من القوائم في أعلى الصفحة لتحضير نفسه
+</p>
 
 			</header>
                     </div>
@@ -179,7 +183,6 @@ $this->layout = false;
 				<figure class="portfolio-item col-md-4 col-sm-6" >
 					<img class="img-responsive" src="img/homepagephotos/1.jpg" alt="Adena icons pack" />
 					<figcaption class="mask">
-						<a href="projects/project-1.html">
 							<i class="glyphicon glyphicon-plus"></i>
 						</a>
 					</figcaption>
@@ -187,7 +190,6 @@ $this->layout = false;
 				<figure class="portfolio-item col-md-4 col-sm-6" >
 					<img class="img-responsive" src="img/homepagephotos/2.jpg" alt="Adena icons pack" />
 					<figcaption class="mask">
-						<a href="projects/project-1.html">
 							<i class="glyphicon glyphicon-plus"></i>
 						</a>
 					</figcaption>
@@ -195,7 +197,6 @@ $this->layout = false;
 				<figure class="portfolio-item col-md-4 col-sm-6" >
 					<img class="img-responsive" src="img/homepagephotos/3.jpg" alt="Adena icons pack" />
 					<figcaption class="mask">
-						<a href="projects/project-1.html">
 							<i class="glyphicon glyphicon-plus"></i>
 						</a>
 					</figcaption>
@@ -211,7 +212,6 @@ $this->layout = false;
 				<figure class="portfolio-item col-md-4 col-sm-6" >
 					<img class="img-responsive" src="img/homepagephotos/5.jpg" alt="Adena icons pack" />
 					<figcaption class="mask">
-						<a href="projects/project-1.html">
 							<i class="glyphicon glyphicon-plus"></i>
 						</a>
 					</figcaption>
@@ -219,7 +219,6 @@ $this->layout = false;
 				<figure class="portfolio-item col-md-4 col-sm-6" >
 					<img class="img-responsive" src="img/homepagephotos/6.jpg" alt="Adena icons pack" />
 					<figcaption class="mask">
-						<a href="projects/project-1.html">
 							<i class="glyphicon glyphicon-plus"></i>
 						</a>
 					</figcaption>
@@ -243,22 +242,22 @@ $this->layout = false;
 				<div class="col-md-8">
 					<form class="row" method="post" action="Pages/addsms">
 						<div class="form-group col-md-6">
-                            <input id="fname" name="first_name" type="text" placeholder="First Name" class="form-control">
+                            <input id="fname" name="first_name" required='true' type="text" placeholder="الأسم الأول" class="form-control">
                             						</div>
                             <div class="form-group col-md-6">
-                            <input id="lname" name="last_name" type="text" placeholder="Last Name" class="form-control">
+                            <input id="lname" name="last_name" required='true' type="text" placeholder="الأسم الأخير" class="form-control">
                             </div>
                             						<div class="form-group col-md-6">
-                            <input id="email" required='true' name="email" type="text" placeholder="Email Address" class="form-control">
+                            <input id="email" required='true' name="email" type="text" placeholder="إيميلك" class="form-control">
                             						</div>
                             <div class="form-group col-md-6">
-                            <input id="phone" required='true' name="phone_number" type="text" placeholder="Phone" class="form-control">
+                            <input id="phone" required='true' name="phone_number" type="text" placeholder="رقم جوالك" class="form-control">
                             </div>
                             						<div class="form-group col-md-12">
-                            <input id="subject" name="subject" type="text" placeholder="Subject" class="form-control">
+                            <input id="subject" name="subject" required='true' type="text" placeholder="الموضوع" class="form-control">
                             						</div>
                             						<div class="form-group col-md-12">
-                            <textarea required='true' class="form-control" id="message" name="content" placeholder="Enter your message here" rows="7"></textarea>
+                            <textarea required='true' class="form-control" id="message" name="content" placeholder="من فضلك, أكتب رسالتك هنا ثم أضغط الزر اسفل" rows="7"></textarea>
                             						</div>
                             						<div class="form-group sub-res col-md-12">
                             <button type="submit" class="btn btn-primary btn-lg">Submit</button>
@@ -285,11 +284,11 @@ $this->layout = false;
             <div class="home-center">
                 <address class="home-email">
     				<span>Email</span>
-    				<p>majed05400@gmail.com</p>
+    				<p>admin@ksa-soccer.com</p>
     			</address>
     			<address class="home-phone">
     				<span>Phone</span>
-    				<p><a href="tel:0459909544">Click Here To Call Support 0459909544</a></p>
+    				<p><a href="tel:0580045546">Click Here To Call Support 0580045546</a></p>
     			</address>
             </div>
     		

@@ -17,16 +17,59 @@ use Cake\Validation\Validator;
 class ContactFormInfoTable extends Table
 {
 
-    public function validationDefault(Validator $validator){
-
-
-
+    public function initialize(array $config)
+    {
+        parent::initialize($config);
+        
+        $this->table('contact_forms');
+        $this->displayField('id');
+        $this->primaryKey('id');
+        $this->addBehavior('Timestamp');
+        
+        
+    }
+    
+    
+    
+    /**
+     * Default validation rules.
+     *
+     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @return \Cake\Validation\Validator
+     */
+    public function validationDefault(Validator $validator)
+    {
+        
         $validator
-            ->add('photo','validValue',[
-            'rule'=>['extension',array('gif','jpeg','jpg','png')],
-            'message'=>'Please enter a valid image file'
-            ]);
+        ->add('id', 'valid', ['rule' => 'numeric'])
+        ->allowEmpty('id', 'create');
+        $validator
+        ->requirePresence('subject', 'create')
+        ->notEmpty('subject','لو سمحت, أدخل موضوع الرسالة');
+        $validator
+        ->requirePresence('content', 'create')
+        ->notEmpty('content','لو سمحت أدخل الرسالة');
+        $validator
+        ->requirePresence('first_name', 'create')
+        ->notEmpty('first_name','لو سمحت أدخل إسمك الأول');
+        
+        $validator
+        ->requirePresence('phone_number', 'create')
+        ->notEmpty('phone_number','لو سمحت أدخل رقم جوالك');
 
         return $validator;
     }
+    public function checkOne($context,$data)
+    {
+        $email=$data['data']['email'];
+        $phone=$data['data']['phone_number'];
+        if (!($email=='') or  !($phone=='')) {
+            debug('true');
+            return true;
+        } else {
+            debug('false');
+            return false;
+        }
+    }
 }
+    

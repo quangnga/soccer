@@ -76,39 +76,67 @@ class UsersTable extends Table
     {
        
   $validator
-             ->integer('id')
+        ->add('id', 'valid', ['rule' => 'numeric'])
               ->allowEmpty('id', 'create');
 
    
   $validator
                 ->requirePresence('first_name', 'create')
-               ->notEmpty('first_name');
-
+               ->notEmpty('first_name','لقد نسيت, إدخال أسمك الأول')
+        ->add('first_name',[
+              
+              
+              'minLength'=>[
+              'rule'=>['minLength',3],
+              'message'=>'إسم العائلة يجب أن يجتوي على أكثر من ٣ أحرف على الأقل'
+              ],
+              'maxLength'=>[
+              'rule'=>['maxLength',40],
+              'message'=>'إسم العائلة غير صحيح الأحرف المستخدمة أكثر من ٤٠ حرف'
+              ]
+              ]);
+        
          $validator
                ->requirePresence('last_name', 'create')
-               ->notEmpty('last_name');
- 
- 
-
+               ->notEmpty('last_name','لقد نسيت, إدخال إسم العائلة')
+        ->add('last_name',[
+           
+              
+              'minLength'=>[
+              'rule'=>['minLength',3],
+              'message'=>'إسم العائلة يجب أن يجتوي على أكثر من ٣ أحرف على الأقل'
+              ],
+              'maxLength'=>[
+              'rule'=>['maxLength',40],
+              'message'=>'إسم العائلة غير صحيح الأحرف المستخدمة أكثر من ٤٠ حرف'
+              ]
+              ]);
+        
+        
         $validator
             ->email('email')
             ->requirePresence('email', 'create')
-            ->notEmpty('email');   
+            ->notEmpty('email','لقد نسيت, أن تدخل إيميل. مثال: example@hotmail.com');
 
         $validator
             ->requirePresence('password', 'create')
-            ->notEmpty('password');
+            ->notEmpty('password','أدخل كلمة السر')
+        ->add('password','length',[
+              'rule'=>['minLength',8],
+              'message'=>'كلمة السر, يجب أن تكون مكونة من ٨ احرف وأرقام.'
+              ]);
+        
 
         $validator
         ->add('confirm_password','compareWith',[
               'rule'=>['compareWith','password'],
-              'message'=>'The password you have typed is not the same'
+              'message'=>'خطأ, كلمة السر مختلفة يجب ادخال كلمة سر واحدة'
               ])
-        ->notEmpty('confirm_password','*Please confirm your password');
+        ->notEmpty('confirm_password','الرجاء تأكيد إدخال كلمة السر');
         
           $validator
                       ->requirePresence('phone_number', 'create')
-                      ->notEmpty('phone_number');
+                      ->notEmpty('phone_number','لقد نسيت, إدخال رقم جوالك');
  
 
 
@@ -126,7 +154,7 @@ class UsersTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->isUnique(['email']));
-        $rules->add($rules->isUnique(['username']));
+        $rules->add($rules->isUnique(['phone_number']));
         $rules->add($rules->existsIn(['club_id'], 'Clubs'));
         return $rules;
     }

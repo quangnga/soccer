@@ -712,7 +712,7 @@ class ClubsController extends AppController
                                         ], true);
                                         
                     $email->send('Hello ' . $username .  "\nClick this link  " .$link.'/'.$code." for complete register ");
-                    $this->Flash->error(__('Send code succses, waiting users check email!'));
+                    $this->Flash->success(__('تم قبول اللاعب لفريقك بنجاح, بإنتظار اللاعب للضغط على رابط اتمام التسجيل'));
                     return $this->redirect($this->here);
             
         }
@@ -844,7 +844,7 @@ class ClubsController extends AppController
                 $data2->id_comment = $id;
                 $articlesTable2->save($data2);
                 
-                $this->Flash->success('Vote successfully.');
+                $this->Flash->success('تم التصويت بنجاح');
             }
             
             

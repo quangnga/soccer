@@ -173,7 +173,7 @@
                                 <div class="show_time">
                                     <?php foreach($data_time as $data){?>
                                         <?php $date_cv = date('Y-m-d H:i:s a',strtotime($data['date_reset_count']))?>
-                                        <p style="text-align: center; font-style: italic; color: #777"> <strong>Date reset:</strong> <?php echo $date_cv?></p>
+<p style="text-align: center; font-style: italic; color: #777"> <strong>تاريخ التعديل : </strong> <?php echo $date_cv?></p>
                                     <?php }?>
                                 </div>
                                 <div class="row" style="text-align: center; margin-bottom: 10px;">
