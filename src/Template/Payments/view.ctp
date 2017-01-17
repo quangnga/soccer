@@ -52,7 +52,7 @@
                                     <td>
                                         <div class="" style="width: 50%; margin: -20px auto;">
                                         
-                                            <?php echo $this->Form->input('paid_money', array('class' => 'form-control','id'=>'name_'.$data->user_id,'value'=>'$'.$data->paid_money, 'type'=>'text',  'label' => '')); ?>
+                                            <?php echo $this->Form->input('paid_money', array('class' => 'form-control','id'=>'name_'.$data->user_id,'value'=>$data->paid_money, 'type'=>'text',  'label' => '')); ?>
                                         </div>
                                                     
                                     </td>
