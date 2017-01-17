@@ -704,9 +704,11 @@ class UsersController extends AppController
         $this->set('user', $user);
     }
     
-    public function pay($id){
+    public function pay(){
+
         $this->loadModel('ListPay');
-       
+        $id = $this->request->data['id'];
+        $price = $this->request->data['price'];
         $in_users = $this->Users->find("all",['conditions' => ['Users.id' => $id]]);
         
         //var_dump($usertemp);exit;
@@ -743,27 +745,28 @@ class UsersController extends AppController
                 $articlesTable = TableRegistry::get('ListPay');
                 $data = $articlesTable->get($data['id']); // Return data with id 
                 $data->paid_stt = 1;
-                $paid_money = $this->request->data['paid_money'];
+                $paid_money = $this->request->data['price'];
                 $data->paid_money =  $paid_money;             
                 $articlesTable->save($data);
                 $id_back = $data['pay_table_id'];     
             }
             
             
-            if($articlesTable->save($data)){
+            // if($articlesTable->save($data)){
                 
-                $this->Flash->success('Paid successfully.');
+            //     $this->Flash->success('Paid successfully.');
                 
-            } else{
+            // }else{
                 
-                $this->Flash->error('Error!.');
-            } 
-        
+            //     $this->Flash->error('Error!.');
+            // } 
+            echo json_encode($price); 
+            die;
         
         
         
         //var_dump($paid_money);exit;
-        return  $this->redirect('/payments/view/'.$id_back);
+       // return  $this->redirect('/payments/view/'.$id_back);
         
         
     }

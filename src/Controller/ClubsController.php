@@ -746,7 +746,7 @@ class ClubsController extends AppController
         $this->set(compact('clubs'));
         $this->set('_serialize', ['clubs']);
     }
-    
+    public $components = array('Mpdf');
      public function trainingCounts($id=null){
         $this->loadModel('Users');
         $this->paginate = [
@@ -759,20 +759,48 @@ class ClubsController extends AppController
         $data_users = $this->paginate($this->Users); 
          
         $condition = array('Users.status'=>1, 'Users.club_id'=>$id);
-        $data_all = $this->Users->getDataWhereOrder($condition,'Users','count_coming')->count();
-        $list = array();
-        $i='';
-        for($i==1; $i<= $data_all; $i++){
-            $list[$i] = $i;
-        }
         //var_dump($list);exit;
         $id_club = $id;
         $data_time = $this->Clubs->find('all',['conditions'=>['Clubs.id'=>$id_club],'fields'=>['date_reset_count']]);
         $this->set('data_users',$data_users);
-        $this->set('list',$list);
-        $this->set('data_all',$data_all);
         $this->set('data_time',$data_time);
         $this->set('id_club',$id_club);
+
+       
+     }
+     public function pdftraining($id){
+        $this->loadModel('Users');
+        $data_users = $this->Users->find('all',['conditions'=>['Users.status'=>1,'Users.club_id' => $id],'order'=>['count_coming'=> 'DESC'],'fields'=>['first_name','last_name','count_coming','id']]);
+
+        $data_time = $this->Clubs->find('all',['conditions'=>['Clubs.id'=>$id],'fields'=>['date_reset_count']]);
+        $this->set('data_users',$data_users);
+        $this->set('data_time',$data_time);
+        $this->set('id_club',$id);
+        
+        //khởi tạo
+        $this->Mpdf->init();
+        // load text right to left
+        $this->Mpdf->SetDirectionality('rtl');
+        //suport font Arabic
+        $this->Mpdf->useAdobeCJK = true;
+        $this->Mpdf->SetAutoFont(AUTOFONT_ALL);
+        //load data to views
+        $html = $this->render('/Clubs/pdftraining');
+        // fix error UTF 8
+        $html = mb_convert_encoding($html, 'UTF-8', 'UTF-8');
+
+        $this->Mpdf->WriteHTML($html);
+        // setting filename of output pdf file
+        $this->Mpdf->setFilename('file.pdf');
+        // $html="abc";
+        // setting output to I, D, F, S
+        $this->Mpdf->setOutput('I');
+
+        $this->Mpdf->SetTitle('Soccer list user coming');
+
+        $this->Mpdf->SetWatermarkImage('../webroot/img/logoo.png', 0.1, array(150, 135), array(30, 30));
+        $this->Mpdf->showWatermarkImage = true;
+
      }
      
      public function reports(){

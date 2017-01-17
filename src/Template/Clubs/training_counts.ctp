@@ -179,8 +179,19 @@
                                 <div class="row" style="text-align: center; margin-bottom: 10px;">
                                     
                                         <button class="btn btn-danger" onclick="return confirm('Are you sure you want to Reset Counts?')" onload="get_time()" type="submit">Reset Counts  </button>
+                                        <a onclick="return confirm('Do you want print PDF?')" href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "pdftraining", $id_club]) ?>" target="_blank">
+                                            <button style="background: #f25f43;margin-bottom: 0; margin-right: 10px;border:none;" type="button" class="btn btn-orange animated fadeInDown">
+                                                Save PDF
+                                            </button>
+                                        </a>
                                    
                                 </div>
+                                <!-- <div class="row" style="text-align: center; margin-bottom: 10px;">
+                                        
+                                        
+                                   
+                                </div> -->
+
                             <?php echo $this->Form->end(); ?>
                             <?php }?>
                             <?php $k = 1;?>
@@ -255,6 +266,21 @@
     function get_time(){
         $(".show_time").css('display','block');
     }
+
+    // function printpdf(id){
+    //     var formData = {
+    //             'id' : id,
+    //         };
+    //     $.ajax({
+    //         url :'<?php echo $this->Url->build(["controller" => "Clubs", "action" => "pdftraining"]);?>',
+    //         type: 'post',
+    //         data: formData,
+    //         dataType: 'json',
+    //         success: function(data){
+    //             alert(1);
+    //         }
+    //     })
+    // }
 </script>                   
                     
                     

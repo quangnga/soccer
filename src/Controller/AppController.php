@@ -437,6 +437,7 @@ class AppController extends Controller
     public function resetPayment(){
         $this->loadModel('Users');
         $month_now = date("m");
+
         $users = $this->Users->find('all', ['fields'=>['id','paid_stt','date_paid']]);
         
         foreach($users as $user){
@@ -444,7 +445,7 @@ class AppController extends Controller
             $month = date('m', strtotime($user['date_paid']));
             $year = date('Y', strtotime($user['date_paid']));
             
-            if($year==date('Y')&&($month<date('m'))){
+            if(($year==date('Y')&&($month<date('m')))||($year < date('Y')&&($month>date('m')))){
                 $articlesTable = TableRegistry::get('Users');        
                 $value = $articlesTable->get($user['id']);
                 $value->paid_stt = 0;                

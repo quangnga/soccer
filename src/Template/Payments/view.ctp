@@ -44,7 +44,7 @@
                            
                             <?php foreach($data_users as $data){?>
                                 <tr>
-                                    <?php echo $this->Form->create(null, array('url' => array('controller' => 'Users', 'action' => 'Pay',$data->user_id)));?>
+                                    <!-- <?php echo $this->Form->create(null, array('url' => array('controller' => 'Users', 'action' => 'Pay',$data->user_id)));?> -->
                                     
                                     <td><?= h($data->name) ?></td>
 
@@ -52,7 +52,7 @@
                                     <td>
                                         <div class="" style="width: 50%; margin: -20px auto;">
                                         
-                                            <?php echo $this->Form->input('paid_money', array('class' => 'form-control','value'=>'$'.$data->paid_money, 'type'=>'text',  'label' => '')); ?>
+                                            <?php echo $this->Form->input('paid_money', array('class' => 'form-control','id'=>'name_'.$data->user_id,'value'=>'$'.$data->paid_money, 'type'=>'text',  'label' => '')); ?>
                                         </div>
                                                     
                                     </td>
@@ -60,12 +60,12 @@
                                     <td class="actions user_action">
                                         
                                         <?php if($data->paid_stt == 0){?>
-                                            <a href="<?php echo $this->Url->build(["controller" => "Users", "action" => "Pay", $data->user_id]) ?>">
-                                                <button type="submit" class="btn btn-warning"> Paid <i class="fa fa-credit-card-alt" aria-hidden="true"></i></button>
-                                            </a>
+                                            
+                                                <button id='paid_<?php echo $data->user_id?>' type="button" onclick="pay(<?php echo $data->user_id?>)" class="btn btn-warning"> Paid <i class="fa fa-credit-card-alt" aria-hidden="true"></i></button>
+                                           
                                         <?php }else{?>
                                             
-                                                <button type="button" class="btn btn-success"> Been Paid <i class="fa fa-check-circle" aria-hidden="true"></i></button>
+                                                <button id='been_<?php echo $data->user_id?>' type="button" class="btn btn-success"> Been Paid <i class="fa fa-check-circle" aria-hidden="true"></i></button>
                                            
                                         <?php }?>            
                                                 
@@ -73,7 +73,7 @@
                                     </td>
                                     
                                     
-                                    <?php echo $this->Form->end(); ?>
+                                   <!--  <?php echo $this->Form->end(); ?> -->
                                 </tr>
                               <?php }?>  
                                 
@@ -97,3 +97,32 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    
+    function pay(id){
+        var name = '#name_'+id;
+
+        var price = $(name).val();
+        var paid ='#paid_'+id;
+        var been = '#been_'+id;
+        //alert(price);
+        var formData = {
+                'id' : id,
+                'price': price 
+            };
+        $(paid).html('');
+        $(paid).append('Waiting...');
+         $.ajax({
+            url :'<?php echo $this->Url->build(["controller" => "Users", "action" => "Pay"]);?>',
+            type: 'post',
+            data: formData,
+            dataType: 'json',
+            success: function(data){
+               $(paid).removeClass('btn-warning');
+               $(paid).addClass('btn-success');
+               $(paid).html('');
+                $(paid).append('Been Paid <i class="fa fa-check-circle" aria-hidden="true"></i>');
+            }
+        })
+    }
+</script>
