@@ -128,7 +128,7 @@ class PaymentsController extends AppController
                 //var_dump($id);exit;
                 $this->loadModel('ListPay');
                 $this->loadModel('Users');
-                $data_users = $this->Users->find('all', ['fields'=>['first_name','last_name','club_id','id','paid_stt','date_paid']]);
+                $data_users = $this->Users->find('all', ['fields'=>['first_name','last_name','club_id','id','paid_stt','date_paid'],'conditions'=>['Users.status'=>'1','Users.block'=>'0']]);
                 
                 foreach($data_users as $data){
                     $entity2 = TableRegistry::get('ListPay');
@@ -187,7 +187,7 @@ class PaymentsController extends AppController
         } else {
 
             $this->Flash->error(__('The month could not be deleted. Please, try again.'));
-            
+
         }
 
         return $this->redirect(['action' => 'index']);

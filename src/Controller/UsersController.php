@@ -8,7 +8,8 @@ use Cake\Network\Exception\NotFoundException;
 use Cake\Routing\Router;
 use Cake\Auth\DefaultPasswordHasher;
 use Cake\Validation\Validation;
-use Cake\Mailer\Email;
+//use Cake\Mailer\Email; localhost
+use Cake\Network\Email\Email; //live send mail
 use Cake\I18n\Time;
 
 /**
@@ -516,10 +517,10 @@ class UsersController extends AppController
                 $cities = $this->Cities->find('all');        
                 $this->set(compact('user', 'clubs','cities'));
                 $this->set('_serialize', ['user']);
-            }else{
-                return $this->redirect(['controller' => 'Users', 'action' => 'logout', '']);
-                 
-            }
+        }else{
+            return $this->redirect(['controller' => 'Users', 'action' => 'logout', '']);
+             
+        }
             //$user = $this->Users->newEntity();
 //        if ($this->request->is('post')) {
 //                //var_dump($this->request->data);exit;
@@ -651,20 +652,10 @@ class UsersController extends AppController
                 $this->Users->save($user);
                 //send email with the new password
                 $firstName = $user->first_name;
-                Email::configTransport('gmail', [
-                'host' => 'smtp.gmail.com',
-                'port' => 587,
-                'username' => 'epsminhtri@gmail.com',
-                'password' => 'qekuiwbzfwdfvdsx',
-                'className' => 'Smtp',
-                'tls' => true,
-                
-                 // <------ there it is
-                ]);
+            
                 $email = new email();
-                $email->transport('gmail');
                 $email->to($this->request->data['email']);
-                $email->from('epsminhtri@gmail.com');
+                $email->from('admin@ksa-soccer.com');
                 $email->subject('Change your password');
                 
                 $link = Router::Url([

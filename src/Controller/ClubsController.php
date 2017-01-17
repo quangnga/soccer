@@ -53,7 +53,7 @@ class ClubsController extends AppController
             $this->Auth->allow();
             
         }else if($this->isAuthorizedAdmin()==2){
-            $this->Auth->allow(['view','index','logout','detail','edit','advanced','unlock','active','reportsDelete','resetCountComing','trainingCounts','reports','reportsAdd','reportsView','resetVote','bestPlayer']);
+            $this->Auth->allow(['view','index','logout','detail','edit','advanced','unlock','active','reportsDelete','resetCountComing','trainingCounts','reports','reportsAdd','reportsView','resetVote','bestPlayer','pdftraining']);
             
         }
         else{
@@ -693,18 +693,9 @@ class ClubsController extends AppController
                     $data->activation = $code;
                     $articlesTable->save($data);
             
-                    Email::configTransport('gmail', [
-                    'host' => 'smtp.gmail.com',
-                    'port' => 587,
-                    'username' => 'epsminhtri@gmail.com',
-                    'password' => 'qekuiwbzfwdfvdsx',
-                    'className' => 'Smtp',
-                    'tls' => true, // <------ there it is
-                    ]);
                     $email = new email();
-                    $email->transport('gmail');
                     $email->to($email_user);
-                    $email->from('epsminhtri@gmail.com');
+                    $email->from('admin@ksa-soccer.com');
                     $email->subject('Verify account'); 
                     $link = Router::Url([
                                         "controller" => "Users",
@@ -746,7 +737,7 @@ class ClubsController extends AppController
         $this->set(compact('clubs'));
         $this->set('_serialize', ['clubs']);
     }
-    public $components = array('Mpdf');
+    public $components = array('Mpdf');// load library mpdf 
      public function trainingCounts($id=null){
         $this->loadModel('Users');
         $this->paginate = [
