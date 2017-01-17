@@ -174,11 +174,20 @@ class PaymentsController extends AppController
     {
         $this->loadModel('Pay_table');
         $this->request->allowMethod(['post', 'delete']);
+        $this->loadModel('ListPay');
+
         $payments = $this->Pay_table->get($id);
         if ($this->Pay_table->delete($payments)) {
+            $data_list = $this->ListPay->find('all', ['fields'=>['id','pay_table_id'],'conditions'=>['ListPay.pay_table_id'=>$id]]);
+            foreach ($data_list as $key => $value) {
+                $item_pay = $this->ListPay->get($value['id']);
+                $this->ListPay->delete($item_pay);
+            }
             $this->Flash->success(__('The month has been deleted.'));
         } else {
+
             $this->Flash->error(__('The month could not be deleted. Please, try again.'));
+            
         }
 
         return $this->redirect(['action' => 'index']);
