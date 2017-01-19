@@ -1088,6 +1088,7 @@ class ClubsController extends AppController
         $this->loadModel('Clubs');
             $data_id = $this->request->data['id_club'];
             if($this->request->is('post')){
+                
                 $users = $this->Users->find('all',['fields'=>['id','count_coming','club_id'],'conditions'=>['Users.club_id'=>$data_id]]);
                  foreach($users as $value){
                     //debug($value);exit;
