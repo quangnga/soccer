@@ -227,18 +227,18 @@
     <div class="classWithPad">
         <div class="circle-tile animated fadeIn">
             <a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "reports"])?>">
-                <div class="circle-tile-heading red">
+                <div class="circle-tile-heading blue">
                     <i class="fa fa-flag fa-fw fa-3x animated zoomIn" aria-hidden="true"></i>
                 </div>
             </a>
             
             <a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "reports"])?>">
-            <div class="circle-tile-content red">
+            <div class="circle-tile-content orange">
                 <div class="circle-tile-description text-faded">
                     <i class="fa fa-long-arrow-right animated slideInLeft"></i>   <i class="fa fa-long-arrow-left animated slideInRight"></i>
                 </div>
                 <div class="circle-tile-number text-faded">
-                    Matches report
+                    تقارير التمارين
                     <span id="sparklineC"></span>
                 </div>
                 <br>
@@ -251,18 +251,18 @@
     <div class="classWithPad">
         <div class="circle-tile animated fadeIn">
             <a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "best_player",$clubByuser=>$club_id])?>">
-                <div class="circle-tile-heading red">
-                    <i class="fa fa-flag fa-fw fa-3x animated zoomIn" aria-hidden="true"></i>
+                <div class="circle-tile-heading dark-blue">
+                    <i class="fa fa-user fa-fw fa-3x animated zoomIn" aria-hidden="true"></i>
                 </div>
             </a>
             
             <a href="<?php echo $this->Url->build(["controller" => "Clubs", "action" => "best_player",$clubByuser=>$club_id])?>">
-            <div class="circle-tile-content red">
+            <div class="circle-tile-content dark-blue">
                 <div class="circle-tile-description text-faded">
                     <i class="fa fa-long-arrow-right animated slideInLeft"></i>   <i class="fa fa-long-arrow-left animated slideInRight"></i>
                 </div>
                 <div class="circle-tile-number text-faded">
-                    Best Players
+                    أفضل لاعب
                     <span id="sparklineC"></span>
                 </div>
                 <br>
@@ -274,7 +274,7 @@
 
 
 <?php
-if($is_admin == 1||$is_admin == 2)
+if($is_admin == 1)
 {
 ?>
 
@@ -283,13 +283,14 @@ if($is_admin == 1||$is_admin == 2)
     <div class="classWithPad">
         <div class="circle-tile animated fadeIn">
             <a href="<?php echo $this->Url->build(["controller" => "ContactForms", "action" => "index"])?>">
-                <div class="circle-tile-heading red">
+                <div class="circle-tile-heading dark-blue">
                     <i class="fa fa-envelope fa-fw fa-3x animated zoomIn"></i>
                 </div>
             </a>
+            
             <div class="circle-tile-content red">
                 <div class="circle-tile-description text-faded">
-                    <i class="fa fa-long-arrow-right animated slideInLeft"></i> <?php  if($is_admin == 1) echo $countmessages_unread ?>   <i class="fa fa-long-arrow-left animated slideInRight"></i>
+                    <i class="fa fa-long-arrow-right animated slideInLeft"></i>    <i class="fa fa-long-arrow-left animated slideInRight"></i>
                 </div>
                 <div class="circle-tile-number text-faded">
                     Messages
@@ -301,11 +302,21 @@ if($is_admin == 1||$is_admin == 2)
     </div>
 </div>
 
+
+<?php
+}
+?>
+
+
+<?php
+if($is_admin == 1 || $is_admin == 2)
+{
+?>
 <div class="col-lg-4 col-md-6">
     <div class="classWithPad">
         <div class="circle-tile animated fadeIn">
             <a href="<?php echo $this->Url->build(["controller" => "Payments", "action" => "index"])?>">
-                <div class="circle-tile-heading red">
+                <div class="circle-tile-heading dark-blue">
                     <i class="fa fa-money fa-fw fa-3x animated zoomIn" aria-hidden="true"></i>
                 </div>
             </a>
@@ -316,7 +327,38 @@ if($is_admin == 1||$is_admin == 2)
                     <i class="fa fa-long-arrow-right animated slideInLeft"></i>   <i class="fa fa-long-arrow-left animated slideInRight"></i>
                 </div>
                 <div class="circle-tile-number text-faded">
-                    Payment
+                   الإشتراك الشهري
+                    <span id="sparklineC"></span>
+                </div>
+                <br>
+            </div>
+            </a>
+        </div>
+    </div>
+</div>
+<?php
+}
+?>
+<?php
+if($is_admin == 2)
+{
+?>
+<div class="col-lg-4 col-md-6">
+    <div class="classWithPad">
+        <div class="circle-tile animated fadeIn">
+            <a href="<?php echo $this->Url->build(["controller" => "clubs", "action" => "attendancesheet",$clubByuser=>$club_id])?>">
+                <div class="circle-tile-heading dark-blue">
+                    <i class="fa fa-money fa-fw fa-3x animated zoomIn" aria-hidden="true"></i>
+                </div>
+            </a>
+            
+            <a href="<?php echo $this->Url->build(["controller" => "clubs", "action" => "attendancesheet",$clubByuser=>$club_id])?>">
+            <div class="circle-tile-content red">
+                <div class="circle-tile-description text-faded">
+                    <i class="fa fa-long-arrow-right animated slideInLeft"></i>   <i class="fa fa-long-arrow-left animated slideInRight"></i>
+                </div>
+                <div class="circle-tile-number text-faded">
+                   Attendance sheet
                     <span id="sparklineC"></span>
                 </div>
                 <br>

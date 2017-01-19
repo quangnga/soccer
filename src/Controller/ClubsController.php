@@ -53,7 +53,7 @@ class ClubsController extends AppController
             $this->Auth->allow();
             
         }else if($this->isAuthorizedAdmin()==2){
-            $this->Auth->allow(['view','index','logout','detail','edit','advanced','unlock','active','reportsDelete','resetCountComing','trainingCounts','reports','reportsAdd','reportsView','resetVote','bestPlayer','pdftraining']);
+            $this->Auth->allow(['view','index','logout','detail','edit','advanced','unlock','active','reportsDelete','resetCountComing','trainingCounts','reports','reportsAdd','reportsView','resetVote','bestPlayer','pdftraining','attendancesheet','solveatten']);
             
         }
         else{
@@ -600,6 +600,201 @@ class ClubsController extends AppController
         
          
     }
+    //
+    public function attendancesheet($id= null){
+        
+        //var_dump($this->request->data['comment']);exit;
+        $this->loadModel('Users');
+        $id_coming = $this->Auth->user('id');
+        if(!empty($id_coming)){
+            $club = $this->Clubs->get($id, [
+            'contain' => [ 'Users'],
+            
+        ]);     
+        
+        $temp1 = $club['close_training'];
+        $temp2 = $club['open_training'];
+        
+        $is_closed = $this->comingClose($temp1,$temp2);
+        $this->set('is_closed',$is_closed);
+        
+        $time2 = new Time($club['training_time']);
+        
+        
+        //var_dump($id_coming);exit;
+        $role = $this->Auth->user('role');        
+       
+        $dataComing = $this->Users->find('all', [
+                'conditions'=>['Users.id '=>$id_coming]
+            ]);                    
+        $user = $this->Users->get($id_coming, ['conditions' => ['Users.id' => $id_coming],]);             
+         
+
+        $club_id = $club->id;
+        //var_dump($club_id);exit;
+        $query= $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id,'Users.coming'=>1,'Users.block'=>0]]);        
+        $number = $query->count();       
+        $this->set('number',$number);
+        
+        $query2 = $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id]]);
+        $num_all=   $query2->count();        
+        $this->set('num_all',$num_all);
+        
+        $block=$user['block'];
+        $this->set('block',$block); 
+        
+        
+        $max_users = $club['number_of_users'];
+        $number_playing = $club['number_of_playing'];
+              
+        if($number > $max_users){
+            $is_full = true;
+        }else{
+            $is_full = false;
+        }
+        
+        
+       
+        
+        $this->set('max_users',$max_users);
+        $this->set('is_full', $is_full);
+        $this->set('number_playing', $number_playing);
+        $this->set('club', $club);
+        $this->set('time2', $time2);
+        $this->set('users', $this->paginate($this->Users)); 
+        $data_playing = $this->Users->find('all',['conditions'=>['Users.club_id' => $club_id,'Users.coming'=>1,'Users.block'=>0,'Users.attend'=>1]]);
+        $this->set('data_playing',$data_playing);
+       //  //set value coming yesterday
+        
+       // // $day_now = strtolower(date("l"));
+       // // $yesterday = $this->getYesterday($day_now);
+        
+       //  // code load list users playing and waiting
+       //  //$training_yesterday = $club->$yesterday;
+       //  //case clubs have training yesterday
+       //  if($training_yesterday){
+       //      $data_playing = $this->Users->find('all',['conditions'=>['Users.club_id' => $club_id,'Users.coming'=>1,'Users.coming_yesterday'=>1,'Users.block'=>0,'Users.attend'=>1]
+       //                                                  ,'order'=>['register_time'=>'ASC'],'limit'=>$number_playing]);
+       //      $data_waiting = $this->Users->find('all', ['conditions'=>['Users.club_id' => $club_id,'Users.coming'=>1,'Users.block'=>0,'Users.attend'=>1]
+       //                                                  ,'order'=>['register_time'=>'ASC'],'limit'=>$max_users]);
+            
+       //      $total = $data_playing->count();// count number of users playing
+            
+       //      if($total >= $number_playing){
+       //           $db_waiting = array();
+       //           $k=0;
+       //           foreach($data_waiting as $data){
+                    
+       //              $db_waiting[$k] = $data;
+       //              $k++;
+       //          }
+       //          $db_waiting = array_slice($db_waiting, $number_playing);
+       //      }else{
+                
+       //          $db_waiting = $this->Users->find('all', ['conditions'=>['Users.club_id' => $club_id,'Users.coming'=>1,'Users.coming_yesterday'=>0,'Users.block'=>0,'Users.attend'=>1],
+       //                                                 'order'=>['register_time'=>'ASC']]);
+       //      }
+            
+       //      $this->set('data_playing',$data_playing);
+       //      $this->set('data_waiting',$db_waiting);
+            
+                                                        
+       //  }else{// clubs haven't training yesterday
+  
+       //    $data_playing = $this->Users->find('all', ['conditions' => ['Users.club_id' => $club_id,'Users.coming'=>1,'Users.block'=>0,'Users.attend'=>1],
+       //                                              'order'=>['register_time'=>'ASC'],'limit'=>$number_playing
+       //                                              ]);
+       //    $total = $data_playing->count();  
+                                                    
+       //    if($total <= $number_playing){
+       //      $db_waiting = null;
+       //    }else{
+       //      $data_waiting = $this->Users->find('all', ['conditions'=>['Users.club_id' => $club_id,'Users.coming'=>1,'Users.block'=>0,'Users.attend'=>1]
+       //                                                  ,'order'=>['register_time'=>'ASC'],'limit'=>$max_users]);
+       //      $db_waiting = array();
+       //           $k=0;
+       //           foreach($data_waiting as $data){
+       //              $db_waiting[$k] = $data;
+       //              $k++;
+       //          }
+       //      $db_waiting = array_slice($db_waiting, $number_playing);
+       //    }
+       //  $this->set('data_playing',$data_playing);
+       //  $this->set('data_waiting',$db_waiting);  
+       //  }
+        
+       //      //set status for user...
+       //      $db_wting = array();
+       //      $l=0;
+       //      foreach( $db_waiting as $db){
+       //          $db_wting[$l] = $db['id'];
+       //          $l++;
+                
+       //      }
+            
+       //      $db_play = array();
+       //      $m=0;   
+       //      foreach( $data_playing as $db){
+       //          //var_dump($db['id']);
+       //          $db_play[$m] = $db['id'];
+       //          $m++;
+                    
+       //      }//exit;
+        
+       //  $this->set('db_wting',$db_wting);
+       //  $this->set('db_play',$db_play);
+       //  $this->set('total',$total);
+        }else{
+             return $this->redirect(['controller' => 'Users', 'action' => 'login', '']);
+        }
+        
+        
+        
+         
+    }
+    public function solveatten(){
+        $this->loadModel('Users');
+        $this->loadModel('Clubs');
+        if ($this->request->is(['patch', 'post', 'put','ajax'])) { 
+                            
+                $id_coming = $this->request->data('id');
+                
+                $club = $this->Clubs->get($this->request->data('clubs'), [
+                    'contain' => [ 'Users']
+                ]); 
+                
+                $dataComing = $this->Users->find('all', [
+                    'conditions'=>['Users.id '=>$id_coming]
+                ]);        
+        
+                $value_coming= (int)$this->request->data('coming');
+
+                $count=0;
+
+                $user = $this->Users->get($id_coming, ['conditions' => ['Users.id' => $id_coming]]);  
+
+                foreach($dataComing as $data){
+                    $articlesTable = TableRegistry::get('Users');
+                    $data = $articlesTable->get($data['id']); 
+                    
+                    $data->register_time = date("Y-m-d H:i:s");
+                    
+                    $data->attend = (int)$this->request->data['coming'];   
+
+                    $data->comment = $this->request->data['comment'];                
+                     
+                    $articlesTable->save($data);
+                    
+                
+                }  
+                $val_attend =   (int)$this->request->data['coming'];
+                $results = array();
+                $results['is_coming'] = $val_attend;
+
+                echo json_encode($results); exit;
+        }
+        
+    }
     
     public function getregions(){
         
@@ -737,7 +932,7 @@ class ClubsController extends AppController
         $this->set(compact('clubs'));
         $this->set('_serialize', ['clubs']);
     }
-    public $components = array('Mpdf');// load library mpdf 
+    
      public function trainingCounts($id=null){
         $this->loadModel('Users');
         $this->paginate = [
@@ -759,6 +954,9 @@ class ClubsController extends AppController
 
        
      }
+
+     public $components = array('Mpdf');// load library mpdf 
+
      public function pdftraining($id){
         $this->loadModel('Users');
         $data_users = $this->Users->find('all',['conditions'=>['Users.status'=>1,'Users.club_id' => $id],'order'=>['count_coming'=> 'DESC'],'fields'=>['first_name','last_name','count_coming','id']]);
@@ -768,7 +966,7 @@ class ClubsController extends AppController
         $this->set('data_time',$data_time);
         $this->set('id_club',$id);
         
-        //khởi tạo
+        //start
         $this->Mpdf->init();
         // load text right to left
         $this->Mpdf->SetDirectionality('rtl');
