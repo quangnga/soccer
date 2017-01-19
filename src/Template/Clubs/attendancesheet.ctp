@@ -288,7 +288,7 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                  <?php foreach($data_playing  as $num=> $users){?>
                  
                  <?php
-                    echo $this->form->create();
+                    echo $this->Form->create();
                  ?>
                  <tr id="hide_<?php echo $users['id']?>">
                  
@@ -329,7 +329,7 @@ if($is_admin == 1 || ($is_admin == 2 && $club_id == $club->id)||($is_admin == 0 
                     <td></td>
                     
                     
-                </tr><?php echo $this->form->end();?>
+                </tr><?php echo $this->Form->end();?>
                  <?php }}} ?>
                 </tbody>
                 

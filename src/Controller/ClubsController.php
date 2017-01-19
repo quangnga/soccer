@@ -954,7 +954,7 @@ class ClubsController extends AppController
 
        
      }
-
+     //ob_start();
      public $components = array('Mpdf');// load library mpdf 
 
      public function pdftraining($id){
